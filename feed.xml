@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>YesDay | Enterprise Java Consulting</title>
-    <link>http://localhost:8080</link>
-    <atom:link href="http://localhost:8080/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://yesday.github.io</link>
+    <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>YesDay Web Feed</description>
     <language>en-gb</language>
-    <pubDate>Sat, 9 Sep 2017 19:51:12 +0300</pubDate>
-    <lastBuildDate>Sat, 9 Sep 2017 19:51:12 +0300</lastBuildDate>
+    <pubDate>Sat, 9 Sep 2017 20:33:07 +0300</pubDate>
+    <lastBuildDate>Sat, 9 Sep 2017 20:33:07 +0300</lastBuildDate>
 
     <item>
       <title>Why is the serial console better than HDMI for debugging</title>
-      <link>http://localhost:8080/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</link>
+      <link>http://yesday.github.io/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</link>
       <pubDate>Sat, 9 Sep 2017 00:00:00 +0300</pubDate>
       <guid isPermaLink="false">blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</guid>
       <description>&amp;lt;div class=&amp;quot;openblock float-group&amp;quot;&amp;gt; 
@@ -20,19 +20,19 @@
    &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
     USB-UART Module Kit
    &amp;lt;/div&amp;gt; 
-   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:8080/img/odroid-usb-uart-module-kit.jpg&amp;quot; alt=&amp;quot;odroid usb uart module kit&amp;quot; width=&amp;quot;190&amp;quot; height=&amp;quot;190&amp;quot; title=&amp;quot;USB-UART Module Kit&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://yesday.github.io/img/odroid-usb-uart-module-kit.jpg&amp;quot; alt=&amp;quot;odroid usb uart module kit&amp;quot; width=&amp;quot;190&amp;quot; height=&amp;quot;190&amp;quot; title=&amp;quot;USB-UART Module Kit&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph left&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
     USB-UART connected to ODROID-C2
    &amp;lt;/div&amp;gt; 
-   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:8080/img/usb-uart-connected-to-odroid-c2.png&amp;quot; alt=&amp;quot;usb uart connected to odroid c2&amp;quot; width=&amp;quot;300&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;USB-UART connected to ODROID-C2&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://yesday.github.io/img/usb-uart-connected-to-odroid-c2.png&amp;quot; alt=&amp;quot;usb uart connected to odroid c2&amp;quot; width=&amp;quot;300&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;USB-UART connected to ODROID-C2&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph left&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
     Serial console early boot messages
    &amp;lt;/div&amp;gt; 
-   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:8080/img/serial-console-early-boot-messages.png&amp;quot; alt=&amp;quot;serial console early boot messages&amp;quot; width=&amp;quot;340&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;Serial console early boot messages&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://yesday.github.io/img/serial-console-early-boot-messages.png&amp;quot; alt=&amp;quot;serial console early boot messages&amp;quot; width=&amp;quot;340&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;Serial console early boot messages&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
  &amp;lt;/div&amp;gt; 
 &amp;lt;/div&amp;gt; 
