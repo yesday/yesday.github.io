@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>YesDay | Enterprise Java Consulting</title>
+    <link>http://localhost:8080</link>
+    <atom:link href="http://localhost:8080/feed.xml" rel="self" type="application/rss+xml" />
+    <description>YesDay Web Feed</description>
+    <language>en-gb</language>
+    <pubDate>Sat, 9 Sep 2017 19:51:12 +0300</pubDate>
+    <lastBuildDate>Sat, 9 Sep 2017 19:51:12 +0300</lastBuildDate>
+
+    <item>
+      <title>Why is the serial console better than HDMI for debugging</title>
+      <link>http://localhost:8080/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</link>
+      <pubDate>Sat, 9 Sep 2017 00:00:00 +0300</pubDate>
+      <guid isPermaLink="false">blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</guid>
+      <description>&amp;lt;div class=&amp;quot;openblock float-group&amp;quot;&amp;gt; 
+ &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph left&amp;quot;&amp;gt; 
+   &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
+    USB-UART Module Kit
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:8080/img/odroid-usb-uart-module-kit.jpg&amp;quot; alt=&amp;quot;odroid usb uart module kit&amp;quot; width=&amp;quot;190&amp;quot; height=&amp;quot;190&amp;quot; title=&amp;quot;USB-UART Module Kit&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph left&amp;quot;&amp;gt; 
+   &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
+    USB-UART connected to ODROID-C2
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:8080/img/usb-uart-connected-to-odroid-c2.png&amp;quot; alt=&amp;quot;usb uart connected to odroid c2&amp;quot; width=&amp;quot;300&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;USB-UART connected to ODROID-C2&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph left&amp;quot;&amp;gt; 
+   &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
+    Serial console early boot messages
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:8080/img/serial-console-early-boot-messages.png&amp;quot; alt=&amp;quot;serial console early boot messages&amp;quot; width=&amp;quot;340&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;Serial console early boot messages&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+ &amp;lt;/div&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+ &amp;lt;p&amp;gt;Sometimes we need to vew the early boot messages of the ODROID-C2. This is the case when we are dealing with a problem during boot, or creating a special purpose boot image, or when we add new external devices.&amp;lt;/p&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+ &amp;lt;p&amp;gt;In order to view the early boot messages we need to connect our ODROID-C2’s serial console port to a USB port of another Linux box, using a &amp;lt;a href=&amp;quot;http://www.hardkernel.com/main/products/prdt_info.php?g_code=G134111883934&amp;quot;&amp;gt;USB-UART Module Kit&amp;lt;/a&amp;gt; (see the pictures above). This allows us to have remote serial access to our ODROID-C2, in a similar manner as an SSH connection would.&amp;lt;/p&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+ &amp;lt;p&amp;gt;However, the serial console is better suited for such debugging scenarios than ether SSH or HDMI and keyboard combination would. That is because the serial console allows us to interact with the ODROID-C2 even when the SSH is not accessible and the HDMI monitor is blank. Such scenarios are:&amp;lt;/p&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
+ &amp;lt;ul&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Diagnostic messages prior to the initialisation of the HDMI interface&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Diagnostic messages in case of problematic (or disabled) initialisation of the HDMI interface (e.g. &amp;lt;code&amp;gt;setenv nographics &amp;quot;1&amp;quot;&amp;lt;/code&amp;gt; configuration inside &amp;lt;code&amp;gt;boot.ini&amp;lt;/code&amp;gt;)&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Diagnostic messages prior to a failed boot&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;When we want to interrupt the automated boot process (hitting [Enter] twice during boot) to start an interactive u-boot shell. U-boot is a boot loader similar to lilo or grub, but is specifically designed for embedded devices like the ODROID-C2. Using the u-boot shell we can interactively test new boot configuration, load new kernel image, boot rootfs from a different partition, fix a failed boot process, and so on (essentially manually entering the boot commands found inside &amp;lt;code&amp;gt;boot.ini&amp;lt;/code&amp;gt;).&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+ &amp;lt;/ul&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+ &amp;lt;p&amp;gt;Follow these steps to connect to ODROID-C2’s serial console:&amp;lt;/p&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
+ &amp;lt;ul&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Connect the USB-UART cable to the serial console port of the ODROID-C2 and the USB port of another Linux box&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Power on the ODROID-C2 via the MicroUSB or the DC connector&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Connect to the ODROID-C2 from another Linux box by typing &amp;lt;code&amp;gt;sudo minicom -b 115200 -D /dev/ttyUSB0&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+ &amp;lt;/ul&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+ &amp;lt;p&amp;gt;For more information refer to &amp;lt;a href=&amp;quot;https://github.com/umiddelb/armhf/wiki/Get-more-out-of-%22Das-U-Boot%22&amp;quot;&amp;gt;Get more out of &amp;quot;Das U Boot&amp;quot;&amp;lt;/a&amp;gt; and the section &amp;quot;USB / UART kit&amp;quot; from the &amp;lt;a href=&amp;quot;https://magazine.odroid.com/wp-content/uploads/odroid-c2-user-manual.pdf&amp;quot;&amp;gt;HARDKERNEL ODROID-C2 USER MANUAL&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt; 
+&amp;lt;/div&amp;gt;</description>	  
+    </item>
+
+  </channel> 
+</rss>

@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	    <meta charset="utf-8"/>
+	    <title>Why is the serial console better than HDMI for debugging</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	    <meta name="description" content="YesDay Enterprise Java Consulting"/>
+	    <meta name="author" content="Georgios F."/>
+	    <meta name="keywords" content=""/>
+	    <meta name="generator" content="JBake"/>
+	
+	    <!-- Le styles -->
+	    <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+	    <link href="../../css/asciidoctor.css" rel="stylesheet"/>
+	    <link href="../../css/base.css" rel="stylesheet"/>
+	    <link href="../../css/prettify.css" rel="stylesheet"/>
+	
+	    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	    <!--[if lt IE 9]>
+	      <script src="../../js/html5shiv.min.js"></script>
+	    <![endif]-->
+	
+	    <!-- Fav and touch icons -->
+	    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png"/>
+	    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png"/>
+	    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png"/>
+	    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png"/>-->
+	    <link rel="shortcut icon" href="../../favicon.ico"/>
+	</head>
+	<body onload="prettyPrint()">
+	<div id="wrap">
+		<div>
+	
+	  <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">YesDay</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../../about.html">About</a></li>
+            <li><a href="../../feed.xml">Web Feed</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+	</div>
+		<div class="container">
+	
+			<div class="page-header">
+				<h1>Why is the serial console better than HDMI for debugging</h1>
+			</div>
+		
+			<p><span class="meta">Posted by <b>Georgios F.</b> on
+                    09 September 2017
+                    <span> Tags:
+                        <span>
+                            <a href="../../tags/odroid-c2.html" class="" >odroid-c2</a></span><span>
+                            <a href="../../tags/archlinux.html" class="" >archlinux</a></span><span>
+                            <a href="../../tags/alarm.html" class="" >alarm</a></span><span>
+                            <a href="../../tags/uart.html" class="" >uart</a></span><span>
+                            <a href="../../tags/serial-console.html" class="" >serial-console</a></span>
+                    </span>
+                </span>
+			</p>
+
+			<p><div class="openblock float-group"> 
+ <div class="content"> 
+  <div class="paragraph left"> 
+   <div class="title">
+    USB-UART Module Kit
+   </div> 
+   <p><span class="image"><img src="http://localhost:8080/img/odroid-usb-uart-module-kit.jpg" alt="odroid usb uart module kit" width="190" height="190" title="USB-UART Module Kit"></span></p> 
+  </div> 
+  <div class="paragraph left"> 
+   <div class="title">
+    USB-UART connected to ODROID-C2
+   </div> 
+   <p><span class="image"><img src="http://localhost:8080/img/usb-uart-connected-to-odroid-c2.png" alt="usb uart connected to odroid c2" width="300" height="200" title="USB-UART connected to ODROID-C2"></span></p> 
+  </div> 
+  <div class="paragraph left"> 
+   <div class="title">
+    Serial console early boot messages
+   </div> 
+   <p><span class="image"><img src="http://localhost:8080/img/serial-console-early-boot-messages.png" alt="serial console early boot messages" width="340" height="200" title="Serial console early boot messages"></span></p> 
+  </div> 
+ </div> 
+</div> 
+<div class="paragraph"> 
+ <p>Sometimes we need to vew the early boot messages of the ODROID-C2. This is the case when we are dealing with a problem during boot, or creating a special purpose boot image, or when we add new external devices.</p> 
+</div> 
+<div class="paragraph"> 
+ <p>In order to view the early boot messages we need to connect our ODROID-C2’s serial console port to a USB port of another Linux box, using a <a href="http://www.hardkernel.com/main/products/prdt_info.php?g_code=G134111883934">USB-UART Module Kit</a> (see the pictures above). This allows us to have remote serial access to our ODROID-C2, in a similar manner as an SSH connection would.</p> 
+</div> 
+<div class="paragraph"> 
+ <p>However, the serial console is better suited for such debugging scenarios than ether SSH or HDMI and keyboard combination would. That is because the serial console allows us to interact with the ODROID-C2 even when the SSH is not accessible and the HDMI monitor is blank. Such scenarios are:</p> 
+</div> 
+<div class="ulist"> 
+ <ul> 
+  <li> <p>Diagnostic messages prior to the initialisation of the HDMI interface</p> </li> 
+  <li> <p>Diagnostic messages in case of problematic (or disabled) initialisation of the HDMI interface (e.g. <code>setenv nographics "1"</code> configuration inside <code>boot.ini</code>)</p> </li> 
+  <li> <p>Diagnostic messages prior to a failed boot</p> </li> 
+  <li> <p>When we want to interrupt the automated boot process (hitting [Enter] twice during boot) to start an interactive u-boot shell. U-boot is a boot loader similar to lilo or grub, but is specifically designed for embedded devices like the ODROID-C2. Using the u-boot shell we can interactively test new boot configuration, load new kernel image, boot rootfs from a different partition, fix a failed boot process, and so on (essentially manually entering the boot commands found inside <code>boot.ini</code>).</p> </li> 
+ </ul> 
+</div> 
+<div class="paragraph"> 
+ <p>Follow these steps to connect to ODROID-C2’s serial console:</p> 
+</div> 
+<div class="ulist"> 
+ <ul> 
+  <li> <p>Connect the USB-UART cable to the serial console port of the ODROID-C2 and the USB port of another Linux box</p> </li> 
+  <li> <p>Power on the ODROID-C2 via the MicroUSB or the DC connector</p> </li> 
+  <li> <p>Connect to the ODROID-C2 from another Linux box by typing <code>sudo minicom -b 115200 -D /dev/ttyUSB0</code></p> </li> 
+ </ul> 
+</div> 
+<div class="paragraph"> 
+ <p>For more information refer to <a href="https://github.com/umiddelb/armhf/wiki/Get-more-out-of-%22Das-U-Boot%22">Get more out of "Das U Boot"</a> and the section "USB / UART kit" from the <a href="https://magazine.odroid.com/wp-content/uploads/odroid-c2-user-manual.pdf">HARDKERNEL ODROID-C2 USER MANUAL</a>.</p> 
+</div></p>
+		
+			<hr />
+
+			
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_website_name = "yesday";
+        var disqus_config = function () {
+            this.page.url = "http:\/\/localhost:8080\/blog\/2017\/why-is-the-serial-console-better-than-hdmi-for-debugging.html";
+            this.page.identifier = "\/home\/georgios\/Desktop\/project\/proper\/yesday-github-io-src\/src\/main\/jbake\/content\/blog\/2017\/why-is-the-serial-console-better-than-hdmi-for-debugging.adoc";
+        };
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://' + disqus_website_name + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+		</div>
+	</div>
+	<div>
+			<div id="push"></div>
+    
+		    <div id="footer">
+		      <div class="container">
+		        <p class="muted credit">Copyright &copy; 2017 YesDay | Enterprise Java Consulting | <a href="mailto:YesDayUK@gmail.com?Subject=YesDay%20website" target="_top" title="Contact Us">YesDayUK@gmail.com</a> | <a href="https://twitter.com/YesDayUK" title="Follow Us on Twitter">@YesDayUK</p>
+		      </div>
+		    </div>
+	    
+		    <!-- Le javascript
+		    ================================================== -->
+		    <!-- Placed at the end of the document so the pages load faster -->
+		    <script src="../../js/jquery-1.11.1.min.js"></script>
+		    <script src="../../js/bootstrap.min.js"></script>
+		    <script src="../../js/prettify.js"></script>
+    
+    	</div>
+	<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', "UA-106131840-1", 'auto');
+    ga('send', 'pageview');
+
+</script>
+    </body>
+</html>
