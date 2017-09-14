@@ -1,0 +1,560 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	    <meta charset="utf-8"/>
+	    <title>OS image for ODROID-C2 with ArchLinux LUKS Full Disk Encryption and remote unlocking</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	    <meta name="description" content="YesDay Enterprise Java Consulting"/>
+	    <meta name="author" content="YesDay"/>
+	    <meta name="keywords" content=""/>
+	    <meta name="generator" content="JBake"/>
+	
+	    <!-- Le styles -->
+	    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+	    <link href="css/asciidoctor.css" rel="stylesheet"/>
+	    <link href="css/base.css" rel="stylesheet"/>
+	    <link href="css/prettify.css" rel="stylesheet"/>
+	
+	    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	    <!--[if lt IE 9]>
+	      <script src="js/html5shiv.min.js"></script>
+	    <![endif]-->
+	
+	    <!-- Fav and touch icons -->
+	    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png"/>
+	    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png"/>
+	    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png"/>
+	    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png"/>-->
+	    <link rel="shortcut icon" href="favicon.ico"/>
+	</head>
+	<body onload="prettyPrint()">
+	<div id="wrap">
+		<div>
+	
+	  <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">YesDay</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="about.html">About</a></li>
+            <li><a href="feed.xml">Blog Feed</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">ODROID-C2 <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="os-image-for-odroid-c2-with-archlinux-luks-full-disk-encryption-and-remote-unlocking.html">OS image</a></li>
+                  <li><a href="tags/odroid-c2.html" class="" >Posts</a></li>
+                </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+	</div>
+		<div class="container">
+	
+			<div class="page-header">
+				<h1>OS image for ODROID-C2 with ArchLinux LUKS Full Disk Encryption and remote unlocking</h1>
+			</div>
+		
+			<p><span class="meta">Last updated by <b>YesDay</b> on
+                    14 September 2017
+                    <span> Tags:
+                        <span>
+                            <a href="tags/odroid-c2.html" class="" >odroid-c2</a></span><span>
+                            <a href="tags/archlinux.html" class="" >archlinux</a></span><span>
+                            <a href="tags/alarm.html" class="" >alarm</a></span><span>
+                            <a href="tags/luks.html" class="" >luks</a></span><span>
+                            <a href="tags/fde.html" class="" >fde</a></span><span>
+                            <a href="tags/encryption.html" class="" >encryption</a></span>
+                    </span>
+                </span>
+			</p>
+
+			<p><div id="preamble"> 
+ <div class="sectionbody"> 
+  <div id="toc" class="toc"> 
+   <div id="toctitle" class="title">
+    Table of Contents
+   </div> 
+   <ul class="sectlevel1"> 
+    <li><a href="#overview_of_the_os_image">1. Overview of the OS image</a> 
+     <ul class="sectlevel2"> 
+      <li><a href="#introduction">1.1. Introduction</a></li> 
+      <li><a href="#basic_facts">1.2. Basic facts</a></li> 
+      <li><a href="#additional_software">1.3. Additional software</a></li> 
+     </ul> </li> 
+    <li><a href="#flush_the_os_image_into_microsd_card_or_emmc_module">2. Flush the OS image into microSD card or eMMC module</a></li> 
+    <li><a href="#boot_into_the_os_image">3. Boot into the OS image</a></li> 
+    <li><a href="#initial_commands">4. Initial commands</a></li> 
+    <li><a href="#how_to_remotely_unlock_the_luks_rootfs_during_boot">5. How to remotely unlock the LUKS rootfs during boot</a> 
+     <ul class="sectlevel2"> 
+      <li><a href="#configure_access_to_the_dropbear_server">5.1. Configure access to the dropbear server</a></li> 
+      <li><a href="#unlocking_the_volume_interactively">5.2. Unlocking the volume interactively</a></li> 
+      <li><a href="#unlocking_the_volume_using_console_auth_and_pexpect">5.3. Unlocking the volume using console_auth and pexpect</a></li> 
+     </ul> </li> 
+    <li><a href="#how_to_upgrade_the_software">6. How to upgrade the software</a></li> 
+    <li><a href="#dracut_command_to_generate_the_initramfs">7. Dracut command to generate the initramfs</a></li> 
+    <li><a href="#references">8. References</a></li> 
+   </ul> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="overview_of_the_os_image">1. Overview of the OS image</h2> 
+ <div class="sectionbody"> 
+  <div class="sect2"> 
+   <h3 id="introduction">1.1. Introduction</h3> 
+   <div class="paragraph"> 
+    <p>This is an OS image for ODROID-C2. The root filesystem is encrypted with LUKS to provide additional protection against unauthorised access, particularly in the case when someone gains physical access to the device. The configuration is suitable for both headless and non headless setup, and supports remote unlocking (via SSH) of the encrypted root filesystem during the boot process.</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>The image is based on the <a href="https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2">ODROID-C2 ArchLinux ARM</a> image, with additional software and configuration.</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>A <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a> is provided to allow remotely unlocking the encrypted root filesystem during the initial boot. Upon successful boot you’re advised to disable this key for security reasons.</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>After flushing the image make sure to run the provided <code>expand-filesystem-luks</code> script in order to expand the root filesystem partition to the rest of the available space (instructions provided in the relevant section below).</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Finally, right after the initial boot, you should change the default password <strong>yesday</strong> for the users (root, alarm) and the LUKS volume.</p> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="basic_facts">1.2. Basic facts</h3> 
+   <div class="ulist"> 
+    <ul> 
+     <li> <p>OS image: <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/odroid-c2-archlinux-luks.img.gz" class="bare">https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/odroid-c2-archlinux-luks.img.gz</a></p> </li> 
+     <li> <p>Size compressed: 1.7G</p> </li> 
+     <li> <p>Size uncompressed: 1.9G</p> </li> 
+     <li> <p>Root filesystem disk usage: 1.4G</p> </li> 
+     <li> <p>MD5 checksum: <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/odroid-c2-archlinux-luks.img.gz.md5sum" class="bare">https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/odroid-c2-archlinux-luks.img.gz.md5sum</a></p> </li> 
+     <li> <p>Pre-configured SSH key for remote unlocking (make sure to disable after first use): <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa" class="bare">https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa</a></p> </li> 
+     <li> <p>The LUKS password for the root filesystem volume is <strong>yesday</strong></p> </li> 
+     <li> <p>Users: root, alarm</p> </li> 
+     <li> <p>Password for both users is <strong>yesday</strong></p> </li> 
+     <li> <p>GnuPG key was generated (<code>gpg --full-gen-key</code>) for the user alarm with password <strong>yesday</strong></p> </li> 
+     <li> <p>The user alarm is configured for passwordless sudo</p> </li> 
+    </ul> 
+   </div> 
+   <div class="admonitionblock note"> 
+    <table> 
+     <tbody>
+      <tr> 
+       <td class="icon"> 
+        <div class="title">
+         Note
+        </div> </td> 
+       <td class="content"> Generally speaking, encrypted data is hard to compress therefore the compression ratio of this OS image is relatively low. </td> 
+      </tr> 
+     </tbody>
+    </table> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="additional_software">1.3. Additional software</h3> 
+   <div class="paragraph"> 
+    <p>The image adds the following software on top of the <a href="https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2">ODROID-C2 ArchLinux ARM</a> image:</p> 
+   </div> 
+   <div class="ulist"> 
+    <ul> 
+     <li> <p><strong>Basic</strong> - <code>sudo</code> <code>python</code> <code>git</code></p> </li> 
+     <li> <p><strong>AUR helper</strong> - <code>base-devel</code> <code>cower</code> <code>pacaur</code></p> </li> 
+     <li> <p><strong>Initramfs generator</strong> - <code>dracut</code></p> </li> 
+     <li> <p><strong>Encryption</strong> - <code>parted</code> <code>rsync</code> <code>lvm2</code> <code>cryptsetup</code></p> </li> 
+     <li> <p><strong>LUKS remote unlock</strong> - <code>dhclient</code> <code>dropbear</code> <code>dracut-crypt-ssh</code></p> </li> 
+     <li> <p><strong>Custom utility scripts</strong> - <code>expand-filesystem-luks</code></p> </li> 
+    </ul> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="flush_the_os_image_into_microsd_card_or_emmc_module">2. Flush the OS image into microSD card or eMMC module</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>Replace <code>/dev/mmcblk0</code> in the following instructions with the device name for the microSD card as it appears on your computer. Use the provided micro SD to eMMC adapter card to install to eMMC.</p> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Download the OS image (<code>1.7G</code>) and MD5 checksum</p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>wget https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/odroid-c2-archlinux-luks.img.gz
+wget https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/odroid-c2-archlinux-luks.img.gz.md5sum</pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Verify the MD5 checksum</p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>md5sum -c odroid-c2-archlinux-luks.img.gz.md5sum</pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Unmount all the partitions of the microSD card</p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>lsblk
+umount /dev/mmcblk0p1
+umount /dev/mmcblk0p2</pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Flush the OS image into the microSD card (completes in ~ 6 min)</p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>gunzip --stdout odroid-c2-archlinux-luks.img.gz | sudo dd bs=10M of=/dev/mmcblk0</pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Flush all cached data into the microSD card (as shown, multiple executions are required)</p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>sync
+sync
+sync</pre> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="boot_into_the_os_image">3. Boot into the OS image</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>There are three options to interact with the ODROID-C2:</p> 
+  </div> 
+  <div class="ulist"> 
+   <ul> 
+    <li> <p>Serial console. Instructions can be found <a href="https://yesday.github.io/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html">here</a>.</p> </li> 
+    <li> <p>HDMI monitor + keyboard directly connected to the ODROID-C2.</p> </li> 
+    <li> <p>SSH. For instructions, refer to <a href="#how_to_remotely_unlock_the_luks_rootfs_during_boot">How to remotely unlock the LUKS rootfs during boot</a>.</p> </li> 
+   </ul> 
+  </div> 
+  <div class="paragraph"> 
+   <p>After choosing one of the above options, connect the microSD card to the ODROID-C2 and boot. With either option, since the root filesystem is encrypted, you will be prompted to enter the password to unlock the root filesystem during boot. As with the user passwords, the default password for the LUKS volume is <strong>yesday</strong>.</p> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="initial_commands">4. Initial commands</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>The default password in the below instructions is <strong>yesday</strong>.</p> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Change the password of the users <code>alarm</code> and <code>root</code></p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>passwd
+su
+passwd</pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Change the LUKS password (caution: device name <code>/dev/mmcblk0</code> might be different on your ODROID-C2)</p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>sudo cryptsetup luksChangeKey /dev/mmcblk0p2 -S 0</pre> 
+   </div> 
+  </div> 
+  <div class="admonitionblock note"> 
+   <table> 
+    <tbody>
+     <tr> 
+      <td class="icon"> 
+       <div class="title">
+        Note
+       </div> </td> 
+      <td class="content"> LUKS/dm_crypt enabled devices may hold up to 10 different keyfiles/passwords. Refer to the relevant documentation for further details. </td> 
+     </tr> 
+    </tbody>
+   </table> 
+  </div> 
+  <div class="paragraph"> 
+   <p>If you wish to be able to remotely unlock the LUKS volume then follow the instructions in <a href="#how_to_remotely_unlock_the_luks_rootfs_during_boot">How to remotely unlock the LUKS rootfs during boot</a>. Otherwise, make sure to remove the <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a> from the dropbear configuration by following these steps:</p> 
+  </div> 
+  <div class="ulist"> 
+   <ul> 
+    <li> <p>Execute <code>cat /dev/null &gt; /home/alarm/appconf/dracut-crypt-ssh/authorized_keys</code></p> </li> 
+    <li> <p>To apply the changes run the <a href="#dracut_command_to_generate_the_initramfs">Dracut command to generate the initramfs</a></p> </li> 
+   </ul> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Expand the root filesystem partition to the rest of the available space</p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>sudo expand-filesystem-luks
+sudo reboot
+sudo expand-filesystem-luks
+sudo reboot # optional</pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Verify the root filesystem partition now occupies the entire space of the microSD card</p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>df -h</pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Follow the instructions from <a href="#how_to_upgrade_the_software">How to upgrade the software</a></p> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="how_to_remotely_unlock_the_luks_rootfs_during_boot">5. How to remotely unlock the LUKS rootfs during boot</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>The image is configured with the dropbear SSH server, which starts during boot and allows remotely unlocking the LUKS rootfs. If unlocking succeeded, the dropbear terminates itself and your connection.</p> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Replace <code>10.0.0.100</code> in the following instructions with the ip address assigned to the ODROID-C2 by your local DHCP server. Use the <code>fing</code> tool to find the assigned ip address.</p> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="configure_access_to_the_dropbear_server">5.1. Configure access to the dropbear server</h3> 
+   <div class="paragraph"> 
+    <p>In order to connect you have to register the public SSH key of your Linux box to the remote dropbear server. For convenience, this image comes with a <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a>, which you can use in order to connect for the first time. For security reasons, you are strongly advised to disable the pre-configured key from the dropbear configuration right after the initial boot.</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Using the <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a>, unlock the LUKS rootfs. To do so, follow the instructions from <a href="#unlocking_the_volume_interactively">Unlocking the volume interactively</a> but use the <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a> to connect (e.g. <code>ssh -i id_rsa root@10.0.0.100</code>).</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Once the remote system is unlocked and booted, go to your Linux box, and copy the ssh public key to the <code>appconf/dracut-crypt-ssh/authorized_keys</code> file on the remote ODROID-C2 server</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>cat ~/.ssh/*.pub | ssh alarm@10.0.0.100 'umask 077; mkdir -p appconf/dracut-crypt-ssh; touch appconf/dracut-crypt-ssh/authorized_keys; cat &gt;appconf/dracut-crypt-ssh/authorized_keys'</pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>The above command overrides the existing configuration, therefore the <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a> will no longer be permitted access.</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>To apply the changes run the <a href="#dracut_command_to_generate_the_initramfs">Dracut command to generate the initramfs</a></p> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="unlocking_the_volume_interactively">5.2. Unlocking the volume interactively</h3> 
+   <div class="paragraph"> 
+    <p>From your Linux box, connect to the remote dropbear ssh server running on the ODROID-C2</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>ssh root@10.0.0.100</pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Unlock the volume (asks you for the passphrase and sends it to console)</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>console_auth
+Passphrase:</pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>If unlocking the device succeeded, the initramfs will clean up itself and dropbear terminates itself and your connection.</p> 
+   </div> 
+   <div class="ulist"> 
+    <div class="title">
+     Additional commands
+    </div> 
+    <ul> 
+     <li> <p><code>console_peek</code> Prints what’s on the console</p> </li> 
+    </ul> 
+   </div> 
+   <div class="admonitionblock note"> 
+    <table> 
+     <tbody>
+      <tr> 
+       <td class="icon"> 
+        <div class="title">
+         Note
+        </div> </td> 
+       <td class="content"> There is also the <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">unlock command</a> but we encountered <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh/issues/4">this issue</a> when tested it at the time of this writing with all the latest updates installed. </td> 
+      </tr> 
+     </tbody>
+    </table> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="unlocking_the_volume_using_console_auth_and_pexpect">5.3. Unlocking the volume using console_auth and pexpect</h3> 
+   <div class="paragraph"> 
+    <p>Some use cases require to feed input automatically to the interactive command <code>console_auth</code>. Since redirection will not work with <code>console_auth</code> (for example, <code>printf 'my-passphrase\n' | console_auth</code>), we’re going to use the <code>pexpect</code> scripting language.</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>On your Linux box, install the pexpect package</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>sudo pacman -S --needed python-pexpect</pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Create the shell script</p> 
+   </div> 
+   <div class="listingblock"> 
+    <div class="title">
+     nano auto-unlock.sh
+    </div> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">#!/usr/bin/env bash
+
+python -c "
+import pexpect
+child = pexpect.spawn('ssh root@10.0.0.100 console_auth')
+child.expect ('Passphrase:')
+child.sendline ('$1')
+child.interact()"</code></pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Unlock the volume using the <code>auto-unlock.sh</code> script</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>auto-unlock.sh my-passphrase</pre> 
+    </div> 
+   </div> 
+   <div class="admonitionblock caution"> 
+    <table> 
+     <tbody>
+      <tr> 
+       <td class="icon"> 
+        <div class="title">
+         Caution
+        </div> </td> 
+       <td class="content"> The script <code>auto-unlock.sh</code> is simplistic and does not cover all the cases, such as the SSH host verification prompt. Therefore, unless you’re planning to enhance the script to cover the additional cases, it is advised to follow the steps in <a href="#unlocking_the_volume_interactively">Unlocking the volume interactively</a> at least once so to make sure that the <code>auto-unlock.sh</code> script will only deal with the 'Passphrase' prompt, because otherwise it will fail. </td> 
+      </tr> 
+     </tbody>
+    </table> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="how_to_upgrade_the_software">6. How to upgrade the software</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>The majority of the software is installed via the standard <code>pacman</code> tool and the <code>pacaur</code> AUR helper. In order to upgrade, type</p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>sudo pacman -Syu
+pacaur -u --needed</pre> 
+   </div> 
+  </div> 
+  <div class="paragraph"> 
+   <p>(Optional) The dracut module <code>dracut-crypt-ssh</code> is installed from source code. Follow these steps to upgrade.</p> 
+  </div> 
+  <div class="listingblock"> 
+   <div class="content"> 
+    <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">cd ~/github-src/dracut-crypt-ssh/dracut-crypt-ssh
+git pull
+./configure
+make
+sudo make install</code></pre> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="dracut_command_to_generate_the_initramfs">7. Dracut command to generate the initramfs</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>Mind that the order of the modules in the below command is important</p> 
+  </div> 
+  <div class="literalblock"> 
+   <div class="content"> 
+    <pre>sudo dracut --force --hostonly -a "network crypt lvm crypt-ssh" /boot/initramfs-linux.img</pre> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="references">8. References</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p><a href="https://wiki.odroid.com/troubleshooting/odroid_flashing_tools">Hardkernel instructions for flushing into microSD card or eMMC module</a></p> </li> 
+   </ol> 
+  </div> 
+ </div> 
+</div></p>
+		
+			<hr />
+
+			
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_website_name = "yesday";
+        var disqus_config = function () {
+            this.page.url = "http:\/\/localhost:8080\/os-image-for-odroid-c2-with-archlinux-luks-full-disk-encryption-and-remote-unlocking.html";
+            this.page.identifier = "\/home\/georgios\/Desktop\/project\/proper\/yesday-github-io-src\/src\/main\/jbake\/content\/os-image-for-odroid-c2-with-archlinux-luks-full-disk-encryption-and-remote-unlocking.adoc";
+        };
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://' + disqus_website_name + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+		</div>
+	</div>
+	<div>
+			<div id="push"></div>
+    
+		    <div id="footer">
+		      <div class="container">
+		        <p class="muted credit">Copyright &copy; 2017 YesDay | Enterprise Java Consulting | <a href="mailto:yesdayuk@gmail.com?Subject=YesDay%20website" target="_top" title="Contact Us">yesdayuk@gmail.com</a> | <a href="https://twitter.com/yesdayuk" title="Follow Us on Twitter">@yesdayuk</p>
+		      </div>
+		    </div>
+	    
+		    <!-- Le javascript
+		    ================================================== -->
+		    <!-- Placed at the end of the document so the pages load faster -->
+		    <script src="js/jquery-1.11.1.min.js"></script>
+		    <script src="js/bootstrap.min.js"></script>
+		    <script src="js/prettify.js"></script>
+    
+    	</div>
+	<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', "UA-106131840-1", 'auto');
+    ga('send', 'pageview');
+
+</script>
+    </body>
+</html>
