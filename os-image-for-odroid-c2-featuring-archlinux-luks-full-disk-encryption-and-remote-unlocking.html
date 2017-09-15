@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	    <meta charset="utf-8"/>
-	    <title>OS image for ODROID-C2 with ArchLinux LUKS Full Disk Encryption and remote unlocking</title>
+	    <title>OS image for ODROID-C2 featuring ArchLinux, LUKS Full Disk Encryption, and remote unlocking</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	    <meta name="description" content="YesDay Enterprise Java Consulting"/>
 	    <meta name="author" content="YesDay"/>
@@ -51,7 +51,7 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">ODROID-C2 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="os-image-for-odroid-c2-with-archlinux-luks-full-disk-encryption-and-remote-unlocking.html">OS image</a></li>
+                  <li><a href="os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html">OS image</a></li>
                   <li><a href="tags/odroid-c2.html" class="" >Posts</a></li>
                 </ul>
             </li>
@@ -64,7 +64,7 @@
 		<div class="container">
 	
 			<div class="page-header">
-				<h1>OS image for ODROID-C2 with ArchLinux LUKS Full Disk Encryption and remote unlocking</h1>
+				<h1>OS image for ODROID-C2 featuring ArchLinux, LUKS Full Disk Encryption, and remote unlocking</h1>
 			</div>
 		
 			<p><span class="meta">Last updated by <b>YesDay</b> on
@@ -173,7 +173,7 @@
      <li> <p><strong>AUR helper</strong> - <code>base-devel</code> <code>cower</code> <code>pacaur</code></p> </li> 
      <li> <p><strong>Initramfs generator</strong> - <code>dracut</code></p> </li> 
      <li> <p><strong>Encryption</strong> - <code>parted</code> <code>rsync</code> <code>lvm2</code> <code>cryptsetup</code></p> </li> 
-     <li> <p><strong>LUKS remote unlock</strong> - <code>dhclient</code> <code>dropbear</code> <code>dracut-crypt-ssh</code></p> </li> 
+     <li> <p><strong>LUKS remote unlocking</strong> - <code>dhclient</code> <code>dropbear</code> <code>dracut-crypt-ssh</code></p> </li> 
      <li> <p><strong>Custom utility scripts</strong> - <code>expand-filesystem-luks</code></p> </li> 
     </ul> 
    </div> 
@@ -325,7 +325,10 @@ sudo reboot # optional</pre>
  <h2 id="how_to_remotely_unlock_the_luks_rootfs_during_boot">5. How to remotely unlock the LUKS rootfs during boot</h2> 
  <div class="sectionbody"> 
   <div class="paragraph"> 
-   <p>The image is configured with the dropbear SSH server, which starts during boot and allows remotely unlocking the LUKS rootfs. If unlocking succeeded, the dropbear terminates itself and your connection.</p> 
+   <p>The remote unlocking functionality is implemented by the dracut module <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">dracut-crypt-ssh</a>. Refer to the module’s documentation for additional details.</p> 
+  </div> 
+  <div class="paragraph"> 
+   <p>The module starts the dropbear SSH server during boot to allow remotely unlocking the LUKS rootfs. If unlocking succeeded, the dropbear terminates itself and your connection.</p> 
   </div> 
   <div class="paragraph"> 
    <p>Replace <code>10.0.0.100</code> in the following instructions with the ip address assigned to the ODROID-C2 by your local DHCP server. Use the <code>fing</code> tool to find the assigned ip address.</p> 
@@ -509,8 +512,8 @@ sudo make install</code></pre>
     <script>
         var disqus_website_name = "yesday";
         var disqus_config = function () {
-            this.page.url = "http:\/\/localhost:8080\/os-image-for-odroid-c2-with-archlinux-luks-full-disk-encryption-and-remote-unlocking.html";
-            this.page.identifier = "\/home\/georgios\/Desktop\/project\/proper\/yesday-github-io-src\/src\/main\/jbake\/content\/os-image-for-odroid-c2-with-archlinux-luks-full-disk-encryption-and-remote-unlocking.adoc";
+            this.page.url = "http:\/\/yesday.github.io\/os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html";
+            this.page.identifier = "\/home\/georgios\/Desktop\/project\/proper\/yesday-github-io-src\/src\/main\/jbake\/content\/os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.adoc";
         };
         (function () { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');

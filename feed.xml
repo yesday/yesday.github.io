@@ -2,16 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>YesDay Blog</title>
-    <link>http://localhost:8080</link>
-    <atom:link href="http://localhost:8080/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://yesday.github.io</link>
+    <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Thu, 14 Sep 2017 19:45:25 +0300</pubDate>
-    <lastBuildDate>Thu, 14 Sep 2017 19:45:25 +0300</lastBuildDate>
+    <pubDate>Fri, 15 Sep 2017 11:48:12 +0300</pubDate>
+    <lastBuildDate>Fri, 15 Sep 2017 11:48:12 +0300</lastBuildDate>
 
     <item>
+      <title>OS image release for ODROID-C2</title>
+      <link>http://yesday.github.io/blog/2017/os-image-release-for-odroid-c2.html</link>
+      <pubDate>Fri, 15 Sep 2017 00:00:00 +0300</pubDate>
+      <guid isPermaLink="false">blog/2017/os-image-release-for-odroid-c2.html</guid>
+      <description>&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+ &amp;lt;p&amp;gt;An &amp;lt;a href=&amp;quot;../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html&amp;quot;&amp;gt;OS image for ODROID-C2&amp;lt;/a&amp;gt; has been released featuring ArchLinux, Full Disk Encryption (FDE), and remote unlocking. The related page has been added under the website’s main menu &amp;lt;em&amp;gt;ODROID-C2 &amp;amp;gt; OS image&amp;lt;/em&amp;gt; to provide documentation and future updates.&amp;lt;/p&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+ &amp;lt;p&amp;gt;The root filesystem is encrypted with LUKS to provide additional protection against unauthorised access, particularly in the case when someone gains physical access to the device. The configuration is suitable for both headless and non headless setup, and supports remote unlocking (via SSH) of the encrypted root filesystem during the boot process.&amp;lt;/p&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+ &amp;lt;p&amp;gt;Read through the documentation for details on how to flush the OS image into a storage media along with other major information regarding the use of the image.&amp;lt;/p&amp;gt; 
+&amp;lt;/div&amp;gt;</description>	  
+    </item><item>
       <title>Why is the serial console better than HDMI for debugging</title>
-      <link>http://localhost:8080/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</link>
+      <link>http://yesday.github.io/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</link>
       <pubDate>Sat, 9 Sep 2017 00:00:00 +0300</pubDate>
       <guid isPermaLink="false">blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</guid>
       <description>&amp;lt;div class=&amp;quot;openblock float-group&amp;quot;&amp;gt; 
@@ -20,19 +34,19 @@
    &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
     USB-UART Module Kit
    &amp;lt;/div&amp;gt; 
-   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:8080/img/odroid-usb-uart-module-kit.jpg&amp;quot; alt=&amp;quot;odroid usb uart module kit&amp;quot; width=&amp;quot;190&amp;quot; height=&amp;quot;190&amp;quot; title=&amp;quot;USB-UART Module Kit&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://yesday.github.io/img/odroid-usb-uart-module-kit.jpg&amp;quot; alt=&amp;quot;odroid usb uart module kit&amp;quot; width=&amp;quot;190&amp;quot; height=&amp;quot;190&amp;quot; title=&amp;quot;USB-UART Module Kit&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph left&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
     USB-UART connected to ODROID-C2
    &amp;lt;/div&amp;gt; 
-   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:8080/img/usb-uart-connected-to-odroid-c2.png&amp;quot; alt=&amp;quot;usb uart connected to odroid c2&amp;quot; width=&amp;quot;300&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;USB-UART connected to ODROID-C2&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://yesday.github.io/img/usb-uart-connected-to-odroid-c2.png&amp;quot; alt=&amp;quot;usb uart connected to odroid c2&amp;quot; width=&amp;quot;300&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;USB-UART connected to ODROID-C2&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph left&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
     Serial console early boot messages
    &amp;lt;/div&amp;gt; 
-   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:8080/img/serial-console-early-boot-messages.png&amp;quot; alt=&amp;quot;serial console early boot messages&amp;quot; width=&amp;quot;340&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;Serial console early boot messages&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://yesday.github.io/img/serial-console-early-boot-messages.png&amp;quot; alt=&amp;quot;serial console early boot messages&amp;quot; width=&amp;quot;340&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;Serial console early boot messages&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
  &amp;lt;/div&amp;gt; 
 &amp;lt;/div&amp;gt; 

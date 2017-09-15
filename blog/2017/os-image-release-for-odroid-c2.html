@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	    <meta charset="utf-8"/>
-	    <title>Why is the serial console better than HDMI for debugging</title>
+	    <title>OS image release for ODROID-C2</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	    <meta name="description" content="YesDay Enterprise Java Consulting"/>
 	    <meta name="author" content="YesDay"/>
@@ -64,73 +64,31 @@
 		<div class="container">
 	
 			<div class="page-header">
-				<h1>Why is the serial console better than HDMI for debugging</h1>
+				<h1>OS image release for ODROID-C2</h1>
 			</div>
 		
 			<p><span class="meta">Posted by <b>YesDay</b> on
-                    09 September 2017
+                    15 September 2017
                     <span> Tags:
                         <span>
                             <a href="../../tags/odroid-c2.html" class="" >odroid-c2</a></span><span>
                             <a href="../../tags/archlinux.html" class="" >archlinux</a></span><span>
                             <a href="../../tags/alarm.html" class="" >alarm</a></span><span>
-                            <a href="../../tags/uart.html" class="" >uart</a></span><span>
-                            <a href="../../tags/serial-console.html" class="" >serial-console</a></span>
+                            <a href="../../tags/luks.html" class="" >luks</a></span><span>
+                            <a href="../../tags/fde.html" class="" >fde</a></span><span>
+                            <a href="../../tags/encryption.html" class="" >encryption</a></span>
                     </span>
                 </span>
 			</p>
 
-			<p><div class="openblock float-group"> 
- <div class="content"> 
-  <div class="paragraph left"> 
-   <div class="title">
-    USB-UART Module Kit
-   </div> 
-   <p><span class="image"><img src="http://yesday.github.io/img/odroid-usb-uart-module-kit.jpg" alt="odroid usb uart module kit" width="190" height="190" title="USB-UART Module Kit"></span></p> 
-  </div> 
-  <div class="paragraph left"> 
-   <div class="title">
-    USB-UART connected to ODROID-C2
-   </div> 
-   <p><span class="image"><img src="http://yesday.github.io/img/usb-uart-connected-to-odroid-c2.png" alt="usb uart connected to odroid c2" width="300" height="200" title="USB-UART connected to ODROID-C2"></span></p> 
-  </div> 
-  <div class="paragraph left"> 
-   <div class="title">
-    Serial console early boot messages
-   </div> 
-   <p><span class="image"><img src="http://yesday.github.io/img/serial-console-early-boot-messages.png" alt="serial console early boot messages" width="340" height="200" title="Serial console early boot messages"></span></p> 
-  </div> 
- </div> 
+			<p><div class="paragraph"> 
+ <p>An <a href="../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html">OS image for ODROID-C2</a> has been released featuring ArchLinux, Full Disk Encryption (FDE), and remote unlocking. The related page has been added under the website’s main menu <em>ODROID-C2 &gt; OS image</em> to provide documentation and future updates.</p> 
 </div> 
 <div class="paragraph"> 
- <p>Sometimes we need to vew the early boot messages of the ODROID-C2. This is the case when we are dealing with a problem during boot, or creating a special purpose boot image, or when we add new external devices.</p> 
+ <p>The root filesystem is encrypted with LUKS to provide additional protection against unauthorised access, particularly in the case when someone gains physical access to the device. The configuration is suitable for both headless and non headless setup, and supports remote unlocking (via SSH) of the encrypted root filesystem during the boot process.</p> 
 </div> 
 <div class="paragraph"> 
- <p>In order to view the early boot messages we need to connect our ODROID-C2’s serial console port to a USB port of another Linux box, using a <a href="http://www.hardkernel.com/main/products/prdt_info.php?g_code=G134111883934">USB-UART Module Kit</a> (see the pictures above). This allows us to have remote serial access to our ODROID-C2, in a similar manner as an SSH connection would.</p> 
-</div> 
-<div class="paragraph"> 
- <p>However, the serial console is better suited for such debugging scenarios than ether SSH or HDMI and keyboard combination would. That is because the serial console allows us to interact with the ODROID-C2 even when the SSH is not accessible and the HDMI monitor is blank. Such scenarios are:</p> 
-</div> 
-<div class="ulist"> 
- <ul> 
-  <li> <p>Diagnostic messages prior to the initialisation of the HDMI interface</p> </li> 
-  <li> <p>Diagnostic messages in case of problematic (or disabled) initialisation of the HDMI interface (e.g. <code>setenv nographics "1"</code> configuration inside <code>boot.ini</code>)</p> </li> 
-  <li> <p>Diagnostic messages prior to a failed boot</p> </li> 
-  <li> <p>When we want to interrupt the automated boot process (hitting [Enter] twice during boot) to start an interactive u-boot shell. U-boot is a boot loader similar to lilo or grub, but is specifically designed for embedded devices like the ODROID-C2. Using the u-boot shell we can interactively test new boot configuration, load new kernel image, boot rootfs from a different partition, fix a failed boot process, and so on (essentially manually entering the boot commands found inside <code>boot.ini</code>).</p> </li> 
- </ul> 
-</div> 
-<div class="paragraph"> 
- <p>Follow these steps to connect to ODROID-C2’s serial console:</p> 
-</div> 
-<div class="ulist"> 
- <ul> 
-  <li> <p>Connect the USB-UART cable to the serial console port of the ODROID-C2 and the USB port of another Linux box</p> </li> 
-  <li> <p>Power on the ODROID-C2 via the MicroUSB or the DC connector</p> </li> 
-  <li> <p>Connect to the ODROID-C2 from another Linux box by typing <code>sudo minicom -b 115200 -D /dev/ttyUSB0</code></p> </li> 
- </ul> 
-</div> 
-<div class="paragraph"> 
- <p>For more information refer to <a href="https://github.com/umiddelb/armhf/wiki/Get-more-out-of-%22Das-U-Boot%22">Get more out of "Das U Boot"</a> and the section "USB / UART kit" from the <a href="https://magazine.odroid.com/wp-content/uploads/odroid-c2-user-manual.pdf">HARDKERNEL ODROID-C2 USER MANUAL</a>.</p> 
+ <p>Read through the documentation for details on how to flush the OS image into a storage media along with other major information regarding the use of the image.</p> 
 </div></p>
 		
 			<hr />
@@ -140,8 +98,8 @@
     <script>
         var disqus_website_name = "yesday";
         var disqus_config = function () {
-            this.page.url = "http:\/\/yesday.github.io\/blog\/2017\/why-is-the-serial-console-better-than-hdmi-for-debugging.html";
-            this.page.identifier = "\/home\/georgios\/Desktop\/project\/proper\/yesday-github-io-src\/src\/main\/jbake\/content\/blog\/2017\/why-is-the-serial-console-better-than-hdmi-for-debugging.adoc";
+            this.page.url = "http:\/\/yesday.github.io\/blog\/2017\/os-image-release-for-odroid-c2.html";
+            this.page.identifier = "\/home\/georgios\/Desktop\/project\/proper\/yesday-github-io-src\/src\/main\/jbake\/content\/blog\/2017\/os-image-release-for-odroid-c2.adoc";
         };
         (function () { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
