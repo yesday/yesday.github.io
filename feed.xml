@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Fri, 15 Sep 2017 11:48:12 +0300</pubDate>
-    <lastBuildDate>Fri, 15 Sep 2017 11:48:12 +0300</lastBuildDate>
+    <pubDate>Fri, 15 Sep 2017 17:15:47 +0300</pubDate>
+    <lastBuildDate>Fri, 15 Sep 2017 17:15:47 +0300</lastBuildDate>
 
     <item>
       <title>OS image release for ODROID-C2</title>

@@ -140,6 +140,8 @@
      <li> <p>Size uncompressed: 1.9G</p> </li> 
      <li> <p>Root filesystem disk usage: 1.4G</p> </li> 
      <li> <p>MD5 checksum: <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/odroid-c2-archlinux-luks.img.gz.md5sum" class="bare">https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/odroid-c2-archlinux-luks.img.gz.md5sum</a></p> </li> 
+     <li> <p>Encryption method: LUKS Full Disk Encryption with XTS key-size 512 bit (AES-256)</p> </li> 
+     <li> <p>Encryption options: <code>sudo cryptsetup -v -y -c aes-xts-plain64 -s 512 -h sha512 -i 5000 --use-random luksFormat /dev/mmcblk0p2</code></p> </li> 
      <li> <p>Pre-configured SSH key for remote unlocking (make sure to disable after first use): <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa" class="bare">https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa</a></p> </li> 
      <li> <p>The LUKS password for the root filesystem volume is <strong>yesday</strong></p> </li> 
      <li> <p>Users: root, alarm</p> </li> 
@@ -169,10 +171,10 @@
    </div> 
    <div class="ulist"> 
     <ul> 
-     <li> <p><strong>Basic</strong> - <code>sudo</code> <code>python</code> <code>git</code></p> </li> 
+     <li> <p><strong>Basic</strong> - <code>sudo</code> <code>python</code> <code>git</code> <code>rsync</code></p> </li> 
      <li> <p><strong>AUR helper</strong> - <code>base-devel</code> <code>cower</code> <code>pacaur</code></p> </li> 
      <li> <p><strong>Initramfs generator</strong> - <code>dracut</code></p> </li> 
-     <li> <p><strong>Encryption</strong> - <code>parted</code> <code>rsync</code> <code>lvm2</code> <code>cryptsetup</code></p> </li> 
+     <li> <p><strong>Encryption</strong> - <code>lvm2</code> <code>cryptsetup</code></p> </li> 
      <li> <p><strong>LUKS remote unlocking</strong> - <code>dhclient</code> <code>dropbear</code> <code>dracut-crypt-ssh</code></p> </li> 
      <li> <p><strong>Custom utility scripts</strong> - <code>expand-filesystem-luks</code></p> </li> 
     </ul> 
@@ -184,7 +186,7 @@
  <h2 id="flush_the_os_image_into_microsd_card_or_emmc_module">2. Flush the OS image into microSD card or eMMC module</h2> 
  <div class="sectionbody"> 
   <div class="paragraph"> 
-   <p>Replace <code>/dev/mmcblk0</code> in the following instructions with the device name for the microSD card as it appears on your computer. Use the provided micro SD to eMMC adapter card to install to eMMC.</p> 
+   <p>Replace <code>/dev/mmcblk0</code> in the following instructions with the device name for the microSD card as it appears on your computer. Use the provided microSD to eMMC adapter card to install to eMMC.</p> 
   </div> 
   <div class="paragraph"> 
    <p>Download the OS image (<code>1.7G</code>) and MD5 checksum</p> 
