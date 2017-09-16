@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
-        <loc>http://yesday.github.io/about.html</loc>
+        <loc>http://localhost:8080/about.html</loc>
         <lastmod>2017-09-09</lastmod>
     </url><url>
-        <loc>http://yesday.github.io/blog/2017/os-image-release-for-odroid-c2.html</loc>
+        <loc>http://localhost:8080/blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html</loc>
+        <lastmod>2017-09-16</lastmod>
+    </url><url>
+        <loc>http://localhost:8080/blog/2017/os-image-release-for-odroid-c2.html</loc>
         <lastmod>2017-09-15</lastmod>
     </url><url>
-        <loc>http://yesday.github.io/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</loc>
+        <loc>http://localhost:8080/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</loc>
         <lastmod>2017-09-09</lastmod>
     </url><url>
-        <loc>http://yesday.github.io/os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html</loc>
-        <lastmod>2017-09-14</lastmod>
+        <loc>http://localhost:8080/os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html</loc>
+        <lastmod>2017-09-16</lastmod>
     </url>
 </urlset>
