@@ -6,13 +6,13 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Sun, 17 Sep 2017 20:57:21 +0300</pubDate>
-    <lastBuildDate>Sun, 17 Sep 2017 20:57:21 +0300</lastBuildDate>
+    <pubDate>Mon, 18 Sep 2017 14:51:37 +0300</pubDate>
+    <lastBuildDate>Mon, 18 Sep 2017 14:51:37 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
       <link>http://yesday.github.io/blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html</link>
-      <pubDate>Sat, 16 Sep 2017 00:00:00 +0300</pubDate>
+      <pubDate>Mon, 18 Sep 2017 00:00:00 +0300</pubDate>
       <guid isPermaLink="false">blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html</guid>
       <description>&amp;lt;div id=&amp;quot;preamble&amp;quot;&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
@@ -639,7 +639,7 @@ dropbear_acl=&amp;quot;/home/alarm/appconf/dracut-crypt-ssh/authorized_keys&amp;
      sudo nano /boot/boot.ini
     &amp;lt;/div&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-ini&amp;quot; data-lang=&amp;quot;ini&amp;quot;&amp;gt;setenv bootargs &amp;quot;rd.neednet=1 ip=10.0.0.100::10.0.4.1:255.255.255.0:arch-luks-1:eth0:off rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait &amp;amp;lt;leave the rest as is&amp;amp;gt;&amp;quot;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-ini&amp;quot; data-lang=&amp;quot;ini&amp;quot;&amp;gt;setenv bootargs &amp;quot;rd.neednet=1 ip=10.0.0.100::10.0.0.1:255.255.255.0:archlinux-luks-host:eth0:off rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait &amp;amp;lt;leave the rest as is&amp;amp;gt;&amp;quot;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 

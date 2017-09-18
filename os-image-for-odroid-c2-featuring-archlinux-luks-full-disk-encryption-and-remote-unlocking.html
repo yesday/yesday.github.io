@@ -68,7 +68,7 @@
 			</div>
 		
 			<p><span class="meta">Last updated by <b>YesDay</b> on
-                    16 September 2017
+                    18 September 2017
                     <span> Tags:
                         <span>
                             <a href="tags/odroid-c2.html" class="" >odroid-c2</a></span><span>
@@ -475,7 +475,7 @@ child.interact()"</code></pre>
      sudo nano /boot/boot.ini
     </div> 
     <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-ini" data-lang="ini">setenv bootargs "rd.neednet=1 ip=10.0.0.100::10.0.4.1:255.255.255.0:arch-luks-1:eth0:off rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait &lt;leave the rest as is&gt;"</code></pre> 
+     <pre class="prettyprint highlight"><code class="language-ini" data-lang="ini">setenv bootargs "rd.neednet=1 ip=10.0.0.100::10.0.0.1:255.255.255.0:archlinux-luks-host:eth0:off rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait &lt;leave the rest as is&gt;"</code></pre> 
     </div> 
    </div> 
    <div class="paragraph"> 
