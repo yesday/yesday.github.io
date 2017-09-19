@@ -6,13 +6,13 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Mon, 18 Sep 2017 14:51:37 +0300</pubDate>
-    <lastBuildDate>Mon, 18 Sep 2017 14:51:37 +0300</lastBuildDate>
+    <pubDate>Tue, 19 Sep 2017 18:42:30 +0300</pubDate>
+    <lastBuildDate>Tue, 19 Sep 2017 18:42:30 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
       <link>http://yesday.github.io/blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html</link>
-      <pubDate>Mon, 18 Sep 2017 00:00:00 +0300</pubDate>
+      <pubDate>Tue, 19 Sep 2017 00:00:00 +0300</pubDate>
       <guid isPermaLink="false">blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html</guid>
       <description>&amp;lt;div id=&amp;quot;preamble&amp;quot;&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
@@ -583,24 +583,11 @@ sudo systemctl start sshd&amp;lt;/pre&amp;gt;
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
    &amp;lt;h3 id=&amp;quot;install_and_configure_dropbear&amp;quot;&amp;gt;9.2. Install and configure dropbear&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;Install dependencies&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;Install the dracut module &amp;lt;a href=&amp;quot;https://github.com/dracut-crypt-ssh/dracut-crypt-ssh&amp;quot;&amp;gt;crypt-ssh&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;sudo pacman -S --needed dhclient dropbear&amp;lt;/pre&amp;gt; 
-    &amp;lt;/div&amp;gt; 
-   &amp;lt;/div&amp;gt; 
-   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;Install the dracut module &amp;lt;a href=&amp;quot;https://github.com/dracut-crypt-ssh/dracut-crypt-ssh&amp;quot;&amp;gt;dracut-crypt-ssh&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt; 
-   &amp;lt;/div&amp;gt; 
-   &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
-    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;mkdir -p ~/github-src/dracut-crypt-ssh &amp;amp;amp;&amp;amp;amp; cd &amp;quot;$_&amp;quot;
-git clone https://github.com/dracut-crypt-ssh/dracut-crypt-ssh.git
-cd dracut-crypt-ssh
-./configure
-make
-sudo make install&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;pacaur -S dracut-crypt-ssh-git&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 

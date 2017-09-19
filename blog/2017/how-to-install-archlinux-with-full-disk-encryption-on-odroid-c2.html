@@ -68,7 +68,7 @@
 			</div>
 		
 			<p><span class="meta">Posted by <b>YesDay</b> on
-                    18 September 2017
+                    19 September 2017
                     <span> Tags:
                         <span>
                             <a href="../../tags/odroid-c2.html" class="" >odroid-c2</a></span><span>
@@ -650,24 +650,11 @@ sudo systemctl start sshd</pre>
   <div class="sect2"> 
    <h3 id="install_and_configure_dropbear">9.2. Install and configure dropbear</h3> 
    <div class="paragraph"> 
-    <p>Install dependencies</p> 
+    <p>Install the dracut module <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">crypt-ssh</a></p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>sudo pacman -S --needed dhclient dropbear</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Install the dracut module <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">dracut-crypt-ssh</a></p> 
-   </div> 
-   <div class="listingblock"> 
-    <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">mkdir -p ~/github-src/dracut-crypt-ssh &amp;&amp; cd "$_"
-git clone https://github.com/dracut-crypt-ssh/dracut-crypt-ssh.git
-cd dracut-crypt-ssh
-./configure
-make
-sudo make install</code></pre> 
+     <pre>pacaur -S dracut-crypt-ssh-git</pre> 
     </div> 
    </div> 
    <div class="paragraph"> 
