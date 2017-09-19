@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Tue, 19 Sep 2017 18:42:30 +0300</pubDate>
-    <lastBuildDate>Tue, 19 Sep 2017 18:42:30 +0300</lastBuildDate>
+    <pubDate>Tue, 19 Sep 2017 19:12:55 +0300</pubDate>
+    <lastBuildDate>Tue, 19 Sep 2017 19:12:55 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -63,7 +63,7 @@
     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Encrypting a partition and copying the root filesystem to it.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;The kernel to include the &amp;lt;code&amp;gt;dm_crypt&amp;lt;/code&amp;gt; kernel module. In our case this is already included by default therefore we won’t need to re-compile the kernel.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;The &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt; to include the &amp;lt;code&amp;gt;dm_crypt&amp;lt;/code&amp;gt; kernel module and the &amp;lt;code&amp;gt;cryptsetup&amp;lt;/code&amp;gt; binary. We use a tool called &amp;lt;code&amp;gt;dracut&amp;lt;/code&amp;gt; to generate the required &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt;. Dracut supports the required functionality via the additional modules &amp;lt;code&amp;gt;crypt&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;lvm&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
-    &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;To pass the &amp;lt;a href=&amp;quot;https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_crypto_luks&amp;quot;&amp;gt;dracut options for LUKS&amp;lt;/a&amp;gt; to the &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt; via the &amp;lt;code&amp;gt;bootargs&amp;lt;/code&amp;gt; property inside &amp;lt;code&amp;gt;boot.ini&amp;lt;/code&amp;gt;. For example, say that in our case we want the &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt; to unlock a LUKS volume with UUID &amp;lt;code&amp;gt;ae51db2d-0890-4b1b-abc5-8c10f01da353&amp;lt;/code&amp;gt; and load the root filesystem from the device mapper &amp;lt;code&amp;gt;/dev/mapper/vg-root&amp;lt;/code&amp;gt;. To pass these dracut options we configure the following:&amp;lt;/p&amp;gt; 
+    &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Passing the &amp;lt;a href=&amp;quot;https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_crypto_luks&amp;quot;&amp;gt;dracut options for LUKS&amp;lt;/a&amp;gt; to the &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt; via the &amp;lt;code&amp;gt;bootargs&amp;lt;/code&amp;gt; property inside &amp;lt;code&amp;gt;boot.ini&amp;lt;/code&amp;gt;. For example, say that in our case we want the &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt; to unlock a LUKS volume with UUID &amp;lt;code&amp;gt;ae51db2d-0890-4b1b-abc5-8c10f01da353&amp;lt;/code&amp;gt; and load the root filesystem from the device mapper &amp;lt;code&amp;gt;/dev/mapper/vg-root&amp;lt;/code&amp;gt;. To pass these dracut options we configure the following:&amp;lt;/p&amp;gt; 
      &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
       &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
        sudo nano /boot/boot.ini
@@ -78,7 +78,7 @@
    &amp;lt;p&amp;gt;Additionally, for a headless setup you will need to enable remote unlocking via SSH as described in &amp;lt;a href=&amp;quot;#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd&amp;quot;&amp;gt;Remotely unlock the LUKS rootfs during boot using dropbear sshd&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Last but not least, if you prefer to have the described functionality out of the box, just use &amp;lt;a href=&amp;quot;../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html&amp;quot;&amp;gt;this OS image&amp;lt;/a&amp;gt;. Either way, the current document will provide more technical details in regards to the underlying components and how they work together in a Full Disk Encryption setting.&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Last but not least, if you prefer to have the described functionality out of the box, just use &amp;lt;a href=&amp;quot;../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html&amp;quot;&amp;gt;this OS image&amp;lt;/a&amp;gt;. Either way, the current document will provide more technical details in regards to the underlying components and how they work together in a Full Disk Encryption environment.&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
  &amp;lt;/div&amp;gt; 
 &amp;lt;/div&amp;gt; 

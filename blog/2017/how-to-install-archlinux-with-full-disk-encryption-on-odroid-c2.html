@@ -130,7 +130,7 @@
     <li> <p>Encrypting a partition and copying the root filesystem to it.</p> </li> 
     <li> <p>The kernel to include the <code>dm_crypt</code> kernel module. In our case this is already included by default therefore we won’t need to re-compile the kernel.</p> </li> 
     <li> <p>The <code>initramfs</code> to include the <code>dm_crypt</code> kernel module and the <code>cryptsetup</code> binary. We use a tool called <code>dracut</code> to generate the required <code>initramfs</code>. Dracut supports the required functionality via the additional modules <code>crypt</code> and <code>lvm</code>.</p> </li> 
-    <li> <p>To pass the <a href="https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_crypto_luks">dracut options for LUKS</a> to the <code>initramfs</code> via the <code>bootargs</code> property inside <code>boot.ini</code>. For example, say that in our case we want the <code>initramfs</code> to unlock a LUKS volume with UUID <code>ae51db2d-0890-4b1b-abc5-8c10f01da353</code> and load the root filesystem from the device mapper <code>/dev/mapper/vg-root</code>. To pass these dracut options we configure the following:</p> 
+    <li> <p>Passing the <a href="https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_crypto_luks">dracut options for LUKS</a> to the <code>initramfs</code> via the <code>bootargs</code> property inside <code>boot.ini</code>. For example, say that in our case we want the <code>initramfs</code> to unlock a LUKS volume with UUID <code>ae51db2d-0890-4b1b-abc5-8c10f01da353</code> and load the root filesystem from the device mapper <code>/dev/mapper/vg-root</code>. To pass these dracut options we configure the following:</p> 
      <div class="listingblock"> 
       <div class="title">
        sudo nano /boot/boot.ini
@@ -145,7 +145,7 @@
    <p>Additionally, for a headless setup you will need to enable remote unlocking via SSH as described in <a href="#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">Remotely unlock the LUKS rootfs during boot using dropbear sshd</a>.</p> 
   </div> 
   <div class="paragraph"> 
-   <p>Last but not least, if you prefer to have the described functionality out of the box, just use <a href="../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html">this OS image</a>. Either way, the current document will provide more technical details in regards to the underlying components and how they work together in a Full Disk Encryption setting.</p> 
+   <p>Last but not least, if you prefer to have the described functionality out of the box, just use <a href="../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html">this OS image</a>. Either way, the current document will provide more technical details in regards to the underlying components and how they work together in a Full Disk Encryption environment.</p> 
   </div> 
  </div> 
 </div> 
