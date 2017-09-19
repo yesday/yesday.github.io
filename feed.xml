@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Tue, 19 Sep 2017 19:12:55 +0300</pubDate>
-    <lastBuildDate>Tue, 19 Sep 2017 19:12:55 +0300</lastBuildDate>
+    <pubDate>Tue, 19 Sep 2017 20:12:31 +0300</pubDate>
+    <lastBuildDate>Tue, 19 Sep 2017 20:12:31 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>

@@ -68,7 +68,7 @@
 			</div>
 		
 			<p><span class="meta">Last updated by <b>YesDay</b> on
-                    18 September 2017
+                    19 September 2017
                     <span> Tags:
                         <span>
                             <a href="tags/odroid-c2.html" class="" >odroid-c2</a></span><span>
@@ -505,7 +505,7 @@ pacaur -Syua</pre>
    </div> 
   </div> 
   <div class="paragraph"> 
-   <p>(Optional) The dracut module <code>dracut-crypt-ssh</code> is installed from source code. Follow these steps to upgrade.</p> 
+   <p>(Optional) The dracut module <code>crypt-ssh</code> is installed from source code. Follow these steps to upgrade.</p> 
   </div> 
   <div class="listingblock"> 
    <div class="content"> 
@@ -515,6 +515,19 @@ git pull
 make
 sudo make install</code></pre> 
    </div> 
+  </div> 
+  <div class="admonitionblock note"> 
+   <table> 
+    <tbody>
+     <tr> 
+      <td class="icon"> 
+       <div class="title">
+        Note
+       </div> </td> 
+      <td class="content"> As of <code>19 Sep 2017</code> the dracut module <code>crypt-ssh</code> is also available as a package within the AUR. If you prefer to use the package then remove the relevant files manually and install the package by typing: <code>pacaur -S dracut-crypt-ssh-git</code>. </td> 
+     </tr> 
+    </tbody>
+   </table> 
   </div> 
  </div> 
 </div> 
