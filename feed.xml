@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Wed, 20 Sep 2017 08:19:33 +0300</pubDate>
-    <lastBuildDate>Wed, 20 Sep 2017 08:19:33 +0300</lastBuildDate>
+    <pubDate>Wed, 20 Sep 2017 15:23:36 +0300</pubDate>
+    <lastBuildDate>Wed, 20 Sep 2017 15:23:36 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -101,6 +101,9 @@
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
    &amp;lt;p&amp;gt;Flash the OS image to the &amp;lt;strong&amp;gt;USB disk&amp;lt;/strong&amp;gt; by following the instructions from &amp;lt;a href=&amp;quot;https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2&amp;quot; class=&amp;quot;bare&amp;quot;&amp;gt;https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;Replace &amp;lt;code&amp;gt;/dev/mmcblk0&amp;lt;/code&amp;gt; in the following instructions with the device name for the microSD card as it appears on your computer.&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
    &amp;lt;p&amp;gt;If mounted, unmount the partitions of the &amp;lt;strong&amp;gt;microSD card&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt; 
