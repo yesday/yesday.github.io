@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Wed, 20 Sep 2017 15:38:28 +0300</pubDate>
-    <lastBuildDate>Wed, 20 Sep 2017 15:38:28 +0300</lastBuildDate>
+    <pubDate>Wed, 20 Sep 2017 18:17:48 +0300</pubDate>
+    <lastBuildDate>Wed, 20 Sep 2017 18:17:48 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -413,7 +413,7 @@ sudo lvcreate -l 100%FREE -n root vg&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Copy the existing root volume to the new, encrypted root volume (with a &amp;lt;code&amp;gt;1.2G&amp;lt;/code&amp;gt; installation, completes in about 4 min)&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Copy the existing root volume to the new, encrypted root volume (with a &amp;lt;code&amp;gt;1.5G&amp;lt;/code&amp;gt; installation, completes in about 6 min)&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
@@ -435,7 +435,7 @@ sudo lvcreate -l 100%FREE -n root vg&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Remove the empty ssh host keys, which cause &amp;lt;a href=&amp;quot;https://raspberrypi.stackexchange.com/questions/69289/raspberry-pi-3-on-arch-armv7-openssh-daemon-failed-on-memory-allocation&amp;quot;&amp;gt;memory leak of sshd&amp;lt;/a&amp;gt;. They will be regenerated the next time the sshd starts.&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;If the SSH host keys are empty, remove them so that they will be regenerated the next time the sshd starts. This will prevent the memory leak issue as described &amp;lt;a href=&amp;quot;https://raspberrypi.stackexchange.com/questions/69289/raspberry-pi-3-on-arch-armv7-openssh-daemon-failed-on-memory-allocation&amp;quot;&amp;gt;here&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 

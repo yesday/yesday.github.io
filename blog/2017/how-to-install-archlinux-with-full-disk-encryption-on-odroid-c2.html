@@ -480,7 +480,7 @@ sudo lvcreate -l 100%FREE -n root vg</code></pre>
    </div> 
   </div> 
   <div class="paragraph"> 
-   <p>Copy the existing root volume to the new, encrypted root volume (with a <code>1.2G</code> installation, completes in about 4 min)</p> 
+   <p>Copy the existing root volume to the new, encrypted root volume (with a <code>1.5G</code> installation, completes in about 6 min)</p> 
   </div> 
   <div class="listingblock"> 
    <div class="content"> 
@@ -502,7 +502,7 @@ sudo lvcreate -l 100%FREE -n root vg</code></pre>
    </div> 
   </div> 
   <div class="paragraph"> 
-   <p>Remove the empty ssh host keys, which cause <a href="https://raspberrypi.stackexchange.com/questions/69289/raspberry-pi-3-on-arch-armv7-openssh-daemon-failed-on-memory-allocation">memory leak of sshd</a>. They will be regenerated the next time the sshd starts.</p> 
+   <p>If the SSH host keys are empty, remove them so that they will be regenerated the next time the sshd starts. This will prevent the memory leak issue as described <a href="https://raspberrypi.stackexchange.com/questions/69289/raspberry-pi-3-on-arch-armv7-openssh-daemon-failed-on-memory-allocation">here</a>.</p> 
   </div> 
   <div class="literalblock"> 
    <div class="content"> 
