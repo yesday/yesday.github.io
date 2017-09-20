@@ -334,7 +334,7 @@ sudo reboot # optional</pre>
  <h2 id="how_to_remotely_unlock_the_luks_rootfs_during_boot">5. How to remotely unlock the LUKS rootfs during boot</h2> 
  <div class="sectionbody"> 
   <div class="paragraph"> 
-   <p>The remote unlocking functionality is implemented by the dracut module <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">dracut-crypt-ssh</a>. Refer to the module’s documentation for additional details.</p> 
+   <p>The remote unlocking functionality is implemented by the dracut module <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">crypt-ssh</a>. Refer to the module’s documentation for additional details.</p> 
   </div> 
   <div class="paragraph"> 
    <p>The module starts the dropbear SSH server during boot to allow remotely unlocking the LUKS rootfs. If unlocking succeeded, the dropbear terminates itself and your connection.</p> 
