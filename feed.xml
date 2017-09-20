@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Wed, 20 Sep 2017 15:23:36 +0300</pubDate>
-    <lastBuildDate>Wed, 20 Sep 2017 15:23:36 +0300</lastBuildDate>
+    <pubDate>Wed, 20 Sep 2017 15:38:28 +0300</pubDate>
+    <lastBuildDate>Wed, 20 Sep 2017 15:38:28 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -125,7 +125,7 @@ sync&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Using a tool like &amp;lt;code&amp;gt;GParted&amp;lt;/code&amp;gt;, create two partitions on the microSD card:&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Using a tool like &amp;lt;code&amp;gt;GParted&amp;lt;/code&amp;gt;, create on the microSD card an MBR/msdos partition table and two partitions:&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
    &amp;lt;ul&amp;gt; 
