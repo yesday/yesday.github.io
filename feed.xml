@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Wed, 20 Sep 2017 18:17:48 +0300</pubDate>
-    <lastBuildDate>Wed, 20 Sep 2017 18:17:48 +0300</lastBuildDate>
+    <pubDate>Thu, 21 Sep 2017 14:52:18 +0300</pubDate>
+    <lastBuildDate>Thu, 21 Sep 2017 14:52:18 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -50,13 +50,13 @@
  &amp;lt;h2 id=&amp;quot;introduction&amp;quot;&amp;gt;1. Introduction&amp;lt;/h2&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;The Full Disk Encryption protects our data against unauthorised access in case someone gains physical access to the storage media.&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Full Disk Encryption (FDE) protects our data against unauthorised access in case someone gains physical access to the storage media.&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;In this document we are describing how to install ArchLinux with Full Disk Encryption (FDE) on ODROID-C2. The encryption method is LUKS with XTS key-size 512 bit (AES-256).&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;In this document we are describing how to install ArchLinux with Full Disk Encryption on ODROID-C2. The encryption method is LUKS with XTS key-size 512 bit (AES-256).&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;In a nutshell, the Full Disk Encryption requires&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;In a nutshell, Full Disk Encryption requires&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
    &amp;lt;ul&amp;gt; 
@@ -78,7 +78,7 @@
    &amp;lt;p&amp;gt;Additionally, for a headless setup you will need to enable remote unlocking via SSH as described in &amp;lt;a href=&amp;quot;#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd&amp;quot;&amp;gt;Remotely unlock the LUKS rootfs during boot using dropbear sshd&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Last but not least, if you prefer to have the described functionality out of the box, just use &amp;lt;a href=&amp;quot;../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html&amp;quot;&amp;gt;this OS image&amp;lt;/a&amp;gt;. Either way, the current document will provide more technical details in regards to the underlying components and how they work together in a Full Disk Encryption environment.&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Last but not least, if you prefer to use the described functionality out of the box, simply download &amp;lt;a href=&amp;quot;../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html&amp;quot;&amp;gt;this OS image&amp;lt;/a&amp;gt;. Either way, the current document will provide more technical details in regards to the underlying components and how they work together in a Full Disk Encryption environment.&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
  &amp;lt;/div&amp;gt; 
 &amp;lt;/div&amp;gt; 
