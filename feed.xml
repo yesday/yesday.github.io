@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Thu, 21 Sep 2017 14:52:18 +0300</pubDate>
-    <lastBuildDate>Thu, 21 Sep 2017 14:52:18 +0300</lastBuildDate>
+    <pubDate>Thu, 21 Sep 2017 15:02:27 +0300</pubDate>
+    <lastBuildDate>Thu, 21 Sep 2017 15:02:27 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -413,7 +413,7 @@ sudo lvcreate -l 100%FREE -n root vg&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Copy the existing root volume to the new, encrypted root volume (with a &amp;lt;code&amp;gt;1.5G&amp;lt;/code&amp;gt; installation, completes in about 6 min)&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Copy the existing root volume to the new, encrypted root volume (with a &amp;lt;code&amp;gt;1.5G&amp;lt;/code&amp;gt; installation, completes in about 6 min on an average microSD)&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
