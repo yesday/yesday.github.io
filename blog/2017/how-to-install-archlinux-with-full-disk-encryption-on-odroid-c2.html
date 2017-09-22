@@ -544,7 +544,7 @@ sudo mount -t ext4 /dev/mmcblk0p1 /mnt/boot</code></pre>
  <h2 id="generate_new_initramfs_and_reboot_into_the_luks_rootfs">8. Generate new initramfs and reboot into the LUKS rootfs</h2> 
  <div class="sectionbody"> 
   <div class="paragraph"> 
-   <p>Generate new initramfs using dracut (mind the order of the modules)</p> 
+   <p>Generate new initramfs using dracut. The below will add the dracut modules <code>crypt</code> and <code>lvm</code> to the initramfs. These modules will prompt for LUKS password during boot and unlock the LUKS volume. Mind that the order of the modules is important.</p> 
   </div> 
   <div class="literalblock"> 
    <div class="content"> 
@@ -681,7 +681,7 @@ dropbear_acl="/home/alarm/appconf/dracut-crypt-ssh/authorized_keys"</code></pre>
     </div> 
    </div> 
    <div class="paragraph"> 
-    <p>Generate new initramfs using dracut (mind that the order of the modules is important)</p> 
+    <p>Generate new initramfs using dracut. The below will add the dracut module <code>crypt-ssh</code> to the initramfs. Mind that the order of the modules is important.</p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 

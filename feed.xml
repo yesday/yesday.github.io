@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Fri, 22 Sep 2017 13:18:54 +0300</pubDate>
-    <lastBuildDate>Fri, 22 Sep 2017 13:18:54 +0300</lastBuildDate>
+    <pubDate>Fri, 22 Sep 2017 15:55:52 +0300</pubDate>
+    <lastBuildDate>Fri, 22 Sep 2017 15:55:52 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -477,7 +477,7 @@ sudo mount -t ext4 /dev/mmcblk0p1 /mnt/boot&amp;lt;/code&amp;gt;&amp;lt;/pre&amp
  &amp;lt;h2 id=&amp;quot;generate_new_initramfs_and_reboot_into_the_luks_rootfs&amp;quot;&amp;gt;8. Generate new initramfs and reboot into the LUKS rootfs&amp;lt;/h2&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Generate new initramfs using dracut (mind the order of the modules)&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Generate new initramfs using dracut. The below will add the dracut modules &amp;lt;code&amp;gt;crypt&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;lvm&amp;lt;/code&amp;gt; to the initramfs. These modules will prompt for LUKS password during boot and unlock the LUKS volume. Mind that the order of the modules is important.&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
@@ -614,7 +614,7 @@ dropbear_acl=&amp;quot;/home/alarm/appconf/dracut-crypt-ssh/authorized_keys&amp;
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;Generate new initramfs using dracut (mind that the order of the modules is important)&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;Generate new initramfs using dracut. The below will add the dracut module &amp;lt;code&amp;gt;crypt-ssh&amp;lt;/code&amp;gt; to the initramfs. Mind that the order of the modules is important.&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
