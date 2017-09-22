@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Thu, 21 Sep 2017 15:02:27 +0300</pubDate>
-    <lastBuildDate>Thu, 21 Sep 2017 15:02:27 +0300</lastBuildDate>
+    <pubDate>Fri, 22 Sep 2017 08:24:00 +0300</pubDate>
+    <lastBuildDate>Fri, 22 Sep 2017 08:24:00 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -822,7 +822,7 @@ child.interact()&amp;quot;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
  &amp;lt;ul&amp;gt; 
   &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Connect the USB-UART cable to the serial console port of the ODROID-C2 and the USB port of another Linux box&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
   &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Power on the ODROID-C2 via the microUSB or the DC connector&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
-  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Connect to the ODROID-C2 from another Linux box by typing &amp;lt;code&amp;gt;sudo minicom -b 115200 -D /dev/ttyUSB0&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Connect to the ODROID-C2 from the Linux box by typing &amp;lt;code&amp;gt;sudo minicom -b 115200 -D /dev/ttyUSB0&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
  &amp;lt;/ul&amp;gt; 
 &amp;lt;/div&amp;gt; 
 &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
