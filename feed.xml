@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Fri, 22 Sep 2017 12:59:25 +0300</pubDate>
-    <lastBuildDate>Fri, 22 Sep 2017 12:59:25 +0300</lastBuildDate>
+    <pubDate>Fri, 22 Sep 2017 13:18:54 +0300</pubDate>
+    <lastBuildDate>Fri, 22 Sep 2017 13:18:54 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -560,7 +560,7 @@ tmpfs                172M     0  172M   0% /run/user/1000&amp;lt;/code&amp;gt;&a
  &amp;lt;h2 id=&amp;quot;remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd&amp;quot;&amp;gt;9. Remotely unlock the LUKS rootfs during boot using dropbear sshd&amp;lt;/h2&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Replace &amp;lt;code&amp;gt;10.0.0.100&amp;lt;/code&amp;gt; in the following instructions with the ip address assigned to the ODROID-C2 by your local DHCP server. Use the &amp;lt;code&amp;gt;fing&amp;lt;/code&amp;gt; tool to find the assigned ip address (e.g. &amp;lt;code&amp;gt;sudo fing 10.0.0.1/24&amp;lt;/code&amp;gt;).&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Replace &amp;lt;code&amp;gt;10.0.0.100&amp;lt;/code&amp;gt; in the following instructions with the IP address assigned to the ODROID-C2 by your local DHCP server. Use the &amp;lt;code&amp;gt;fing&amp;lt;/code&amp;gt; tool to find the assigned IP address (e.g. &amp;lt;code&amp;gt;sudo fing 10.0.0.1/24&amp;lt;/code&amp;gt;).&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
    &amp;lt;h3 id=&amp;quot;make_sure_the_ssh_daemon_is_running&amp;quot;&amp;gt;9.1. Make sure the SSH daemon is running&amp;lt;/h3&amp;gt; 
