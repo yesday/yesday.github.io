@@ -6,13 +6,13 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Fri, 22 Sep 2017 16:00:43 +0300</pubDate>
-    <lastBuildDate>Fri, 22 Sep 2017 16:00:43 +0300</lastBuildDate>
+    <pubDate>Sat, 23 Sep 2017 15:13:21 +0300</pubDate>
+    <lastBuildDate>Sat, 23 Sep 2017 15:13:21 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
       <link>http://yesday.github.io/blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html</link>
-      <pubDate>Tue, 19 Sep 2017 00:00:00 +0300</pubDate>
+      <pubDate>Sat, 23 Sep 2017 00:00:00 +0300</pubDate>
       <guid isPermaLink="false">blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html</guid>
       <description>&amp;lt;div id=&amp;quot;preamble&amp;quot;&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
@@ -694,7 +694,7 @@ Passphrase:&amp;lt;/pre&amp;gt;
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
    &amp;lt;h3 id=&amp;quot;unlocking_the_volume_using_console_auth_and_pexpect&amp;quot;&amp;gt;9.4. Unlocking the volume using console_auth and pexpect&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;Some use cases require to feed input automatically to the interactive command &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt;. Since redirection will not work with &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; (for example, &amp;lt;code&amp;gt;printf &amp;#39;my-passphrase\n&amp;#39; | console_auth&amp;lt;/code&amp;gt;), we’re going to use the &amp;lt;code&amp;gt;pexpect&amp;lt;/code&amp;gt; scripting language.&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;Some use cases require to feed input automatically to the interactive command &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt;. Since redirection will not work with &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; (for example, &amp;lt;code&amp;gt;console_auth &amp;amp;lt; password-file&amp;lt;/code&amp;gt;), we’re going to use the &amp;lt;code&amp;gt;pexpect&amp;lt;/code&amp;gt; scripting language.&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
     &amp;lt;p&amp;gt;On your Linux box, install the pexpect package&amp;lt;/p&amp;gt; 
@@ -714,11 +714,13 @@ Passphrase:&amp;lt;/pre&amp;gt;
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
      &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;#!/usr/bin/env bash
 
+read PASS
+
 python -c &amp;quot;
 import pexpect
 child = pexpect.spawn(&amp;#39;ssh root@10.0.0.100 console_auth&amp;#39;)
 child.expect (&amp;#39;Passphrase:&amp;#39;)
-child.sendline (&amp;#39;$1&amp;#39;)
+child.sendline (&amp;#39;$PASS&amp;#39;)
 child.interact()&amp;quot;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
@@ -727,7 +729,15 @@ child.interact()&amp;quot;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;auto-unlock.sh my-passphrase&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;auto-unlock.sh &amp;amp;lt; password-file&amp;lt;/pre&amp;gt; 
+    &amp;lt;/div&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;OR&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
+    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+     &amp;lt;pre&amp;gt;gpg2 --decrypt password-file.gpg | auto-unlock.sh&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;admonitionblock caution&amp;quot;&amp;gt; 

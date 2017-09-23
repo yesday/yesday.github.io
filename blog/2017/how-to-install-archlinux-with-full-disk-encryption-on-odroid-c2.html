@@ -68,7 +68,7 @@
 			</div>
 		
 			<p><span class="meta">Posted by <b>YesDay</b> on
-                    19 September 2017
+                    23 September 2017
                     <span> Tags:
                         <span>
                             <a href="../../tags/odroid-c2.html" class="" >odroid-c2</a></span><span>
@@ -761,7 +761,7 @@ Passphrase:</pre>
   <div class="sect2"> 
    <h3 id="unlocking_the_volume_using_console_auth_and_pexpect">9.4. Unlocking the volume using console_auth and pexpect</h3> 
    <div class="paragraph"> 
-    <p>Some use cases require to feed input automatically to the interactive command <code>console_auth</code>. Since redirection will not work with <code>console_auth</code> (for example, <code>printf 'my-passphrase\n' | console_auth</code>), we’re going to use the <code>pexpect</code> scripting language.</p> 
+    <p>Some use cases require to feed input automatically to the interactive command <code>console_auth</code>. Since redirection will not work with <code>console_auth</code> (for example, <code>console_auth &lt; password-file</code>), we’re going to use the <code>pexpect</code> scripting language.</p> 
    </div> 
    <div class="paragraph"> 
     <p>On your Linux box, install the pexpect package</p> 
@@ -781,11 +781,13 @@ Passphrase:</pre>
     <div class="content"> 
      <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">#!/usr/bin/env bash
 
+read PASS
+
 python -c "
 import pexpect
 child = pexpect.spawn('ssh root@10.0.0.100 console_auth')
 child.expect ('Passphrase:')
-child.sendline ('$1')
+child.sendline ('$PASS')
 child.interact()"</code></pre> 
     </div> 
    </div> 
@@ -794,7 +796,15 @@ child.interact()"</code></pre>
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>auto-unlock.sh my-passphrase</pre> 
+     <pre>auto-unlock.sh &lt; password-file</pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>OR</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>gpg2 --decrypt password-file.gpg | auto-unlock.sh</pre> 
     </div> 
    </div> 
    <div class="admonitionblock caution"> 
