@@ -107,6 +107,7 @@
       <li><a href="#install_and_configure_dropbear">9.2. Install and configure dropbear</a></li> 
       <li><a href="#unlocking_the_volume_interactively">9.3. Unlocking the volume interactively</a></li> 
       <li><a href="#unlocking_the_volume_using_a_password_file">9.4. Unlocking the volume using a password file</a></li> 
+      <li><a href="#optional_restrict_access_to_the_console_auth_command">9.5. OPTIONAL: Restrict access to the console_auth command</a></li> 
      </ul> </li> 
     <li><a href="#references">10. References</a></li> 
    </ul> 
@@ -777,6 +778,76 @@ Passphrase:</pre>
    <div class="literalblock"> 
     <div class="content"> 
      <pre>gpg2 --decrypt password-file.gpg | ssh root@10.0.0.100 console_auth</pre> 
+    </div> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="optional_restrict_access_to_the_console_auth_command">9.5. OPTIONAL: Restrict access to the console_auth command</h3> 
+   <div class="paragraph"> 
+    <p>For additional security, you might want to only allow the execution of the command <code>console_auth</code> and nothing else. To achieve this you need to configure the SSH key with restricting options in the <code>authorized_keys</code> file.</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>From your Linux box, copy the public SSH key, with restricting options, to the <code>appconf/dracut-crypt-ssh/authorized_keys</code> file on the remote ODROID-C2 server</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>(printf 'command="console_auth",no-agent-forwarding,no-port-forwarding,no-pty,no-X11-forwarding ' &amp;&amp; cat ~/.ssh/*.pub) | ssh alarm@10.0.0.100 'umask 077; mkdir -p appconf/dracut-crypt-ssh; touch appconf/dracut-crypt-ssh/authorized_keys; cat &gt;appconf/dracut-crypt-ssh/authorized_keys'</pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Refer to the dropbear documentation for a full list of restricting options. Prior to continuing, it might be a good idea to create a copy of the initramfs</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>sudo cp /boot/initramfs-linux.img /boot/initramfs-linux.img-`date +%y%m%d-%H%M%S`</pre> 
+    </div> 
+   </div> 
+   <div class="admonitionblock caution"> 
+    <table> 
+     <tbody>
+      <tr> 
+       <td class="icon"> 
+        <div class="title">
+         Caution
+        </div> </td> 
+       <td class="content"> In headless setup, carefuly examine the restricting options to avoid locking yourself out. </td> 
+      </tr> 
+     </tbody>
+    </table> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Generate new initramfs using dracut</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>sudo dracut --force --hostonly -a "network crypt lvm crypt-ssh" /boot/initramfs-linux.img</pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>In this case, you can unlock the volume interactively by simply typing</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>ssh root@10.0.0.100</pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>The above command will automatically invoke the <code>console_auth</code> command on the remote server, as if you typed <code>ssh root@10.0.0.100 console_auth</code>, and will prompt for passphrase. Mind however that in this case, the passphrase will be displayed on the screen in plain text. Due to the latter, you should avoid unlocking interactively when the access is restricted to the <code>console_auth</code> command.</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>On the other hand, to unlock the volume using a password file, from your Linux box, type</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>ssh root@10.0.0.100 &lt; password-file</pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>or</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>gpg2 --decrypt password-file.gpg | ssh root@10.0.0.100</pre> 
     </div> 
    </div> 
   </div> 

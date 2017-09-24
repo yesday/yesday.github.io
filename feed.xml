@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Sun, 24 Sep 2017 12:41:23 +0300</pubDate>
-    <lastBuildDate>Sun, 24 Sep 2017 12:41:23 +0300</lastBuildDate>
+    <pubDate>Sun, 24 Sep 2017 13:29:12 +0300</pubDate>
+    <lastBuildDate>Sun, 24 Sep 2017 13:29:12 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -40,6 +40,7 @@
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#install_and_configure_dropbear&amp;quot;&amp;gt;9.2. Install and configure dropbear&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#unlocking_the_volume_interactively&amp;quot;&amp;gt;9.3. Unlocking the volume interactively&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#unlocking_the_volume_using_a_password_file&amp;quot;&amp;gt;9.4. Unlocking the volume using a password file&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#optional_restrict_access_to_the_console_auth_command&amp;quot;&amp;gt;9.5. OPTIONAL: Restrict access to the console_auth command&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
      &amp;lt;/ul&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#references&amp;quot;&amp;gt;10. References&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
    &amp;lt;/ul&amp;gt; 
@@ -710,6 +711,76 @@ Passphrase:&amp;lt;/pre&amp;gt;
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
      &amp;lt;pre&amp;gt;gpg2 --decrypt password-file.gpg | ssh root@10.0.0.100 console_auth&amp;lt;/pre&amp;gt; 
+    &amp;lt;/div&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;optional_restrict_access_to_the_console_auth_command&amp;quot;&amp;gt;9.5. OPTIONAL: Restrict access to the console_auth command&amp;lt;/h3&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;For additional security, you might want to only allow the execution of the command &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; and nothing else. To achieve this you need to configure the SSH key with restricting options in the &amp;lt;code&amp;gt;authorized_keys&amp;lt;/code&amp;gt; file.&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;From your Linux box, copy the public SSH key, with restricting options, to the &amp;lt;code&amp;gt;appconf/dracut-crypt-ssh/authorized_keys&amp;lt;/code&amp;gt; file on the remote ODROID-C2 server&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
+    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+     &amp;lt;pre&amp;gt;(printf &amp;#39;command=&amp;quot;console_auth&amp;quot;,no-agent-forwarding,no-port-forwarding,no-pty,no-X11-forwarding &amp;#39; &amp;amp;amp;&amp;amp;amp; cat ~/.ssh/*.pub) | ssh alarm@10.0.0.100 &amp;#39;umask 077; mkdir -p appconf/dracut-crypt-ssh; touch appconf/dracut-crypt-ssh/authorized_keys; cat &amp;amp;gt;appconf/dracut-crypt-ssh/authorized_keys&amp;#39;&amp;lt;/pre&amp;gt; 
+    &amp;lt;/div&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;Refer to the dropbear documentation for a full list of restricting options. Prior to continuing, it might be a good idea to create a copy of the initramfs&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
+    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+     &amp;lt;pre&amp;gt;sudo cp /boot/initramfs-linux.img /boot/initramfs-linux.img-`date +%y%m%d-%H%M%S`&amp;lt;/pre&amp;gt; 
+    &amp;lt;/div&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;admonitionblock caution&amp;quot;&amp;gt; 
+    &amp;lt;table&amp;gt; 
+     &amp;lt;tbody&amp;gt;
+      &amp;lt;tr&amp;gt; 
+       &amp;lt;td class=&amp;quot;icon&amp;quot;&amp;gt; 
+        &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
+         Caution
+        &amp;lt;/div&amp;gt; &amp;lt;/td&amp;gt; 
+       &amp;lt;td class=&amp;quot;content&amp;quot;&amp;gt; In headless setup, carefuly examine the restricting options to avoid locking yourself out. &amp;lt;/td&amp;gt; 
+      &amp;lt;/tr&amp;gt; 
+     &amp;lt;/tbody&amp;gt;
+    &amp;lt;/table&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;Generate new initramfs using dracut&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
+    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+     &amp;lt;pre&amp;gt;sudo dracut --force --hostonly -a &amp;quot;network crypt lvm crypt-ssh&amp;quot; /boot/initramfs-linux.img&amp;lt;/pre&amp;gt; 
+    &amp;lt;/div&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;In this case, you can unlock the volume interactively by simply typing&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
+    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+     &amp;lt;pre&amp;gt;ssh root@10.0.0.100&amp;lt;/pre&amp;gt; 
+    &amp;lt;/div&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;The above command will automatically invoke the &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; command on the remote server, as if you typed &amp;lt;code&amp;gt;ssh root@10.0.0.100 console_auth&amp;lt;/code&amp;gt;, and will prompt for passphrase. Mind however that in this case, the passphrase will be displayed on the screen in plain text. Due to the latter, you should avoid unlocking interactively when the access is restricted to the &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; command.&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;On the other hand, to unlock the volume using a password file, from your Linux box, type&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
+    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+     &amp;lt;pre&amp;gt;ssh root@10.0.0.100 &amp;amp;lt; password-file&amp;lt;/pre&amp;gt; 
+    &amp;lt;/div&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;or&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
+    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+     &amp;lt;pre&amp;gt;gpg2 --decrypt password-file.gpg | ssh root@10.0.0.100&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
