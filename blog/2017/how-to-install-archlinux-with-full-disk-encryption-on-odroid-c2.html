@@ -106,7 +106,7 @@
       <li><a href="#make_sure_the_ssh_daemon_is_running">9.1. Make sure the SSH daemon is running</a></li> 
       <li><a href="#install_and_configure_dropbear">9.2. Install and configure dropbear</a></li> 
       <li><a href="#unlocking_the_volume_interactively">9.3. Unlocking the volume interactively</a></li> 
-      <li><a href="#unlocking_the_volume_using_console_auth_and_pexpect">9.4. Unlocking the volume using console_auth and pexpect</a></li> 
+      <li><a href="#unlocking_the_volume_using_a_password_file">9.4. Unlocking the volume using a password file</a></li> 
      </ul> </li> 
     <li><a href="#references">10. References</a></li> 
    </ul> 
@@ -717,7 +717,7 @@ dropbear_acl="/home/alarm/appconf/dracut-crypt-ssh/authorized_keys"</code></pre>
   <div class="sect2"> 
    <h3 id="unlocking_the_volume_interactively">9.3. Unlocking the volume interactively</h3> 
    <div class="paragraph"> 
-    <p>From your Linux box, connect to the remote dropbear ssh server running on the ODROID-C2</p> 
+    <p>From your Linux box, connect to the remote dropbear SSH server running on the ODROID-C2</p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
@@ -759,66 +759,25 @@ Passphrase:</pre>
    </div> 
   </div> 
   <div class="sect2"> 
-   <h3 id="unlocking_the_volume_using_console_auth_and_pexpect">9.4. Unlocking the volume using console_auth and pexpect</h3> 
+   <h3 id="unlocking_the_volume_using_a_password_file">9.4. Unlocking the volume using a password file</h3> 
    <div class="paragraph"> 
-    <p>Some use cases require to feed input automatically to the interactive command <code>console_auth</code>. Since redirection will not work with <code>console_auth</code> (for example, <code>console_auth &lt; password-file</code>), we’re going to use the <code>pexpect</code> scripting language.</p> 
+    <p>Some use cases require to feed input automatically to the interactive command <code>console_auth</code>.</p> 
    </div> 
    <div class="paragraph"> 
-    <p>On your Linux box, install the pexpect package</p> 
+    <p>From your Linux box, unlock the volume</p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>sudo pacman -S --needed python-pexpect</pre> 
+     <pre>ssh root@10.0.0.100 console_auth &lt; password-file</pre> 
     </div> 
    </div> 
    <div class="paragraph"> 
-    <p>Create the shell script</p> 
-   </div> 
-   <div class="listingblock"> 
-    <div class="title">
-     nano auto-unlock.sh
-    </div> 
-    <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">#!/usr/bin/env bash
-
-read PASS
-
-python -c "
-import pexpect
-child = pexpect.spawn('ssh root@10.0.0.100 console_auth')
-child.expect ('Passphrase:')
-child.sendline ('$PASS')
-child.interact()"</code></pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Unlock the volume using the <code>auto-unlock.sh</code> script</p> 
+    <p>or</p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>auto-unlock.sh &lt; password-file</pre> 
+     <pre>gpg2 --decrypt password-file.gpg | ssh root@10.0.0.100 console_auth</pre> 
     </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>OR</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>gpg2 --decrypt password-file.gpg | auto-unlock.sh</pre> 
-    </div> 
-   </div> 
-   <div class="admonitionblock caution"> 
-    <table> 
-     <tbody>
-      <tr> 
-       <td class="icon"> 
-        <div class="title">
-         Caution
-        </div> </td> 
-       <td class="content"> The script <code>auto-unlock.sh</code> is simplistic and does not cover all the cases, such as the SSH host verification prompt. Therefore, unless you’re planning to enhance the script to cover the additional cases, it is advised to follow the steps in <a href="#unlocking_the_volume_interactively">Unlocking the volume interactively</a> at least once so to make sure that the <code>auto-unlock.sh</code> script will only deal with the 'Passphrase' prompt, because otherwise it will fail. </td> 
-      </tr> 
-     </tbody>
-    </table> 
    </div> 
   </div> 
  </div> 

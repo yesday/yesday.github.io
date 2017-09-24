@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Sat, 23 Sep 2017 15:13:21 +0300</pubDate>
-    <lastBuildDate>Sat, 23 Sep 2017 15:13:21 +0300</lastBuildDate>
+    <pubDate>Sun, 24 Sep 2017 12:41:23 +0300</pubDate>
+    <lastBuildDate>Sun, 24 Sep 2017 12:41:23 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -39,7 +39,7 @@
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#make_sure_the_ssh_daemon_is_running&amp;quot;&amp;gt;9.1. Make sure the SSH daemon is running&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#install_and_configure_dropbear&amp;quot;&amp;gt;9.2. Install and configure dropbear&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#unlocking_the_volume_interactively&amp;quot;&amp;gt;9.3. Unlocking the volume interactively&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
-      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#unlocking_the_volume_using_console_auth_and_pexpect&amp;quot;&amp;gt;9.4. Unlocking the volume using console_auth and pexpect&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#unlocking_the_volume_using_a_password_file&amp;quot;&amp;gt;9.4. Unlocking the volume using a password file&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
      &amp;lt;/ul&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#references&amp;quot;&amp;gt;10. References&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
    &amp;lt;/ul&amp;gt; 
@@ -650,7 +650,7 @@ dropbear_acl=&amp;quot;/home/alarm/appconf/dracut-crypt-ssh/authorized_keys&amp;
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
    &amp;lt;h3 id=&amp;quot;unlocking_the_volume_interactively&amp;quot;&amp;gt;9.3. Unlocking the volume interactively&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;From your Linux box, connect to the remote dropbear ssh server running on the ODROID-C2&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;From your Linux box, connect to the remote dropbear SSH server running on the ODROID-C2&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
@@ -692,66 +692,25 @@ Passphrase:&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
-   &amp;lt;h3 id=&amp;quot;unlocking_the_volume_using_console_auth_and_pexpect&amp;quot;&amp;gt;9.4. Unlocking the volume using console_auth and pexpect&amp;lt;/h3&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;unlocking_the_volume_using_a_password_file&amp;quot;&amp;gt;9.4. Unlocking the volume using a password file&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;Some use cases require to feed input automatically to the interactive command &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt;. Since redirection will not work with &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; (for example, &amp;lt;code&amp;gt;console_auth &amp;amp;lt; password-file&amp;lt;/code&amp;gt;), we’re going to use the &amp;lt;code&amp;gt;pexpect&amp;lt;/code&amp;gt; scripting language.&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;Some use cases require to feed input automatically to the interactive command &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;On your Linux box, install the pexpect package&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;From your Linux box, unlock the volume&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;sudo pacman -S --needed python-pexpect&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;ssh root@10.0.0.100 console_auth &amp;amp;lt; password-file&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;Create the shell script&amp;lt;/p&amp;gt; 
-   &amp;lt;/div&amp;gt; 
-   &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
-    &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
-     nano auto-unlock.sh
-    &amp;lt;/div&amp;gt; 
-    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;#!/usr/bin/env bash
-
-read PASS
-
-python -c &amp;quot;
-import pexpect
-child = pexpect.spawn(&amp;#39;ssh root@10.0.0.100 console_auth&amp;#39;)
-child.expect (&amp;#39;Passphrase:&amp;#39;)
-child.sendline (&amp;#39;$PASS&amp;#39;)
-child.interact()&amp;quot;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
-    &amp;lt;/div&amp;gt; 
-   &amp;lt;/div&amp;gt; 
-   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;Unlock the volume using the &amp;lt;code&amp;gt;auto-unlock.sh&amp;lt;/code&amp;gt; script&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;or&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;auto-unlock.sh &amp;amp;lt; password-file&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;gpg2 --decrypt password-file.gpg | ssh root@10.0.0.100 console_auth&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
-   &amp;lt;/div&amp;gt; 
-   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;OR&amp;lt;/p&amp;gt; 
-   &amp;lt;/div&amp;gt; 
-   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
-    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;gpg2 --decrypt password-file.gpg | auto-unlock.sh&amp;lt;/pre&amp;gt; 
-    &amp;lt;/div&amp;gt; 
-   &amp;lt;/div&amp;gt; 
-   &amp;lt;div class=&amp;quot;admonitionblock caution&amp;quot;&amp;gt; 
-    &amp;lt;table&amp;gt; 
-     &amp;lt;tbody&amp;gt;
-      &amp;lt;tr&amp;gt; 
-       &amp;lt;td class=&amp;quot;icon&amp;quot;&amp;gt; 
-        &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
-         Caution
-        &amp;lt;/div&amp;gt; &amp;lt;/td&amp;gt; 
-       &amp;lt;td class=&amp;quot;content&amp;quot;&amp;gt; The script &amp;lt;code&amp;gt;auto-unlock.sh&amp;lt;/code&amp;gt; is simplistic and does not cover all the cases, such as the SSH host verification prompt. Therefore, unless you’re planning to enhance the script to cover the additional cases, it is advised to follow the steps in &amp;lt;a href=&amp;quot;#unlocking_the_volume_interactively&amp;quot;&amp;gt;Unlocking the volume interactively&amp;lt;/a&amp;gt; at least once so to make sure that the &amp;lt;code&amp;gt;auto-unlock.sh&amp;lt;/code&amp;gt; script will only deal with the &amp;#39;Passphrase&amp;#39; prompt, because otherwise it will fail. &amp;lt;/td&amp;gt; 
-      &amp;lt;/tr&amp;gt; 
-     &amp;lt;/tbody&amp;gt;
-    &amp;lt;/table&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
  &amp;lt;/div&amp;gt; 
