@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Mon, 25 Sep 2017 10:22:04 +0300</pubDate>
-    <lastBuildDate>Mon, 25 Sep 2017 10:22:04 +0300</lastBuildDate>
+    <pubDate>Mon, 25 Sep 2017 11:11:06 +0300</pubDate>
+    <lastBuildDate>Mon, 25 Sep 2017 11:11:06 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -34,10 +34,10 @@
      &amp;lt;/ul&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#prepare_the_luks_rootfs&amp;quot;&amp;gt;7. Prepare the LUKS rootfs&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#generate_new_initramfs_and_reboot_into_the_luks_rootfs&amp;quot;&amp;gt;8. Generate new initramfs and reboot into the LUKS rootfs&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
-    &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd&amp;quot;&amp;gt;9. Remotely unlock the LUKS rootfs during boot using dropbear sshd&amp;lt;/a&amp;gt; 
+    &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd&amp;quot;&amp;gt;9. Remotely unlock the LUKS rootfs during boot using Dropbear sshd&amp;lt;/a&amp;gt; 
      &amp;lt;ul class=&amp;quot;sectlevel2&amp;quot;&amp;gt; 
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#make_sure_the_ssh_daemon_is_running&amp;quot;&amp;gt;9.1. Make sure the SSH daemon is running&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
-      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#install_and_configure_dropbear&amp;quot;&amp;gt;9.2. Install and configure dropbear&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#install_and_configure_dropbear&amp;quot;&amp;gt;9.2. Install and configure Dropbear&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#unlocking_the_volume_interactively&amp;quot;&amp;gt;9.3. Unlocking the volume interactively&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#unlocking_the_volume_using_a_password_file&amp;quot;&amp;gt;9.4. Unlocking the volume using a password file&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#optional_restrict_access_to_the_console_auth_command&amp;quot;&amp;gt;9.5. OPTIONAL: Restrict access to the console_auth command&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
@@ -76,7 +76,7 @@
    &amp;lt;/ul&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Additionally, for a headless setup you will need to enable remote unlocking via SSH as described in &amp;lt;a href=&amp;quot;#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd&amp;quot;&amp;gt;Remotely unlock the LUKS rootfs during boot using dropbear sshd&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Additionally, for a headless setup you will need to enable remote unlocking via SSH as described in &amp;lt;a href=&amp;quot;#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd&amp;quot;&amp;gt;Remotely unlock the LUKS rootfs during boot using Dropbear sshd&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
    &amp;lt;p&amp;gt;Last but not least, if you prefer to use the described functionality out of the box, simply download &amp;lt;a href=&amp;quot;../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html&amp;quot;&amp;gt;this OS image&amp;lt;/a&amp;gt;. Either way, the current document will provide more technical details in regards to the underlying components and how they work together in a Full Disk Encryption environment.&amp;lt;/p&amp;gt; 
@@ -558,7 +558,7 @@ tmpfs                172M     0  172M   0% /run/user/1000&amp;lt;/code&amp;gt;&a
  &amp;lt;/div&amp;gt; 
 &amp;lt;/div&amp;gt; 
 &amp;lt;div class=&amp;quot;sect1&amp;quot;&amp;gt; 
- &amp;lt;h2 id=&amp;quot;remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd&amp;quot;&amp;gt;9. Remotely unlock the LUKS rootfs during boot using dropbear sshd&amp;lt;/h2&amp;gt; 
+ &amp;lt;h2 id=&amp;quot;remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd&amp;quot;&amp;gt;9. Remotely unlock the LUKS rootfs during boot using Dropbear sshd&amp;lt;/h2&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
    &amp;lt;p&amp;gt;Replace &amp;lt;code&amp;gt;10.0.0.100&amp;lt;/code&amp;gt; in the following instructions with the IP address assigned to the ODROID-C2 by your local DHCP server. Use the &amp;lt;code&amp;gt;fing&amp;lt;/code&amp;gt; tool to find the assigned IP address (e.g. &amp;lt;code&amp;gt;sudo fing 10.0.0.1/24&amp;lt;/code&amp;gt;).&amp;lt;/p&amp;gt; 
@@ -585,7 +585,7 @@ sudo systemctl start sshd&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
-   &amp;lt;h3 id=&amp;quot;install_and_configure_dropbear&amp;quot;&amp;gt;9.2. Install and configure dropbear&amp;lt;/h3&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;install_and_configure_dropbear&amp;quot;&amp;gt;9.2. Install and configure Dropbear&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
     &amp;lt;p&amp;gt;Install the dracut module &amp;lt;a href=&amp;quot;https://github.com/dracut-crypt-ssh/dracut-crypt-ssh&amp;quot;&amp;gt;crypt-ssh&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
@@ -639,7 +639,7 @@ sudo systemctl start sshd&amp;lt;/pre&amp;gt;
     &amp;lt;p&amp;gt;Refer to &amp;lt;a href=&amp;quot;https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_network&amp;quot;&amp;gt;network documentation of dracut&amp;lt;/a&amp;gt; and &amp;lt;a href=&amp;quot;https://fedoraproject.org/wiki/Dracut/Options&amp;quot;&amp;gt;dracut options&amp;lt;/a&amp;gt; for more options (&amp;lt;code&amp;gt;man dracut.cmdline&amp;lt;/code&amp;gt;).&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;Reboot so that dropbear starts, allowing for remote unlocking&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;Reboot so that Dropbear starts, allowing for remote unlocking&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
@@ -650,7 +650,7 @@ sudo systemctl start sshd&amp;lt;/pre&amp;gt;
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
    &amp;lt;h3 id=&amp;quot;unlocking_the_volume_interactively&amp;quot;&amp;gt;9.3. Unlocking the volume interactively&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;From your Linux box, connect to the remote dropbear SSH server running on the ODROID-C2&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;From your Linux box, connect to the remote Dropbear SSH server running on the ODROID-C2&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
@@ -667,7 +667,7 @@ Passphrase:&amp;lt;/pre&amp;gt;
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;If unlocking the device succeeded, the initramfs will clean up itself and dropbear terminates itself and your connection.&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;If unlocking the device succeeded, the initramfs will clean up itself and Dropbear terminates itself and your connection.&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
@@ -727,7 +727,7 @@ Passphrase:&amp;lt;/pre&amp;gt;
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;Refer to the dropbear documentation for a full list of restricting options. Prior to continuing, it might be a good idea to create a copy of the initramfs&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;Refer to the Dropbear documentation for a full list of restricting options. Prior to continuing, it might be a good idea to create a copy of the initramfs&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 

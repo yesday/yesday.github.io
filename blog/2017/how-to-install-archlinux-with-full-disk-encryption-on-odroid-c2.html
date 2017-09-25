@@ -106,10 +106,10 @@
      </ul> </li> 
     <li><a href="#prepare_the_luks_rootfs">7. Prepare the LUKS rootfs</a></li> 
     <li><a href="#generate_new_initramfs_and_reboot_into_the_luks_rootfs">8. Generate new initramfs and reboot into the LUKS rootfs</a></li> 
-    <li><a href="#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">9. Remotely unlock the LUKS rootfs during boot using dropbear sshd</a> 
+    <li><a href="#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">9. Remotely unlock the LUKS rootfs during boot using Dropbear sshd</a> 
      <ul class="sectlevel2"> 
       <li><a href="#make_sure_the_ssh_daemon_is_running">9.1. Make sure the SSH daemon is running</a></li> 
-      <li><a href="#install_and_configure_dropbear">9.2. Install and configure dropbear</a></li> 
+      <li><a href="#install_and_configure_dropbear">9.2. Install and configure Dropbear</a></li> 
       <li><a href="#unlocking_the_volume_interactively">9.3. Unlocking the volume interactively</a></li> 
       <li><a href="#unlocking_the_volume_using_a_password_file">9.4. Unlocking the volume using a password file</a></li> 
       <li><a href="#optional_restrict_access_to_the_console_auth_command">9.5. OPTIONAL: Restrict access to the console_auth command</a></li> 
@@ -148,7 +148,7 @@
    </ul> 
   </div> 
   <div class="paragraph"> 
-   <p>Additionally, for a headless setup you will need to enable remote unlocking via SSH as described in <a href="#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">Remotely unlock the LUKS rootfs during boot using dropbear sshd</a>.</p> 
+   <p>Additionally, for a headless setup you will need to enable remote unlocking via SSH as described in <a href="#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">Remotely unlock the LUKS rootfs during boot using Dropbear sshd</a>.</p> 
   </div> 
   <div class="paragraph"> 
    <p>Last but not least, if you prefer to use the described functionality out of the box, simply download <a href="../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html">this OS image</a>. Either way, the current document will provide more technical details in regards to the underlying components and how they work together in a Full Disk Encryption environment.</p> 
@@ -630,7 +630,7 @@ tmpfs                172M     0  172M   0% /run/user/1000</code></pre>
  </div> 
 </div> 
 <div class="sect1"> 
- <h2 id="remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">9. Remotely unlock the LUKS rootfs during boot using dropbear sshd</h2> 
+ <h2 id="remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">9. Remotely unlock the LUKS rootfs during boot using Dropbear sshd</h2> 
  <div class="sectionbody"> 
   <div class="paragraph"> 
    <p>Replace <code>10.0.0.100</code> in the following instructions with the IP address assigned to the ODROID-C2 by your local DHCP server. Use the <code>fing</code> tool to find the assigned IP address (e.g. <code>sudo fing 10.0.0.1/24</code>).</p> 
@@ -657,7 +657,7 @@ sudo systemctl start sshd</pre>
    </div> 
   </div> 
   <div class="sect2"> 
-   <h3 id="install_and_configure_dropbear">9.2. Install and configure dropbear</h3> 
+   <h3 id="install_and_configure_dropbear">9.2. Install and configure Dropbear</h3> 
    <div class="paragraph"> 
     <p>Install the dracut module <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">crypt-ssh</a></p> 
    </div> 
@@ -711,7 +711,7 @@ sudo systemctl start sshd</pre>
     <p>Refer to <a href="https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_network">network documentation of dracut</a> and <a href="https://fedoraproject.org/wiki/Dracut/Options">dracut options</a> for more options (<code>man dracut.cmdline</code>).</p> 
    </div> 
    <div class="paragraph"> 
-    <p>Reboot so that dropbear starts, allowing for remote unlocking</p> 
+    <p>Reboot so that Dropbear starts, allowing for remote unlocking</p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
@@ -722,7 +722,7 @@ sudo systemctl start sshd</pre>
   <div class="sect2"> 
    <h3 id="unlocking_the_volume_interactively">9.3. Unlocking the volume interactively</h3> 
    <div class="paragraph"> 
-    <p>From your Linux box, connect to the remote dropbear SSH server running on the ODROID-C2</p> 
+    <p>From your Linux box, connect to the remote Dropbear SSH server running on the ODROID-C2</p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
@@ -739,7 +739,7 @@ Passphrase:</pre>
     </div> 
    </div> 
    <div class="paragraph"> 
-    <p>If unlocking the device succeeded, the initramfs will clean up itself and dropbear terminates itself and your connection.</p> 
+    <p>If unlocking the device succeeded, the initramfs will clean up itself and Dropbear terminates itself and your connection.</p> 
    </div> 
    <div class="ulist"> 
     <div class="title">
@@ -799,7 +799,7 @@ Passphrase:</pre>
     </div> 
    </div> 
    <div class="paragraph"> 
-    <p>Refer to the dropbear documentation for a full list of restricting options. Prior to continuing, it might be a good idea to create a copy of the initramfs</p> 
+    <p>Refer to the Dropbear documentation for a full list of restricting options. Prior to continuing, it might be a good idea to create a copy of the initramfs</p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 

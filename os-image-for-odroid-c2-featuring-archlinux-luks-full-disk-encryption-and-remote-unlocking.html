@@ -68,7 +68,7 @@
 			</div>
 		
 			<p><span class="meta">Last updated by <b>YesDay</b> on
-                    19 September 2017
+                    25 September 2017
                     <span> Tags:
                         <span>
                             <a href="tags/odroid-c2.html" class="" >odroid-c2</a></span><span>
@@ -99,15 +99,19 @@
     <li><a href="#initial_commands">4. Initial commands</a></li> 
     <li><a href="#how_to_remotely_unlock_the_luks_rootfs_during_boot">5. How to remotely unlock the LUKS rootfs during boot</a> 
      <ul class="sectlevel2"> 
-      <li><a href="#configure_access_to_the_dropbear_server">5.1. Configure access to the dropbear server</a></li> 
+      <li><a href="#configure_access_to_the_dropbear_server">5.1. Configure access to the Dropbear server</a></li> 
       <li><a href="#unlocking_the_volume_interactively">5.2. Unlocking the volume interactively</a></li> 
       <li><a href="#unlocking_the_volume_using_a_password_file">5.3. Unlocking the volume using a password file</a></li> 
       <li><a href="#optional_restrict_access_to_the_console_auth_command">5.4. OPTIONAL: Restrict access to the console_auth command</a></li> 
-      <li><a href="#optional_configure_static_ip_for_the_dropbear_server">5.5. OPTIONAL: Configure static ip for the dropbear server</a></li> 
+      <li><a href="#optional_configure_static_ip_for_the_dropbear_server">5.5. OPTIONAL: Configure static ip for the Dropbear server</a></li> 
      </ul> </li> 
     <li><a href="#how_to_upgrade_the_software">6. How to upgrade the software</a></li> 
     <li><a href="#dracut_command_to_generate_the_initramfs">7. Dracut command to generate the initramfs</a></li> 
-    <li><a href="#references">8. References</a></li> 
+    <li><a href="#errata">8. Errata</a> 
+     <ul class="sectlevel2"> 
+      <li><a href="#configure_dropbear_to_listen_on_port_222_instead_of_the_standard_ssh_port_22">8.1. Configure Dropbear to listen on port 222 instead of the standard SSH port 22</a></li> 
+     </ul> </li> 
+    <li><a href="#references">9. References</a></li> 
    </ul> 
   </div> 
  </div> 
@@ -133,6 +137,7 @@
     <ul> 
      <li> <p>change the default password <strong>yesday</strong> for the users (root, alarm) and the LUKS volume</p> </li> 
      <li> <p>run the provided <code>expand-filesystem-luks</code> script in order to expand the root filesystem partition to the rest of the available space (find instructions in the relevant section below)</p> </li> 
+     <li> <p>follow the steps from <a href="#errata">Errata</a> to fix known issues</p> </li> 
     </ul> 
    </div> 
    <div class="paragraph"> 
@@ -299,7 +304,7 @@ passwd</pre>
    </table> 
   </div> 
   <div class="paragraph"> 
-   <p>If you wish to be able to remotely unlock the LUKS volume then follow the instructions in <a href="#how_to_remotely_unlock_the_luks_rootfs_during_boot">How to remotely unlock the LUKS rootfs during boot</a>. Otherwise, make sure to remove the <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a> from the dropbear configuration by following these steps:</p> 
+   <p>If you wish to be able to remotely unlock the LUKS volume then follow the instructions in <a href="#how_to_remotely_unlock_the_luks_rootfs_during_boot">How to remotely unlock the LUKS rootfs during boot</a>. Otherwise, make sure to remove the <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a> from the Dropbear configuration by following these steps:</p> 
   </div> 
   <div class="ulist"> 
    <ul> 
@@ -338,15 +343,15 @@ sudo reboot # optional</pre>
    <p>The remote unlocking functionality is implemented by the dracut module <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">crypt-ssh</a>. Refer to the module’s documentation for additional details.</p> 
   </div> 
   <div class="paragraph"> 
-   <p>The module starts the dropbear SSH server during boot to allow remotely unlocking the LUKS rootfs. If unlocking succeeded, the dropbear terminates itself and your connection.</p> 
+   <p>The module starts the Dropbear SSH server during boot to allow remotely unlocking the LUKS rootfs. If unlocking succeeded, the Dropbear terminates itself and your connection.</p> 
   </div> 
   <div class="paragraph"> 
    <p>Replace <code>10.0.0.100</code> in the following instructions with the IP address assigned to the ODROID-C2 by your local DHCP server. Use the <code>fing</code> tool to find the assigned IP address (e.g. <code>sudo fing 10.0.0.1/24</code>).</p> 
   </div> 
   <div class="sect2"> 
-   <h3 id="configure_access_to_the_dropbear_server">5.1. Configure access to the dropbear server</h3> 
+   <h3 id="configure_access_to_the_dropbear_server">5.1. Configure access to the Dropbear server</h3> 
    <div class="paragraph"> 
-    <p>In order to connect you have to register the public SSH key of your Linux box to the remote dropbear server. For convenience, this image comes with a <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a>, which you can use in order to connect for the first time. For security reasons, you are strongly advised to disable the pre-configured key from the dropbear configuration right after the initial boot.</p> 
+    <p>In order to connect you have to register the public SSH key of your Linux box to the remote Dropbear server. For convenience, this image comes with a <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a>, which you can use in order to connect for the first time. For security reasons, you are strongly advised to disable the pre-configured key from the Dropbear configuration right after the initial boot.</p> 
    </div> 
    <div class="paragraph"> 
     <p>Using the <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a>, unlock the LUKS rootfs. To do so, follow the instructions from <a href="#unlocking_the_volume_interactively">Unlocking the volume interactively</a> but use the <a href="https://github.com/yesday/odroid-c2-archlinux-luks/releases/download/v0.0.1/id_rsa">pre-configured SSH key</a> to connect (e.g. <code>ssh -i id_rsa root@10.0.0.100</code>).</p> 
@@ -369,7 +374,7 @@ sudo reboot # optional</pre>
   <div class="sect2"> 
    <h3 id="unlocking_the_volume_interactively">5.2. Unlocking the volume interactively</h3> 
    <div class="paragraph"> 
-    <p>From your Linux box, connect to the remote dropbear SSH server running on the ODROID-C2</p> 
+    <p>From your Linux box, connect to the remote Dropbear SSH server running on the ODROID-C2</p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
@@ -386,7 +391,7 @@ Passphrase:</pre>
     </div> 
    </div> 
    <div class="paragraph"> 
-    <p>If unlocking the device succeeded, the initramfs will clean up itself and dropbear terminates itself and your connection.</p> 
+    <p>If unlocking the device succeeded, the initramfs will clean up itself and Dropbear terminates itself and your connection.</p> 
    </div> 
    <div class="ulist"> 
     <div class="title">
@@ -446,7 +451,7 @@ Passphrase:</pre>
     </div> 
    </div> 
    <div class="paragraph"> 
-    <p>Refer to the dropbear documentation for a full list of restricting options. Prior to continuing, it might be a good idea to create a copy of the initramfs</p> 
+    <p>Refer to the Dropbear documentation for a full list of restricting options. Prior to continuing, it might be a good idea to create a copy of the initramfs</p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
@@ -503,9 +508,9 @@ Passphrase:</pre>
    </div> 
   </div> 
   <div class="sect2"> 
-   <h3 id="optional_configure_static_ip_for_the_dropbear_server">5.5. OPTIONAL: Configure static ip for the dropbear server</h3> 
+   <h3 id="optional_configure_static_ip_for_the_dropbear_server">5.5. OPTIONAL: Configure static ip for the Dropbear server</h3> 
    <div class="paragraph"> 
-    <p>This image comes with the dropbear server configured with DHCP by default. However, in a headless setup you might want to use static ip instead.</p> 
+    <p>This image comes with the Dropbear server configured with DHCP by default. However, in a headless setup you might want to use static ip instead.</p> 
    </div> 
    <div class="paragraph"> 
     <p>To enable static ip during boot, replace the dracut option <code>ip=dhcp</code> with static ip configuration inside <code>bootargs</code></p> 
@@ -585,7 +590,29 @@ sudo make install</code></pre>
  </div> 
 </div> 
 <div class="sect1"> 
- <h2 id="references">8. References</h2> 
+ <h2 id="errata">8. Errata</h2> 
+ <div class="sectionbody"> 
+  <div class="sect2"> 
+   <h3 id="configure_dropbear_to_listen_on_port_222_instead_of_the_standard_ssh_port_22">8.1. Configure Dropbear to listen on port 222 instead of the standard SSH port 22</h3> 
+   <div class="paragraph"> 
+    <p>This will prevent the SSH host verification warning due to the fact that Dropbear and OpenSSH use different host keys (see also <a href="https://serverfault.com/questions/728659/dropbearopenssh-share-keys">Dropbear+OpenSSH: share keys</a>).</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Remove the line <code>dropbear_port="22"</code> from <code>/etc/dracut.conf.d/crypt-ssh.conf</code></p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Generate new initramfs</p> 
+   </div> 
+   <div class="literalblock"> 
+    <div class="content"> 
+     <pre>sudo dracut --force --hostonly -a "network crypt lvm crypt-ssh" /boot/initramfs-linux.img</pre> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="references">9. References</h2> 
  <div class="sectionbody"> 
   <div class="olist arabic"> 
    <ol class="arabic"> 
