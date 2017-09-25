@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Sun, 24 Sep 2017 15:50:33 +0300</pubDate>
-    <lastBuildDate>Sun, 24 Sep 2017 15:50:33 +0300</lastBuildDate>
+    <pubDate>Mon, 25 Sep 2017 10:22:04 +0300</pubDate>
+    <lastBuildDate>Mon, 25 Sep 2017 10:22:04 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -610,8 +610,7 @@ sudo systemctl start sshd&amp;lt;/pre&amp;gt;
      sudo nano /etc/dracut.conf.d/crypt-ssh.conf
     &amp;lt;/div&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-conf&amp;quot; data-lang=&amp;quot;conf&amp;quot;&amp;gt;dropbear_port=&amp;quot;22&amp;quot;
-dropbear_acl=&amp;quot;/home/alarm/appconf/dracut-crypt-ssh/authorized_keys&amp;quot;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-conf&amp;quot; data-lang=&amp;quot;conf&amp;quot;&amp;gt;dropbear_acl=&amp;quot;/home/alarm/appconf/dracut-crypt-ssh/authorized_keys&amp;quot;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
@@ -655,7 +654,7 @@ dropbear_acl=&amp;quot;/home/alarm/appconf/dracut-crypt-ssh/authorized_keys&amp;
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;ssh root@10.0.0.100&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;ssh -p 222 root@10.0.0.100&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
@@ -702,7 +701,7 @@ Passphrase:&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;ssh root@10.0.0.100 console_auth &amp;amp;lt; password-file&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;ssh -p 222 root@10.0.0.100 console_auth &amp;amp;lt; password-file&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
@@ -710,7 +709,7 @@ Passphrase:&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;gpg2 --decrypt password-file.gpg | ssh root@10.0.0.100 console_auth&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;gpg2 --decrypt password-file.gpg | ssh -p 222 root@10.0.0.100 console_auth&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
@@ -761,18 +760,18 @@ Passphrase:&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;ssh root@10.0.0.100&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;ssh -p 222 root@10.0.0.100&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;The above command will automatically invoke the &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; command on the remote server, as if you typed &amp;lt;code&amp;gt;ssh root@10.0.0.100 console_auth&amp;lt;/code&amp;gt;, and will prompt for passphrase. Mind however that in this case, the passphrase will be displayed on the screen in plain text. Due to the latter, you should avoid unlocking interactively when the access is restricted to the &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; command.&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;The above command will automatically invoke the &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; command on the remote server, as if you typed &amp;lt;code&amp;gt;ssh -p 222 root@10.0.0.100 console_auth&amp;lt;/code&amp;gt;, and will prompt for passphrase. Mind however that in this case, the passphrase will be displayed on the screen in plain text. Due to the latter, you should avoid unlocking interactively when the access is restricted to the &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; command.&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
     &amp;lt;p&amp;gt;On the other hand, to unlock the volume using a password file, from your Linux box, type&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;ssh root@10.0.0.100 &amp;amp;lt; password-file&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;ssh -p 222 root@10.0.0.100 &amp;amp;lt; password-file&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
@@ -780,7 +779,7 @@ Passphrase:&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;gpg2 --decrypt password-file.gpg | ssh root@10.0.0.100&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;gpg2 --decrypt password-file.gpg | ssh -p 222 root@10.0.0.100&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 

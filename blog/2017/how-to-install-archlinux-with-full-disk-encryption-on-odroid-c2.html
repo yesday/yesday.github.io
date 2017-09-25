@@ -68,7 +68,7 @@
 			</div>
 
 			<p><span class="meta">Last updated on
-                    24 September 2017
+                    25 September 2017
                 </span>
 			</p>
 
@@ -682,8 +682,7 @@ sudo systemctl start sshd</pre>
      sudo nano /etc/dracut.conf.d/crypt-ssh.conf
     </div> 
     <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-conf" data-lang="conf">dropbear_port="22"
-dropbear_acl="/home/alarm/appconf/dracut-crypt-ssh/authorized_keys"</code></pre> 
+     <pre class="prettyprint highlight"><code class="language-conf" data-lang="conf">dropbear_acl="/home/alarm/appconf/dracut-crypt-ssh/authorized_keys"</code></pre> 
     </div> 
    </div> 
    <div class="paragraph"> 
@@ -727,7 +726,7 @@ dropbear_acl="/home/alarm/appconf/dracut-crypt-ssh/authorized_keys"</code></pre>
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>ssh root@10.0.0.100</pre> 
+     <pre>ssh -p 222 root@10.0.0.100</pre> 
     </div> 
    </div> 
    <div class="paragraph"> 
@@ -774,7 +773,7 @@ Passphrase:</pre>
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>ssh root@10.0.0.100 console_auth &lt; password-file</pre> 
+     <pre>ssh -p 222 root@10.0.0.100 console_auth &lt; password-file</pre> 
     </div> 
    </div> 
    <div class="paragraph"> 
@@ -782,7 +781,7 @@ Passphrase:</pre>
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>gpg2 --decrypt password-file.gpg | ssh root@10.0.0.100 console_auth</pre> 
+     <pre>gpg2 --decrypt password-file.gpg | ssh -p 222 root@10.0.0.100 console_auth</pre> 
     </div> 
    </div> 
   </div> 
@@ -833,18 +832,18 @@ Passphrase:</pre>
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>ssh root@10.0.0.100</pre> 
+     <pre>ssh -p 222 root@10.0.0.100</pre> 
     </div> 
    </div> 
    <div class="paragraph"> 
-    <p>The above command will automatically invoke the <code>console_auth</code> command on the remote server, as if you typed <code>ssh root@10.0.0.100 console_auth</code>, and will prompt for passphrase. Mind however that in this case, the passphrase will be displayed on the screen in plain text. Due to the latter, you should avoid unlocking interactively when the access is restricted to the <code>console_auth</code> command.</p> 
+    <p>The above command will automatically invoke the <code>console_auth</code> command on the remote server, as if you typed <code>ssh -p 222 root@10.0.0.100 console_auth</code>, and will prompt for passphrase. Mind however that in this case, the passphrase will be displayed on the screen in plain text. Due to the latter, you should avoid unlocking interactively when the access is restricted to the <code>console_auth</code> command.</p> 
    </div> 
    <div class="paragraph"> 
     <p>On the other hand, to unlock the volume using a password file, from your Linux box, type</p> 
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>ssh root@10.0.0.100 &lt; password-file</pre> 
+     <pre>ssh -p 222 root@10.0.0.100 &lt; password-file</pre> 
     </div> 
    </div> 
    <div class="paragraph"> 
@@ -852,7 +851,7 @@ Passphrase:</pre>
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>gpg2 --decrypt password-file.gpg | ssh root@10.0.0.100</pre> 
+     <pre>gpg2 --decrypt password-file.gpg | ssh -p 222 root@10.0.0.100</pre> 
     </div> 
    </div> 
   </div> 
