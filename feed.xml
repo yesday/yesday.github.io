@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Mon, 25 Sep 2017 12:12:07 +0300</pubDate>
-    <lastBuildDate>Mon, 25 Sep 2017 12:12:07 +0300</lastBuildDate>
+    <pubDate>Mon, 25 Sep 2017 13:16:43 +0300</pubDate>
+    <lastBuildDate>Mon, 25 Sep 2017 13:16:43 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -775,7 +775,14 @@ Passphrase:&amp;lt;/pre&amp;gt;
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;The above command will automatically invoke the &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; command on the remote server, as if you typed &amp;lt;code&amp;gt;ssh -p 222 root@10.0.0.100 console_auth&amp;lt;/code&amp;gt;, and will prompt for passphrase. Mind however that in this case, the passphrase will be displayed on the screen in plain text. Due to the latter, you should avoid unlocking interactively when the access is restricted to the &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; command.&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;Note that when typing the above command:&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
+    &amp;lt;ul&amp;gt; 
+     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;The &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; command is automatically invoked on the remote server and immediately prompts for password, as if you just typed &amp;lt;code&amp;gt;ssh -p 222 root@10.0.0.100 console_auth&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;While you type the password, it will be displayed on the screen in plain text. Therefore, you should avoid unlocking interactively when the access is restricted to the &amp;lt;code&amp;gt;console_auth&amp;lt;/code&amp;gt; command.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;When you press enter you will be disconnected no matter whether the password was correct or not. Whereas with the non-restricted login (see &amp;lt;a href=&amp;quot;#unlocking_the_volume_interactively&amp;quot;&amp;gt;Unlocking the volume interactively&amp;lt;/a&amp;gt;) you would only be disconnected if the password was correct, meaning that you would have feedback for whether the unlocking was successful or not.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+    &amp;lt;/ul&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
     &amp;lt;p&amp;gt;On the other hand, to unlock the volume using a password file, from your Linux box, type&amp;lt;/p&amp;gt; 

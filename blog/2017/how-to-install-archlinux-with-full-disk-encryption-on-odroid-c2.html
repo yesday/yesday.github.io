@@ -847,7 +847,14 @@ Passphrase:</pre>
     </div> 
    </div> 
    <div class="paragraph"> 
-    <p>The above command will automatically invoke the <code>console_auth</code> command on the remote server, as if you typed <code>ssh -p 222 root@10.0.0.100 console_auth</code>, and will prompt for passphrase. Mind however that in this case, the passphrase will be displayed on the screen in plain text. Due to the latter, you should avoid unlocking interactively when the access is restricted to the <code>console_auth</code> command.</p> 
+    <p>Note that when typing the above command:</p> 
+   </div> 
+   <div class="ulist"> 
+    <ul> 
+     <li> <p>The <code>console_auth</code> command is automatically invoked on the remote server and immediately prompts for password, as if you just typed <code>ssh -p 222 root@10.0.0.100 console_auth</code>.</p> </li> 
+     <li> <p>While you type the password, it will be displayed on the screen in plain text. Therefore, you should avoid unlocking interactively when the access is restricted to the <code>console_auth</code> command.</p> </li> 
+     <li> <p>When you press enter you will be disconnected no matter whether the password was correct or not. Whereas with the non-restricted login (see <a href="#unlocking_the_volume_interactively">Unlocking the volume interactively</a>) you would only be disconnected if the password was correct, meaning that you would have feedback for whether the unlocking was successful or not.</p> </li> 
+    </ul> 
    </div> 
    <div class="paragraph"> 
     <p>On the other hand, to unlock the volume using a password file, from your Linux box, type</p> 
