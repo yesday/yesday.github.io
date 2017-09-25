@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Mon, 25 Sep 2017 11:11:06 +0300</pubDate>
-    <lastBuildDate>Mon, 25 Sep 2017 11:11:06 +0300</lastBuildDate>
+    <pubDate>Mon, 25 Sep 2017 12:02:06 +0300</pubDate>
+    <lastBuildDate>Mon, 25 Sep 2017 12:02:06 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -28,9 +28,10 @@
     &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#install_required_packages&amp;quot;&amp;gt;5. Install required packages&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#install_dracut&amp;quot;&amp;gt;6. Install dracut&amp;lt;/a&amp;gt; 
      &amp;lt;ul class=&amp;quot;sectlevel2&amp;quot;&amp;gt; 
-      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_makepkg_failed_unknown_public_key&amp;quot;&amp;gt;6.1. ERROR: makepkg FAILED (unknown public key)&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
-      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_gnupg_key_generation_failed_no_pinentry&amp;quot;&amp;gt;6.2. ERROR: GnuPG Key generation failed: No pinentry&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
-      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_pacman_failed_to_install_missing_dependencies&amp;quot;&amp;gt;6.3. ERROR: &amp;#39;pacman&amp;#39; failed to install missing dependencies&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_aarch64_architecture_is_not_supported_by_the_package&amp;quot;&amp;gt;6.1. ERROR: aarch64 architecture is not supported by the package&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_makepkg_failed_unknown_public_key&amp;quot;&amp;gt;6.2. ERROR: makepkg FAILED (unknown public key)&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_gnupg_key_generation_failed_no_pinentry&amp;quot;&amp;gt;6.3. ERROR: GnuPG Key generation failed: No pinentry&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_pacman_failed_to_install_missing_dependencies&amp;quot;&amp;gt;6.4. ERROR: &amp;#39;pacman&amp;#39; failed to install missing dependencies&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
      &amp;lt;/ul&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#prepare_the_luks_rootfs&amp;quot;&amp;gt;7. Prepare the LUKS rootfs&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#generate_new_initramfs_and_reboot_into_the_luks_rootfs&amp;quot;&amp;gt;8. Generate new initramfs and reboot into the LUKS rootfs&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
@@ -271,7 +272,7 @@ pacman -S --needed sudo python git rsync lvm2 cryptsetup&amp;lt;/code&amp;gt;&am
  &amp;lt;h2 id=&amp;quot;install_dracut&amp;quot;&amp;gt;6. Install dracut&amp;lt;/h2&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Install pacaur (AUR helper)&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Install pacaur (&amp;lt;a href=&amp;quot;https://wiki.archlinux.org/index.php/AUR_helpers&amp;quot;&amp;gt;AUR helper&amp;lt;/a&amp;gt;)&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
@@ -285,12 +286,9 @@ makepkg -si --noconfirm --needed&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
    &amp;lt;p&amp;gt;Install dracut using the pacaur tool&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
-  &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
+  &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-    &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;pacaur -S dracut # ignore the &amp;#39;aarch64&amp;#39; architecture error, go to next step
-cd ~/.cache/pacaur/dracut/
-nano PKGBUILD # replace `arch=(&amp;quot;i686&amp;quot; &amp;quot;x86_64&amp;quot;)` with `arch=(&amp;quot;aarch64&amp;quot;)`
-makepkg -si --noconfirm --needed&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+    &amp;lt;pre&amp;gt;pacaur -S dracut&amp;lt;/pre&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
@@ -302,9 +300,22 @@ makepkg -si --noconfirm --needed&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
-   &amp;lt;h3 id=&amp;quot;error_makepkg_failed_unknown_public_key&amp;quot;&amp;gt;6.1. ERROR: makepkg FAILED (unknown public key)&amp;lt;/h3&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;error_aarch64_architecture_is_not_supported_by_the_package&amp;quot;&amp;gt;6.1. ERROR: aarch64 architecture is not supported by the package&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;If the &amp;lt;code&amp;gt;makepkg&amp;lt;/code&amp;gt; produces an error like &amp;lt;code&amp;gt;dracut-046.tar …​ FAILED (unknown public key 340F12141EA0994D)&amp;lt;/code&amp;gt;, then type these commands and try again:&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;If &amp;lt;code&amp;gt;pacaur -S dracut&amp;lt;/code&amp;gt; reports an error that &amp;lt;code&amp;gt;aarch64&amp;lt;/code&amp;gt; architecture is not supported by the package, then follow these steps to configure support for aarch64&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
+    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;cd ~/.cache/pacaur/dracut/
+nano PKGBUILD # replace `arch=(&amp;quot;i686&amp;quot; &amp;quot;x86_64&amp;quot;)` with `arch=(&amp;quot;aarch64&amp;quot;)`
+makepkg -si --noconfirm --needed&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+    &amp;lt;/div&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;error_makepkg_failed_unknown_public_key&amp;quot;&amp;gt;6.2. ERROR: makepkg FAILED (unknown public key)&amp;lt;/h3&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;If the &amp;lt;code&amp;gt;makepkg&amp;lt;/code&amp;gt; reports an error like &amp;lt;code&amp;gt;dracut-046.tar …​ FAILED (unknown public key 340F12141EA0994D)&amp;lt;/code&amp;gt;, then type these commands and try again:&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
@@ -317,7 +328,7 @@ gpg --recv-key 340F12141EA0994D&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
-   &amp;lt;h3 id=&amp;quot;error_gnupg_key_generation_failed_no_pinentry&amp;quot;&amp;gt;6.2. ERROR: GnuPG Key generation failed: No pinentry&amp;lt;/h3&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;error_gnupg_key_generation_failed_no_pinentry&amp;quot;&amp;gt;6.3. ERROR: GnuPG Key generation failed: No pinentry&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
     &amp;lt;p&amp;gt;If &amp;lt;code&amp;gt;gpg --full-gen-key&amp;lt;/code&amp;gt; reports the error &amp;lt;code&amp;gt;Key generation failed: No pinentry&amp;lt;/code&amp;gt;, then follow the below steps to configure gpg as described in &amp;lt;a href=&amp;quot;https://wiki.archlinux.org/index.php/GnuPG#gpg-agent&amp;quot; class=&amp;quot;bare&amp;quot;&amp;gt;https://wiki.archlinux.org/index.php/GnuPG#gpg-agent&amp;lt;/a&amp;gt;, and try again.&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
@@ -342,7 +353,7 @@ gpg --recv-key 340F12141EA0994D&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
-   &amp;lt;h3 id=&amp;quot;error_pacman_failed_to_install_missing_dependencies&amp;quot;&amp;gt;6.3. ERROR: &amp;#39;pacman&amp;#39; failed to install missing dependencies&amp;lt;/h3&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;error_pacman_failed_to_install_missing_dependencies&amp;quot;&amp;gt;6.4. ERROR: &amp;#39;pacman&amp;#39; failed to install missing dependencies&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
     &amp;lt;p&amp;gt;If &amp;lt;code&amp;gt;makepkg&amp;lt;/code&amp;gt; reports missing dependencies error, then upgrade the packages and try again.&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
