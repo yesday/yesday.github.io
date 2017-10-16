@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Mon, 16 Oct 2017 08:26:43 +0300</pubDate>
-    <lastBuildDate>Mon, 16 Oct 2017 08:26:43 +0300</lastBuildDate>
+    <pubDate>Mon, 16 Oct 2017 09:17:32 +0300</pubDate>
+    <lastBuildDate>Mon, 16 Oct 2017 09:17:32 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -81,12 +81,12 @@
           &amp;lt;/div&amp;gt; &amp;lt;/td&amp;gt; 
          &amp;lt;td class=&amp;quot;content&amp;quot;&amp;gt; 
           &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-           &amp;lt;p&amp;gt;The above notation is used throughout this document, and it means&amp;lt;/p&amp;gt; 
+           &amp;lt;p&amp;gt;A lot of the steps throughout this document involve editing configuration files. To keep the words to the minimum, we use the above notation as a very concise way to describe such file editing steps. The above notation means&amp;lt;/p&amp;gt; 
           &amp;lt;/div&amp;gt; 
           &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
            &amp;lt;ul&amp;gt; 
             &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;You need to edit the file &amp;lt;code&amp;gt;/boot/boot.ini&amp;lt;/code&amp;gt; with root privileges (hence &amp;lt;code&amp;gt;sudo nano /boot/boot.ini&amp;lt;/code&amp;gt;). Nano is the command line editor, however feel free to use another editor of your choice.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
-            &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Find the line starting with &amp;lt;code&amp;gt;setenv bootargs&amp;lt;/code&amp;gt; and add or edit the configuration options &amp;lt;code&amp;gt;rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+            &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Find the line starting with &amp;lt;code&amp;gt;setenv bootargs&amp;lt;/code&amp;gt; and add or edit the configuration options &amp;lt;code&amp;gt;rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait&amp;lt;/code&amp;gt;. Some files mentioned throughout this document might have the corresponding line being commented out or not present at all. If that’s the case you will need to uncomment or append the line into the file, respectively.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
             &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Leave the rest of the line after &amp;lt;code&amp;gt;rootwait&amp;lt;/code&amp;gt; as is.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
            &amp;lt;/ul&amp;gt; 
           &amp;lt;/div&amp;gt; &amp;lt;/td&amp;gt; 

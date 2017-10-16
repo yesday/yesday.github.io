@@ -153,12 +153,12 @@
           </div> </td> 
          <td class="content"> 
           <div class="paragraph"> 
-           <p>The above notation is used throughout this document, and it means</p> 
+           <p>A lot of the steps throughout this document involve editing configuration files. To keep the words to the minimum, we use the above notation as a very concise way to describe such file editing steps. The above notation means</p> 
           </div> 
           <div class="ulist"> 
            <ul> 
             <li> <p>You need to edit the file <code>/boot/boot.ini</code> with root privileges (hence <code>sudo nano /boot/boot.ini</code>). Nano is the command line editor, however feel free to use another editor of your choice.</p> </li> 
-            <li> <p>Find the line starting with <code>setenv bootargs</code> and add or edit the configuration options <code>rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait</code></p> </li> 
+            <li> <p>Find the line starting with <code>setenv bootargs</code> and add or edit the configuration options <code>rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait</code>. Some files mentioned throughout this document might have the corresponding line being commented out or not present at all. If that’s the case you will need to uncomment or append the line into the file, respectively.</p> </li> 
             <li> <p>Leave the rest of the line after <code>rootwait</code> as is.</p> </li> 
            </ul> 
           </div> </td> 
