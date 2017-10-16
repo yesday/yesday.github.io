@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Mon, 25 Sep 2017 13:16:43 +0300</pubDate>
-    <lastBuildDate>Mon, 25 Sep 2017 13:16:43 +0300</lastBuildDate>
+    <pubDate>Mon, 16 Oct 2017 08:11:49 +0300</pubDate>
+    <lastBuildDate>Mon, 16 Oct 2017 08:11:49 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -52,10 +52,7 @@
  &amp;lt;h2 id=&amp;quot;introduction&amp;quot;&amp;gt;1. Introduction&amp;lt;/h2&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Full Disk Encryption (FDE) protects our data against unauthorised access in case someone gains physical access to the storage media.&amp;lt;/p&amp;gt; 
-  &amp;lt;/div&amp;gt; 
-  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;In this document we are describing how to install ArchLinux with Full Disk Encryption on ODROID-C2. The encryption method is LUKS with XTS key-size 512 bit (AES-256).&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Full Disk Encryption (FDE) protects our data against unauthorised access in case someone gains physical access to the storage media. This document describes how to install ArchLinux with Full Disk Encryption on ODROID-C2. The encryption method is LUKS with XTS key-size 512 bit (AES-256).&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
    &amp;lt;p&amp;gt;In a nutshell, Full Disk Encryption requires&amp;lt;/p&amp;gt; 
@@ -65,7 +62,7 @@
     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Encrypting a partition and copying the root filesystem to it.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;The kernel to include the &amp;lt;code&amp;gt;dm_crypt&amp;lt;/code&amp;gt; kernel module. In our case this is already included by default therefore we won’t need to re-compile the kernel.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;The &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt; to include the &amp;lt;code&amp;gt;dm_crypt&amp;lt;/code&amp;gt; kernel module and the &amp;lt;code&amp;gt;cryptsetup&amp;lt;/code&amp;gt; binary. We use a tool called &amp;lt;code&amp;gt;dracut&amp;lt;/code&amp;gt; to generate the required &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt;. Dracut supports the required functionality via the additional modules &amp;lt;code&amp;gt;crypt&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;lvm&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
-    &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Passing the &amp;lt;a href=&amp;quot;https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_crypto_luks&amp;quot;&amp;gt;dracut options for LUKS&amp;lt;/a&amp;gt; to the &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt; via the &amp;lt;code&amp;gt;bootargs&amp;lt;/code&amp;gt; property inside &amp;lt;code&amp;gt;boot.ini&amp;lt;/code&amp;gt;. For example, say that in our case we want the &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt; to unlock a LUKS volume with UUID &amp;lt;code&amp;gt;ae51db2d-0890-4b1b-abc5-8c10f01da353&amp;lt;/code&amp;gt; and load the root filesystem from the device mapper &amp;lt;code&amp;gt;/dev/mapper/vg-root&amp;lt;/code&amp;gt;. To pass these dracut options we configure the following:&amp;lt;/p&amp;gt; 
+    &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Passing the &amp;lt;a href=&amp;quot;https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_crypto_luks&amp;quot;&amp;gt;dracut options for LUKS&amp;lt;/a&amp;gt; to the &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt; via the &amp;lt;code&amp;gt;bootargs&amp;lt;/code&amp;gt; property inside &amp;lt;code&amp;gt;boot.ini&amp;lt;/code&amp;gt;. For example, say that in our case we want the &amp;lt;code&amp;gt;initramfs&amp;lt;/code&amp;gt; to unlock a LUKS volume with UUID &amp;lt;code&amp;gt;ae51db2d-0890-4b1b-abc5-8c10f01da353&amp;lt;/code&amp;gt; and load the root filesystem from the device mapper &amp;lt;code&amp;gt;/dev/mapper/vg-root&amp;lt;/code&amp;gt;. To pass these dracut options we configure the following&amp;lt;/p&amp;gt; 
      &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
       &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
        sudo nano /boot/boot.ini
@@ -73,6 +70,29 @@
       &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
        &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-ini&amp;quot; data-lang=&amp;quot;ini&amp;quot;&amp;gt;setenv bootargs &amp;quot;rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait &amp;amp;lt;leave the rest as is&amp;amp;gt;&amp;quot;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
       &amp;lt;/div&amp;gt; 
+     &amp;lt;/div&amp;gt; 
+     &amp;lt;div class=&amp;quot;admonitionblock note&amp;quot;&amp;gt; 
+      &amp;lt;table&amp;gt; 
+       &amp;lt;tbody&amp;gt;
+        &amp;lt;tr&amp;gt; 
+         &amp;lt;td class=&amp;quot;icon&amp;quot;&amp;gt; 
+          &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
+           Note
+          &amp;lt;/div&amp;gt; &amp;lt;/td&amp;gt; 
+         &amp;lt;td class=&amp;quot;content&amp;quot;&amp;gt; 
+          &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+           &amp;lt;p&amp;gt;The above notation is used throughout this document and it means&amp;lt;/p&amp;gt; 
+          &amp;lt;/div&amp;gt; 
+          &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
+           &amp;lt;ul&amp;gt; 
+            &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;You need to edit the file &amp;lt;code&amp;gt;/boot/boot.ini&amp;lt;/code&amp;gt; with root privileges (hence &amp;lt;code&amp;gt;sudo nano /boot/boot.ini&amp;lt;/code&amp;gt;). Nano is the command line editor, however feel free to use another editor of your choice.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+            &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Find the line starting with &amp;lt;code&amp;gt;setenv bootargs&amp;lt;/code&amp;gt; and add or edit the configuration options &amp;lt;code&amp;gt;rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+            &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Leave the rest of the line after &amp;lt;code&amp;gt;rootwait&amp;lt;/code&amp;gt; as is.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+           &amp;lt;/ul&amp;gt; 
+          &amp;lt;/div&amp;gt; &amp;lt;/td&amp;gt; 
+        &amp;lt;/tr&amp;gt; 
+       &amp;lt;/tbody&amp;gt;
+      &amp;lt;/table&amp;gt; 
      &amp;lt;/div&amp;gt; &amp;lt;/li&amp;gt; 
    &amp;lt;/ul&amp;gt; 
   &amp;lt;/div&amp;gt; 
@@ -127,7 +147,7 @@ sync&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Using a tool like &amp;lt;code&amp;gt;GParted&amp;lt;/code&amp;gt;, create on the microSD card an MBR/msdos partition table and two partitions:&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Using a tool like GParted, create an MBR/msdos partition table and two partitions on the microSD card&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
    &amp;lt;ul&amp;gt; 
@@ -215,7 +235,7 @@ sdb
        &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;
         Caution
        &amp;lt;/div&amp;gt; &amp;lt;/td&amp;gt; 
-      &amp;lt;td class=&amp;quot;content&amp;quot;&amp;gt; If &amp;lt;code&amp;gt;root=UUID=2b53696c-2e8e-4e61-a164-1a7463fd3785&amp;lt;/code&amp;gt; doesn’t work then try &amp;lt;code&amp;gt;root=/dev/sda1&amp;lt;/code&amp;gt;, &amp;lt;code&amp;gt;root=/dev/sdb1&amp;lt;/code&amp;gt; or whatever device name you see in the console prior to the failed boot (e.g. &amp;lt;code&amp;gt;[ 14.812393] sd 1:0:0:0: [sda] Attached SCSI removable disk&amp;lt;/code&amp;gt;). If still having issues try restarting some times and/or repositioning the USB disk into a different USB port on the ODROID-C2. Don’t worry if it seems too much trouble, as you won’t have to boot to the USB disk again after the first successful boot. &amp;lt;/td&amp;gt; 
+      &amp;lt;td class=&amp;quot;content&amp;quot;&amp;gt; If &amp;lt;code&amp;gt;root=UUID=2b53696c-2e8e-4e61-a164-1a7463fd3785&amp;lt;/code&amp;gt; doesn’t work then try &amp;lt;code&amp;gt;root=/dev/sda1&amp;lt;/code&amp;gt;, &amp;lt;code&amp;gt;root=/dev/sdb1&amp;lt;/code&amp;gt; or whatever device name you see in the console prior to the failed boot (e.g. &amp;lt;code&amp;gt;[ 14.812393] sd 1:0:0:0: [sda] Attached SCSI removable disk&amp;lt;/code&amp;gt;). If still having issues try restarting some times and/or repositioning the USB disk into a different USB port on the ODROID-C2. Don’t worry if it seems to be giving you trouble, as you won’t have to boot to the USB disk again after the first successful boot. &amp;lt;/td&amp;gt; 
      &amp;lt;/tr&amp;gt; 
     &amp;lt;/tbody&amp;gt;
    &amp;lt;/table&amp;gt; 
@@ -315,7 +335,7 @@ makepkg -si --noconfirm --needed&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
    &amp;lt;h3 id=&amp;quot;error_makepkg_failed_unknown_public_key&amp;quot;&amp;gt;6.2. ERROR: makepkg FAILED (unknown public key)&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;If the &amp;lt;code&amp;gt;makepkg&amp;lt;/code&amp;gt; reports an error like &amp;lt;code&amp;gt;dracut-046.tar …​ FAILED (unknown public key 340F12141EA0994D)&amp;lt;/code&amp;gt;, then type these commands and try again:&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;If the &amp;lt;code&amp;gt;makepkg&amp;lt;/code&amp;gt; reports an error like &amp;lt;code&amp;gt;dracut-046.tar …​ FAILED (unknown public key 340F12141EA0994D)&amp;lt;/code&amp;gt;, then type these commands and try again&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
@@ -592,7 +612,7 @@ sudo systemctl start sshd&amp;lt;/pre&amp;gt;
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;See also: &amp;lt;a href=&amp;quot;https://raspberrypi.stackexchange.com/questions/69289/raspberry-pi-3-on-arch-armv7-openssh-daemon-failed-on-memory-allocation&amp;quot;&amp;gt;memory leak of sshd&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;See also &amp;lt;a href=&amp;quot;https://raspberrypi.stackexchange.com/questions/69289/raspberry-pi-3-on-arch-armv7-openssh-daemon-failed-on-memory-allocation&amp;quot;&amp;gt;memory leak of sshd&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
@@ -775,7 +795,7 @@ Passphrase:&amp;lt;/pre&amp;gt;
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;Note that when typing the above command:&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;Note that when typing the above command&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
     &amp;lt;ul&amp;gt; 
