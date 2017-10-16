@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Mon, 16 Oct 2017 08:11:49 +0300</pubDate>
-    <lastBuildDate>Mon, 16 Oct 2017 08:11:49 +0300</lastBuildDate>
+    <pubDate>Mon, 16 Oct 2017 08:16:22 +0300</pubDate>
+    <lastBuildDate>Mon, 16 Oct 2017 08:16:22 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -81,7 +81,7 @@
           &amp;lt;/div&amp;gt; &amp;lt;/td&amp;gt; 
          &amp;lt;td class=&amp;quot;content&amp;quot;&amp;gt; 
           &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-           &amp;lt;p&amp;gt;The above notation is used throughout this document and it means&amp;lt;/p&amp;gt; 
+           &amp;lt;p&amp;gt;The above notation is used throughout this document, and it means&amp;lt;/p&amp;gt; 
           &amp;lt;/div&amp;gt; 
           &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
            &amp;lt;ul&amp;gt; 
