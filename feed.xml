@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Mon, 16 Oct 2017 08:16:22 +0300</pubDate>
-    <lastBuildDate>Mon, 16 Oct 2017 08:16:22 +0300</lastBuildDate>
+    <pubDate>Mon, 16 Oct 2017 08:26:43 +0300</pubDate>
+    <lastBuildDate>Mon, 16 Oct 2017 08:26:43 +0300</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -113,7 +113,7 @@
     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;A Linux box from which you will flash the OS image and interact with the ODROID-C2&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;USB disk with at least 4G capacity&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;microSD card or eMMC module with at least 4G capacity&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
-    &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;(Optional) &amp;lt;a href=&amp;quot;http://www.hardkernel.com/main/products/prdt_info.php?g_code=G134111883934&amp;quot;&amp;gt;USB-UART Module Kit&amp;lt;/a&amp;gt; to connect to the ODROID-C2’s serial console. Refer to &amp;lt;a href=&amp;quot;https://yesday.github.io/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html&amp;quot;&amp;gt;this post&amp;lt;/a&amp;gt; for instructions on how to connect along with explanation why the serial console is highly recommended in this case.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+    &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;(Optional) &amp;lt;a href=&amp;quot;http://www.hardkernel.com/main/products/prdt_info.php?g_code=G134111883934&amp;quot;&amp;gt;USB-UART Module Kit&amp;lt;/a&amp;gt; for connecting with the ODROID-C2’s serial console. Refer to &amp;lt;a href=&amp;quot;https://yesday.github.io/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html&amp;quot;&amp;gt;this post&amp;lt;/a&amp;gt; for instructions on how to connect along with explanation why the serial console is highly recommended in this case.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
    &amp;lt;/ul&amp;gt; 
   &amp;lt;/div&amp;gt; 
  &amp;lt;/div&amp;gt; 
