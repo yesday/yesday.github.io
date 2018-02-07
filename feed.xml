@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Wed, 7 Feb 2018 12:19:07 +0000</pubDate>
-    <lastBuildDate>Wed, 7 Feb 2018 12:19:07 +0000</lastBuildDate>
+    <pubDate>Wed, 7 Feb 2018 12:26:22 +0000</pubDate>
+    <lastBuildDate>Wed, 7 Feb 2018 12:26:22 +0000</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -297,7 +297,7 @@ pacman -S --needed sudo python git rsync lvm2 cryptsetup&amp;lt;/code&amp;gt;&am
   &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;sudo pacman -S --needed base-devel
-mkdir -p ~/aur &amp;amp;amp;&amp;amp;amp; cd $_
+mkdir ~/aur &amp;amp;amp;&amp;amp;amp; cd $_
 git clone https://aur.archlinux.org/trizen.git
 cd trizen
 makepkg -si --needed --noconfirm&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
