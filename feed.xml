@@ -6,13 +6,13 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Mon, 16 Oct 2017 09:17:32 +0300</pubDate>
-    <lastBuildDate>Mon, 16 Oct 2017 09:17:32 +0300</lastBuildDate>
+    <pubDate>Wed, 7 Feb 2018 12:19:07 +0000</pubDate>
+    <lastBuildDate>Wed, 7 Feb 2018 12:19:07 +0000</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
       <link>http://yesday.github.io/blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html</link>
-      <pubDate>Sat, 23 Sep 2017 00:00:00 +0300</pubDate>
+      <pubDate>Sat, 23 Sep 2017 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html</guid>
       <description>&amp;lt;div id=&amp;quot;preamble&amp;quot;&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
@@ -292,23 +292,23 @@ pacman -S --needed sudo python git rsync lvm2 cryptsetup&amp;lt;/code&amp;gt;&am
  &amp;lt;h2 id=&amp;quot;install_dracut&amp;quot;&amp;gt;6. Install dracut&amp;lt;/h2&amp;gt; 
  &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Install pacaur (&amp;lt;a href=&amp;quot;https://wiki.archlinux.org/index.php/AUR_helpers&amp;quot;&amp;gt;AUR helper&amp;lt;/a&amp;gt;)&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Install trizen (&amp;lt;a href=&amp;quot;https://wiki.archlinux.org/index.php/AUR_helpers&amp;quot;&amp;gt;AUR helper&amp;lt;/a&amp;gt;)&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-    &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;sudo pacman -S --needed base-devel cower
-mkdir -p ~/.cache/pacaur &amp;amp;amp;&amp;amp;amp; cd &amp;quot;$_&amp;quot;
-cower -d pacaur
-cd pacaur
-makepkg -si --noconfirm --needed&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+    &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;sudo pacman -S --needed base-devel
+mkdir -p ~/aur &amp;amp;amp;&amp;amp;amp; cd $_
+git clone https://aur.archlinux.org/trizen.git
+cd trizen
+makepkg -si --needed --noconfirm&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-   &amp;lt;p&amp;gt;Install dracut using the pacaur tool&amp;lt;/p&amp;gt; 
+   &amp;lt;p&amp;gt;Install dracut using the trizen tool&amp;lt;/p&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-    &amp;lt;pre&amp;gt;pacaur -S dracut&amp;lt;/pre&amp;gt; 
+    &amp;lt;pre&amp;gt;trizen -S dracut&amp;lt;/pre&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
@@ -322,13 +322,13 @@ makepkg -si --noconfirm --needed&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
   &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
    &amp;lt;h3 id=&amp;quot;error_aarch64_architecture_is_not_supported_by_the_package&amp;quot;&amp;gt;6.1. ERROR: aarch64 architecture is not supported by the package&amp;lt;/h3&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
-    &amp;lt;p&amp;gt;If &amp;lt;code&amp;gt;pacaur -S dracut&amp;lt;/code&amp;gt; reports an error that &amp;lt;code&amp;gt;aarch64&amp;lt;/code&amp;gt; architecture is not supported by the package, then follow these steps to configure support for aarch64&amp;lt;/p&amp;gt; 
+    &amp;lt;p&amp;gt;If &amp;lt;code&amp;gt;trizen -S dracut&amp;lt;/code&amp;gt; reports an error that &amp;lt;code&amp;gt;aarch64&amp;lt;/code&amp;gt; architecture is not supported by the package, then follow these steps to configure support for aarch64&amp;lt;/p&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;cd ~/.cache/pacaur/dracut/
+     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;cd /tmp/trizen-alarm/dracut/
 nano PKGBUILD # replace `arch=(&amp;quot;i686&amp;quot; &amp;quot;x86_64&amp;quot;)` with `arch=(&amp;quot;aarch64&amp;quot;)`
-makepkg -si --noconfirm --needed&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+makepkg -si --needed --noconfirm&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
@@ -380,7 +380,7 @@ gpg --recv-key 340F12141EA0994D&amp;lt;/pre&amp;gt;
    &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
      &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;sudo pacman -Syu
-pacaur -Syua&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+trizen -Syua&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
@@ -622,7 +622,7 @@ sudo systemctl start sshd&amp;lt;/pre&amp;gt;
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
-     &amp;lt;pre&amp;gt;pacaur -S dracut-crypt-ssh-git&amp;lt;/pre&amp;gt; 
+     &amp;lt;pre&amp;gt;trizen -S dracut-crypt-ssh-git&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
    &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
@@ -837,7 +837,7 @@ Passphrase:&amp;lt;/pre&amp;gt;
     </item><item>
       <title>OS image release for ODROID-C2</title>
       <link>http://yesday.github.io/blog/2017/os-image-release-for-odroid-c2.html</link>
-      <pubDate>Fri, 15 Sep 2017 00:00:00 +0300</pubDate>
+      <pubDate>Fri, 15 Sep 2017 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2017/os-image-release-for-odroid-c2.html</guid>
       <description>&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
  &amp;lt;p&amp;gt;An &amp;lt;a href=&amp;quot;../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html&amp;quot;&amp;gt;OS image for ODROID-C2&amp;lt;/a&amp;gt; has been released featuring ArchLinux, Full Disk Encryption (FDE), and remote unlocking. The related page has been added under the website’s main menu &amp;lt;em&amp;gt;ODROID-C2 &amp;amp;gt; OS image&amp;lt;/em&amp;gt; to provide documentation and future updates.&amp;lt;/p&amp;gt; 
@@ -851,7 +851,7 @@ Passphrase:&amp;lt;/pre&amp;gt;
     </item><item>
       <title>Why is the serial console better than HDMI for debugging</title>
       <link>http://yesday.github.io/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</link>
-      <pubDate>Sat, 9 Sep 2017 00:00:00 +0300</pubDate>
+      <pubDate>Sat, 9 Sep 2017 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html</guid>
       <description>&amp;lt;div class=&amp;quot;openblock float-group&amp;quot;&amp;gt; 
  &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 

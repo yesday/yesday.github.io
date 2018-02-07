@@ -68,7 +68,7 @@
 			</div>
 
 			<p><span class="meta">Last updated on
-                    16 October 2017
+                    7 February 2018
                 </span>
 			</p>
 
@@ -364,23 +364,23 @@ pacman -S --needed sudo python git rsync lvm2 cryptsetup</code></pre>
  <h2 id="install_dracut">6. Install dracut</h2> 
  <div class="sectionbody"> 
   <div class="paragraph"> 
-   <p>Install pacaur (<a href="https://wiki.archlinux.org/index.php/AUR_helpers">AUR helper</a>)</p> 
+   <p>Install trizen (<a href="https://wiki.archlinux.org/index.php/AUR_helpers">AUR helper</a>)</p> 
   </div> 
   <div class="listingblock"> 
    <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">sudo pacman -S --needed base-devel cower
-mkdir -p ~/.cache/pacaur &amp;&amp; cd "$_"
-cower -d pacaur
-cd pacaur
-makepkg -si --noconfirm --needed</code></pre> 
+    <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">sudo pacman -S --needed base-devel
+mkdir -p ~/aur &amp;&amp; cd $_
+git clone https://aur.archlinux.org/trizen.git
+cd trizen
+makepkg -si --needed --noconfirm</code></pre> 
    </div> 
   </div> 
   <div class="paragraph"> 
-   <p>Install dracut using the pacaur tool</p> 
+   <p>Install dracut using the trizen tool</p> 
   </div> 
   <div class="literalblock"> 
    <div class="content"> 
-    <pre>pacaur -S dracut</pre> 
+    <pre>trizen -S dracut</pre> 
    </div> 
   </div> 
   <div class="paragraph"> 
@@ -394,13 +394,13 @@ makepkg -si --noconfirm --needed</code></pre>
   <div class="sect2"> 
    <h3 id="error_aarch64_architecture_is_not_supported_by_the_package">6.1. ERROR: aarch64 architecture is not supported by the package</h3> 
    <div class="paragraph"> 
-    <p>If <code>pacaur -S dracut</code> reports an error that <code>aarch64</code> architecture is not supported by the package, then follow these steps to configure support for aarch64</p> 
+    <p>If <code>trizen -S dracut</code> reports an error that <code>aarch64</code> architecture is not supported by the package, then follow these steps to configure support for aarch64</p> 
    </div> 
    <div class="listingblock"> 
     <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">cd ~/.cache/pacaur/dracut/
+     <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">cd /tmp/trizen-alarm/dracut/
 nano PKGBUILD # replace `arch=("i686" "x86_64")` with `arch=("aarch64")`
-makepkg -si --noconfirm --needed</code></pre> 
+makepkg -si --needed --noconfirm</code></pre> 
     </div> 
    </div> 
   </div> 
@@ -452,7 +452,7 @@ gpg --recv-key 340F12141EA0994D</pre>
    <div class="listingblock"> 
     <div class="content"> 
      <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">sudo pacman -Syu
-pacaur -Syua</code></pre> 
+trizen -Syua</code></pre> 
     </div> 
    </div> 
   </div> 
@@ -694,7 +694,7 @@ sudo systemctl start sshd</pre>
    </div> 
    <div class="literalblock"> 
     <div class="content"> 
-     <pre>pacaur -S dracut-crypt-ssh-git</pre> 
+     <pre>trizen -S dracut-crypt-ssh-git</pre> 
     </div> 
    </div> 
    <div class="paragraph"> 
@@ -915,7 +915,7 @@ Passphrase:</pre>
         var disqus_website_name = "yesday";
         var disqus_config = function () {
             this.page.url = "http:\/\/yesday.github.io\/blog\/2017\/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html";
-            this.page.identifier = "\/home\/georgios\/Desktop\/project\/proper\/yesday-github-io-src\/src\/main\/jbake\/content\/blog\/2017\/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.adoc";
+            this.page.identifier = "blog\/2017\/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html";
         };
         (function () { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
