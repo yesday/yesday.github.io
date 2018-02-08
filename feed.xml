@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Wed, 7 Feb 2018 12:26:22 +0000</pubDate>
-    <lastBuildDate>Wed, 7 Feb 2018 12:26:22 +0000</lastBuildDate>
+    <pubDate>Thu, 8 Feb 2018 18:18:01 +0000</pubDate>
+    <lastBuildDate>Thu, 8 Feb 2018 18:18:01 +0000</lastBuildDate>
 
     <item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
@@ -32,6 +32,7 @@
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_makepkg_failed_unknown_public_key&amp;quot;&amp;gt;6.2. ERROR: makepkg FAILED (unknown public key)&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_gnupg_key_generation_failed_no_pinentry&amp;quot;&amp;gt;6.3. ERROR: GnuPG Key generation failed: No pinentry&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
       &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_pacman_failed_to_install_missing_dependencies&amp;quot;&amp;gt;6.4. ERROR: &amp;#39;pacman&amp;#39; failed to install missing dependencies&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#error_dracut_command_not_found&amp;quot;&amp;gt;6.5. ERROR: dracut: command not found&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
      &amp;lt;/ul&amp;gt; &amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#prepare_the_luks_rootfs&amp;quot;&amp;gt;7. Prepare the LUKS rootfs&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
     &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#generate_new_initramfs_and_reboot_into_the_luks_rootfs&amp;quot;&amp;gt;8. Generate new initramfs and reboot into the LUKS rootfs&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
@@ -381,6 +382,18 @@ gpg --recv-key 340F12141EA0994D&amp;lt;/pre&amp;gt;
     &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
      &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;sudo pacman -Syu
 trizen -Syua&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+    &amp;lt;/div&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;error_dracut_command_not_found&amp;quot;&amp;gt;6.5. ERROR: dracut: command not found&amp;lt;/h3&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;If after running &amp;lt;code&amp;gt;trizen -S dracut&amp;lt;/code&amp;gt; the dracut command is not installed, then try installing it manually without using the trizen AUR helper.&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
+    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot; data-lang=&amp;quot;bash&amp;quot;&amp;gt;cd /tmp/trizen-alarm/dracut/
+makepkg -si --needed --noconfirm&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
     &amp;lt;/div&amp;gt; 
    &amp;lt;/div&amp;gt; 
   &amp;lt;/div&amp;gt; 
