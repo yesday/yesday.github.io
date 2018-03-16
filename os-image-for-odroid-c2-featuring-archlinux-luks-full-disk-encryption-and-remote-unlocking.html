@@ -68,7 +68,7 @@
 			</div>
 		
 			<p><span class="meta">Last updated by <b>YesDay</b> on
-                    25 September 2017
+                    16 March 2018
                     <span> Tags:
                         <span>
                             <a href="tags/odroid-c2.html" class="" >odroid-c2</a></span><span>
@@ -111,6 +111,7 @@
      <ul class="sectlevel2"> 
       <li><a href="#configure_dropbear_to_listen_on_port_222_instead_of_the_standard_ssh_port_22">8.1. Configure Dropbear to listen on port 222 instead of the standard SSH port 22</a></li> 
       <li><a href="#optional_install_dracut_crypt_ssh_from_aur">8.2. OPTIONAL: Install dracut-crypt-ssh from AUR</a></li> 
+      <li><a href="#optional_use_trizen_instead_of_pacaur">8.3. OPTIONAL: Use trizen instead of pacaur</a></li> 
      </ul> </li> 
     <li><a href="#references">9. References</a></li> 
    </ul> 
@@ -312,6 +313,9 @@ passwd</pre>
     <li> <p>Execute <code>cat /dev/null &gt; /home/alarm/appconf/dracut-crypt-ssh/authorized_keys</code></p> </li> 
     <li> <p>To apply the changes run the <a href="#dracut_command_to_generate_the_initramfs">Dracut command to generate the initramfs</a></p> </li> 
    </ul> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Re-encrypt the partition <code>/dev/mmcblk0p2</code> by following the instructions from <a href="https://www.systutorials.com/docs/linux/man/8-cryptsetup-reencrypt/" class="bare">https://www.systutorials.com/docs/linux/man/8-cryptsetup-reencrypt/</a>. This will ensure a new key is used to encrypt the data.</p> 
   </div> 
   <div class="paragraph"> 
    <p>Expand the root filesystem partition to the rest of the available space</p> 
@@ -627,6 +631,24 @@ sudo make install</code></pre>
    </div> 
    <div class="paragraph"> 
     <p>If you prefer to use the package then remove the relevant files manually (<code>sudo make uninstall</code> not available) and install the package by typing: <code>pacaur -S dracut-crypt-ssh-git</code>.</p> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="optional_use_trizen_instead_of_pacaur">8.3. OPTIONAL: Use trizen instead of pacaur</h3> 
+   <div class="paragraph"> 
+    <p>As of 2017-12-15, pacaur is no longer maintained and users are encouraged to move to another solution (refer to the Pinned Comment of the <a href="https://aur.archlinux.org/packages/pacaur/">package</a>).</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>To install trizen, which is an alternative <a href="https://wiki.archlinux.org/index.php/AUR_helpers">AUR helper</a>, follow these steps</p> 
+   </div> 
+   <div class="listingblock"> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">sudo pacman -S --needed base-devel
+mkdir ~/aur &amp;&amp; cd $_
+git clone https://aur.archlinux.org/trizen.git
+cd trizen
+makepkg -si --needed --noconfirm</code></pre> 
+    </div> 
    </div> 
   </div> 
  </div> 
