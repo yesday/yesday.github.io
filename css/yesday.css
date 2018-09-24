@@ -39,3 +39,9 @@ h6 {
 #toctitle {
     font-size: 1.6em;
 }
+
+/* Wrapper for page content to push down footer */
+#wrap {
+    /* Negative indent footer by it's height */
+    margin: 0 auto -120px;
+}
