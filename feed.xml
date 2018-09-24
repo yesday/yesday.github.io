@@ -6,10 +6,189 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Blog</description>
     <language>en-gb</language>
-    <pubDate>Mon, 24 Sep 2018 12:44:25 +0100</pubDate>
-    <lastBuildDate>Mon, 24 Sep 2018 12:44:25 +0100</lastBuildDate>
+    <pubDate>Mon, 24 Sep 2018 21:53:31 +0100</pubDate>
+    <lastBuildDate>Mon, 24 Sep 2018 21:53:31 +0100</lastBuildDate>
 
     <item>
+      <title>Java Gotchas: SortedSet ignores the equals method</title>
+      <link>http://yesday.github.io/blog/2018/java-gotchas-sorted-set-ignores-the-equals-method.html</link>
+      <pubDate>Mon, 24 Sep 2018 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2018/java-gotchas-sorted-set-ignores-the-equals-method.html</guid>
+      <description>&amp;lt;div id=&amp;quot;preamble&amp;quot;&amp;gt; 
+ &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
+  &amp;lt;div id=&amp;quot;toc&amp;quot; class=&amp;quot;toc&amp;quot;&amp;gt; 
+   &amp;lt;div id=&amp;quot;toctitle&amp;quot; class=&amp;quot;title&amp;quot;&amp;gt;
+    Table of Contents
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;ul class=&amp;quot;sectlevel1&amp;quot;&amp;gt; 
+    &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#sortedset_fails_to_obey_the_general_contract_of_the_set_interface&amp;quot;&amp;gt;1. SortedSet fails to obey the general contract of the Set interface&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+    &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#how_the_sortedset_could_be_fixed_in_a_future_version_of_java&amp;quot;&amp;gt;2. How the SortedSet could be fixed in a future version of Java&amp;lt;/a&amp;gt; 
+     &amp;lt;ul class=&amp;quot;sectlevel2&amp;quot;&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#fix_the_javadoc&amp;quot;&amp;gt;2.1. Fix the javadoc&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#default_equals_inside_sortedset&amp;quot;&amp;gt;2.2. Default equals inside SortedSet&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+      &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;#fallback_to_default_comparator_inside_implementation_classes&amp;quot;&amp;gt;2.3. Fallback to default comparator inside implementation classes&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt; 
+     &amp;lt;/ul&amp;gt; &amp;lt;/li&amp;gt; 
+   &amp;lt;/ul&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+ &amp;lt;/div&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;sect1&amp;quot;&amp;gt; 
+ &amp;lt;h2 id=&amp;quot;sortedset_fails_to_obey_the_general_contract_of_the_set_interface&amp;quot;&amp;gt;1. SortedSet fails to obey the general contract of the Set interface&amp;lt;/h2&amp;gt; 
+ &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;Consider the below code which creates a &amp;lt;code&amp;gt;SortedSet&amp;lt;/code&amp;gt; using a comparator based on string length&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
+   &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+    &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-java&amp;quot; data-lang=&amp;quot;java&amp;quot;&amp;gt;public class SortedSetTest {
+    public static void main(String[] args) {
+        SortedSet&amp;amp;lt;String&amp;amp;gt; sortedSet = new TreeSet&amp;amp;lt;&amp;amp;gt;(Comparator.comparing(String::length));
+        sortedSet.addAll(Set.of(&amp;quot;aa&amp;quot;, &amp;quot;bb&amp;quot;));
+        System.out.println(sortedSet);
+    }
+}&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;The output of the above is&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
+   &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+    &amp;lt;pre&amp;gt;[aa]&amp;lt;/pre&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;While I would expect&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
+   &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+    &amp;lt;pre&amp;gt;[aa, bb]&amp;lt;/pre&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;or&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;literalblock&amp;quot;&amp;gt; 
+   &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+    &amp;lt;pre&amp;gt;[bb, aa]&amp;lt;/pre&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;The &amp;lt;code&amp;gt;bb&amp;lt;/code&amp;gt; element disappears, breaking the &amp;lt;code&amp;gt;Set&amp;lt;/code&amp;gt; contract. The comparator is supposed to only sort the elements and not distinguish them from one another, which is what equals does in all the collections.&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;On the other hand, if I enhance the comparator to always return non-zero for unequal items like below, only then do I get the correct results.&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
+   &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+    &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-java&amp;quot; data-lang=&amp;quot;java&amp;quot;&amp;gt;public class SortedSetTest {
+    public static void main(String[] args) {
+        SortedSet&amp;amp;lt;String&amp;amp;gt; sortedSet = new TreeSet&amp;amp;lt;&amp;amp;gt;(Comparator.comparing(String::length)
+            .thenComparing(String::toString));
+        sortedSet.addAll(Set.of(&amp;quot;aa&amp;quot;, &amp;quot;bb&amp;quot;));
+        System.out.println(sortedSet);
+    }
+}&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;The output now is &amp;lt;code&amp;gt;[aa, bb]&amp;lt;/code&amp;gt; as I would expect.&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;The question is, why does &amp;lt;code&amp;gt;SortedSet&amp;lt;/code&amp;gt; ignore the &amp;lt;code&amp;gt;equals&amp;lt;/code&amp;gt; method in first place and removes an unequal object from the set?&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;The &amp;lt;code&amp;gt;comparator&amp;lt;/code&amp;gt; method inside the &amp;lt;code&amp;gt;SortedSet&amp;lt;/code&amp;gt; interface is &amp;lt;a href=&amp;quot;https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html&amp;quot;&amp;gt;documented&amp;lt;/a&amp;gt; as follows:&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;quoteblock&amp;quot;&amp;gt; 
+   &amp;lt;blockquote&amp;gt;
+     Returns the comparator used to order the elements in this set, or null if this set uses the natural ordering of its elements. 
+   &amp;lt;/blockquote&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;The above indicates that the comparator is only used to order the elements in the set and not to distinguish them from one another, which is what &amp;lt;code&amp;gt;equals&amp;lt;/code&amp;gt; is for in all the collections.&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;Digging into the &amp;lt;a href=&amp;quot;https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html&amp;quot;&amp;gt;javadoc&amp;lt;/a&amp;gt; further, it turns out that the above javadoc comment is incorrect, because there is another side note that contradicts it:&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;quoteblock&amp;quot;&amp;gt; 
+   &amp;lt;blockquote&amp;gt;
+     Note that the ordering maintained by a sorted set (whether or not an explicit comparator is provided) must be consistent with equals if the sorted set is to correctly implement the Set interface. (See the Comparable interface or Comparator interface for a precise definition of consistent with equals.) This is so because the Set interface is defined in terms of the equals operation, but 
+    &amp;lt;strong&amp;gt;a sorted set performs all element comparisons using its compareTo (or compare) method, so two elements that are deemed equal by this method are, from the standpoint of the sorted set, equal&amp;lt;/strong&amp;gt;. The behavior of a sorted set is well-defined even if its ordering is inconsistent with equals; it just 
+    &amp;lt;strong&amp;gt;fails to obey the general contract of the Set&amp;lt;/strong&amp;gt; interface. 
+   &amp;lt;/blockquote&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;Note that, &amp;lt;a href=&amp;quot;https://docs.oracle.com/javase/10/docs/api/java/util/Comparator.html&amp;quot;&amp;gt;by definition&amp;lt;/a&amp;gt;, consistent with equals means:&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;quoteblock&amp;quot;&amp;gt; 
+   &amp;lt;blockquote&amp;gt;
+     The ordering imposed by a comparator c on a set of elements S is said to be consistent with equals if and only if c.compare(e1, e2)==0 has the same boolean value as e1.equals(e2) for every e1 and e2 in S. 
+   &amp;lt;/blockquote&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+ &amp;lt;/div&amp;gt; 
+&amp;lt;/div&amp;gt; 
+&amp;lt;div class=&amp;quot;sect1&amp;quot;&amp;gt; 
+ &amp;lt;h2 id=&amp;quot;how_the_sortedset_could_be_fixed_in_a_future_version_of_java&amp;quot;&amp;gt;2. How the SortedSet could be fixed in a future version of Java&amp;lt;/h2&amp;gt; 
+ &amp;lt;div class=&amp;quot;sectionbody&amp;quot;&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;The behaviour described in the previous section is clearly a very poor design choice of the &amp;lt;code&amp;gt;SortedSet&amp;lt;/code&amp;gt; interface and along with the inadequate documentation the issue becomes even worse. I hope that the issue will be fixed in a future version of Java.&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;In the meantime, here are some hints on how the issue could be addressed from both the javadoc and the implementation perspective of the &amp;lt;a href=&amp;quot;https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html&amp;quot;&amp;gt;SortedSet&amp;lt;/a&amp;gt;:&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
+   &amp;lt;ul&amp;gt; 
+    &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Fix the javadoc&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+    &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Default equals inside SortedSet&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+    &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Fallback to default comparator inside implementation classes&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+   &amp;lt;/ul&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+   &amp;lt;p&amp;gt;The following sections describe the above in more detail.&amp;lt;/p&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;fix_the_javadoc&amp;quot;&amp;gt;2.1. Fix the javadoc&amp;lt;/h3&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;The most obvious improvement is to update the relevant javadoc documentation. In particular, the &amp;lt;code&amp;gt;comparator&amp;lt;/code&amp;gt; method inside the &amp;lt;code&amp;gt;SortedSet&amp;lt;/code&amp;gt; interface could be &amp;lt;a href=&amp;quot;https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html&amp;quot;&amp;gt;documented&amp;lt;/a&amp;gt; as follows in order to prevent misuse:&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;quoteblock&amp;quot;&amp;gt; 
+    &amp;lt;blockquote&amp;gt;
+      Returns the comparator used to order the elements in this set, or null if this set uses the natural ordering of its elements. Note that the equals method relies on this comparator so as 
+     &amp;lt;code&amp;gt;e1.equals(e2)&amp;lt;/code&amp;gt; is actually calling 
+     &amp;lt;code&amp;gt;c.compare(e1, e2)==0&amp;lt;/code&amp;gt;. Refer to the class javadoc for more details in regards to the consistency of the ordering with the equals method. 
+    &amp;lt;/blockquote&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;The above would be very helpful because the comparator in all the rest of interfaces does not replace the equals method and users naturally expect it to only be used for sorting. For example, in the HashSet you can store two objects whose compareTo returns 0 and hashCode returns the same value, while the equals determines that they are unequal.&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;default_equals_inside_sortedset&amp;quot;&amp;gt;2.2. Default equals inside SortedSet&amp;lt;/h3&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;Another improvement would be to implement a default &amp;lt;code&amp;gt;equals&amp;lt;/code&amp;gt; method inside the &amp;lt;code&amp;gt;SortedSet&amp;lt;/code&amp;gt; interface:&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;listingblock&amp;quot;&amp;gt; 
+    &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 
+     &amp;lt;pre class=&amp;quot;prettyprint highlight&amp;quot;&amp;gt;&amp;lt;code class=&amp;quot;language-java&amp;quot; data-lang=&amp;quot;java&amp;quot;&amp;gt;@Override
+default boolean equals(Object o) {
+    return comparator().compareTo(o) == 0;
+}&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt; 
+    &amp;lt;/div&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;The above would make it much clearer for the user that the comparator can possibly break the Set contract.&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+  &amp;lt;div class=&amp;quot;sect2&amp;quot;&amp;gt; 
+   &amp;lt;h3 id=&amp;quot;fallback_to_default_comparator_inside_implementation_classes&amp;quot;&amp;gt;2.3. Fallback to default comparator inside implementation classes&amp;lt;/h3&amp;gt; 
+   &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+    &amp;lt;p&amp;gt;While the previous two improvements don’t actually fix the issue, here is how the issue could be fixed for good. The implementation classes of the &amp;lt;code&amp;gt;SortedSet&amp;lt;/code&amp;gt; (like &amp;lt;code&amp;gt;TreeSet&amp;lt;/code&amp;gt;) could automatically fallback to the default comparator when the custom comparator’s compareTo returns 0, or simply call equals (just like the &amp;lt;code&amp;gt;HashSet&amp;lt;/code&amp;gt; does), or at the worst throw an &amp;lt;code&amp;gt;IllegalStateException&amp;lt;/code&amp;gt; with a message that the comparator is not consistent with equals. Alternatively, making any of the above configurable during the instantiation of the implementation class (like &amp;lt;code&amp;gt;TreeSet&amp;lt;/code&amp;gt;) would also at least provide some reasonable precaution. I believe the usability gain in this case would outweighs by far the slight performance overhead introduced by the fallback comparator.&amp;lt;/p&amp;gt; 
+   &amp;lt;/div&amp;gt; 
+  &amp;lt;/div&amp;gt; 
+ &amp;lt;/div&amp;gt; 
+&amp;lt;/div&amp;gt;</description>	  
+    </item><item>
       <title>How to install ArchLinux with Full Disk Encryption on ODROID-C2</title>
       <link>http://yesday.github.io/blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html</link>
       <pubDate>Sat, 23 Sep 2017 00:00:00 +0100</pubDate>

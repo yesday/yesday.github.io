@@ -45,3 +45,7 @@ h6 {
     /* Negative indent footer by it's height */
     margin: 0 auto -120px;
 }
+
+blockquote {
+    font-size: small;
+}
