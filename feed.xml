@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>YesDay Blog</title>
+    <title>YesDay Posts</title>
     <link>http://yesday.github.io</link>
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <description>Web feed for the YesDay Blog</description>
+    <description>Web feed for the YesDay Posts</description>
     <language>en-gb</language>
-    <pubDate>Mon, 24 Sep 2018 21:53:31 +0100</pubDate>
-    <lastBuildDate>Mon, 24 Sep 2018 21:53:31 +0100</lastBuildDate>
+    <pubDate>Mon, 24 Sep 2018 22:00:48 +0100</pubDate>
+    <lastBuildDate>Mon, 24 Sep 2018 22:00:48 +0100</lastBuildDate>
 
     <item>
       <title>Java Gotchas: SortedSet ignores the equals method</title>
