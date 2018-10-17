@@ -6,22 +6,10 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Posts</description>
     <language>en-gb</language>
-    <pubDate>Tue, 16 Oct 2018 21:00:34 +0100</pubDate>
-    <lastBuildDate>Tue, 16 Oct 2018 21:00:34 +0100</lastBuildDate>
+    <pubDate>Wed, 17 Oct 2018 10:57:15 +0100</pubDate>
+    <lastBuildDate>Wed, 17 Oct 2018 10:57:15 +0100</lastBuildDate>
 
     <item>
-      <title>Social Multiplication Proof of Concept (POC) application demonstrating a full Microservices Architecture</title>
-      <link>http://yesday.github.io/blog/2018/social-multiplication-microservices-app.html</link>
-      <pubDate>Tue, 16 Oct 2018 00:00:00 +0100</pubDate>
-      <guid isPermaLink="false">blog/2018/social-multiplication-microservices-app.html</guid>
-      <description>&amp;lt;!-- toc disabled --&amp;gt; 
-&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
- &amp;lt;p&amp;gt;&amp;lt;a href=&amp;quot;https://github.com/yesday/social-multiplication&amp;quot;&amp;gt;Social Multiplication&amp;lt;/a&amp;gt; is a Proof of Concept (POC) application that demonstrates a full Microservices Architecture. The application embodies common Microservices patterns using Spring Boot, Spring Cloud Eureka, Ribbon, Zuul and Hystrix to implement Service Discovery, Load Balancing, the API Gateway pattern and a Circuit Breaker. Moreover, it implements end-to-end tests with Cucumber and an event-driven system with RabbitMQ.&amp;lt;/p&amp;gt; 
-&amp;lt;/div&amp;gt; 
-&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
- &amp;lt;p&amp;gt;Refer to the &amp;lt;a href=&amp;quot;https://github.com/yesday/social-multiplication&amp;quot;&amp;gt;GitHub repository&amp;lt;/a&amp;gt; for further details and information on how to clone the source code and run the application along with the accompanying end-to-end tests.&amp;lt;/p&amp;gt; 
-&amp;lt;/div&amp;gt;</description>	  
-    </item><item>
       <title>Java Gotchas: SortedSet ignores the equals method</title>
       <link>http://yesday.github.io/blog/2018/java-gotchas-sorted-set-ignores-the-equals-method.html</link>
       <pubDate>Mon, 24 Sep 2018 00:00:00 +0100</pubDate>
