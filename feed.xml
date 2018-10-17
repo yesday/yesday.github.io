@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Posts</description>
     <language>en-gb</language>
-    <pubDate>Wed, 17 Oct 2018 10:57:15 +0100</pubDate>
-    <lastBuildDate>Wed, 17 Oct 2018 10:57:15 +0100</lastBuildDate>
+    <pubDate>Wed, 17 Oct 2018 11:10:12 +0100</pubDate>
+    <lastBuildDate>Wed, 17 Oct 2018 11:10:12 +0100</lastBuildDate>
 
     <item>
       <title>Java Gotchas: SortedSet ignores the equals method</title>
