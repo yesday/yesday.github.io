@@ -42,8 +42,17 @@ h6 {
 
 /* Wrapper for page content to push down footer */
 #wrap {
+    min-height: 90%;
+    height: auto !important;
+    height: 100%;
     /* Negative indent footer by it's height */
-    margin: 0 auto -120px;
+    margin: 0 auto -60px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+    height: 60px;
 }
 
 blockquote {
