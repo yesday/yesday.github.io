@@ -6,10 +6,19 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Posts</description>
     <language>en-gb</language>
-    <pubDate>Wed, 17 Oct 2018 15:37:45 +0100</pubDate>
-    <lastBuildDate>Wed, 17 Oct 2018 15:37:45 +0100</lastBuildDate>
+    <pubDate>Sun, 28 Oct 2018 16:58:53 +0000</pubDate>
+    <lastBuildDate>Sun, 28 Oct 2018 16:58:53 +0000</lastBuildDate>
 
     <item>
+      <title>yesday-sysutil project: System utilities for power users and DevOps engineers</title>
+      <link>http://yesday.github.io/blog/2018/yesday-sysutil.html</link>
+      <pubDate>Sun, 28 Oct 2018 00:00:00 +0100</pubDate>
+      <guid isPermaLink="false">blog/2018/yesday-sysutil.html</guid>
+      <description>&amp;lt;!-- toc disabled --&amp;gt; 
+&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
+ &amp;lt;p&amp;gt;The project &amp;lt;code&amp;gt;yesday-sysutil&amp;lt;/code&amp;gt; provides a polyglot blueprint of system utilities for power users and DevOps engineers. It consists of Bash and Groovy shell scripts and Ansible playbooks, with each tool being selected as the best fit for specific use case. The project is configured with the Gradle build tool so that you can easily import it to your favourite IDE like IntelliJ and benefit from autocompletion and other IDE-related features. Also, skeleton shell scripts are provided to get you started with your own custom shell scripts as quickly as possible (see &amp;lt;code&amp;gt;src/main/groovy/common/skeleton&amp;lt;/code&amp;gt;). Refer to the project’s &amp;lt;a href=&amp;quot;https://github.com/yesday/yesday-sysutil&amp;quot;&amp;gt;GitHub repository&amp;lt;/a&amp;gt; for information on how to get started.&amp;lt;/p&amp;gt; 
+&amp;lt;/div&amp;gt;</description>	  
+    </item><item>
       <title>Java Gotchas: SortedSet ignores the equals method</title>
       <link>http://yesday.github.io/blog/2018/java-gotchas-sorted-set-ignores-the-equals-method.html</link>
       <pubDate>Mon, 24 Sep 2018 00:00:00 +0100</pubDate>
