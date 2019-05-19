@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	    <meta charset="utf-8"/>
-	    <title>yesday-sysutil project: System utilities for power users and DevOps engineers</title>
+	    <title>ydsu project: YesDay System Utilities (YDSU) for Developers and Power Users</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	    <meta name="description" content="YesDay Enterprise Java Consulting"/>
 	    <meta name="author" content="YesDay"/>
@@ -65,33 +65,44 @@
 		<div class="container">
 	
 			<div class="page-header">
-				<h1>yesday-sysutil project: System utilities for power users and DevOps engineers</h1>
+				<h1>ydsu project: YesDay System Utilities (YDSU) for Developers and Power Users</h1>
 			</div>
 
 			<p><span class="meta">Last updated on
-                    28 October 2018
+                    19 May 2019
                 </span>
 			</p>
 
 			<p><span class="meta">Posted by <b>YesDay</b> on
-                    28 October 2018
+                    19 May 2019
                     <span> Tags:
                         <span>
                             <a href="../../tags/system.html" class="" >system</a></span><span>
                             <a href="../../tags/linux.html" class="" >linux</a></span><span>
+                            <a href="../../tags/sysadmin.html" class="" >sysadmin</a></span><span>
+                            <a href="../../tags/devops.html" class="" >devops</a></span><span>
                             <a href="../../tags/macos.html" class="" >macos</a></span><span>
                             <a href="../../tags/bash.html" class="" >bash</a></span><span>
                             <a href="../../tags/groovy.html" class="" >groovy</a></span><span>
                             <a href="../../tags/ansible.html" class="" >ansible</a></span><span>
                             <a href="../../tags/shell.html" class="" >shell</a></span><span>
-                            <a href="../../tags/yesday-sysutil.html" class="" >yesday-sysutil</a></span>
+                            <a href="../../tags/ydsu.html" class="" >ydsu</a></span>
                     </span>
                 </span>
 			</p>
 
 			<p><!-- toc disabled --> 
 <div class="paragraph"> 
- <p>The project <code>yesday-sysutil</code> provides a polyglot blueprint of system utilities for power users and DevOps engineers. It consists of Bash and Groovy shell scripts and Ansible playbooks, with each tool being selected as the best fit for specific use case. The project is configured with the Gradle build tool so that you can easily import it to your favourite IDE like IntelliJ and benefit from autocompletion and other IDE-related features. Also, skeleton shell scripts are provided to get you started with your own custom shell scripts as quickly as possible (see <code>src/main/groovy/common/skeleton</code>). Refer to the project’s <a href="https://github.com/yesday/yesday-sysutil">GitHub repository</a> for information on how to get started.</p> 
+ <p>YesDay System Utilities (YDSU), pronounced <code>i’dsʊ</code>, is a package manager for your shell scripts. Primarily targeted for use by Developers, SysAdmins, Power Users, DevOps and Operations Engineers, ydsu is designed to encourage modification of the shell scripts in an IDE-friendly way. Shell scripts of relevant functionality are grouped together into modules and are managed by the management scripts provided by ydsu. Modules can be either external, developed by a third party, or your own. You specify the list of modules you want to use inside the <code>module.yml</code> file. Your local configuration of modules inside the <code>module.yml</code> is called a distribution. Refer to the project’s <a href="https://github.com/yesday/ydsu">GitHub repository</a> for information on how to get started.</p> 
+</div> 
+<div class="paragraph"> 
+ <p>Advantages</p> 
+</div> 
+<div class="ulist"> 
+ <ul> 
+  <li> <p>Lightweight - Only requires git, ansible and groovy to be present on your system as it is written in groovy and ansible. Even works with ZSH too.</p> </li> 
+  <li> <p>Multi-platform - Runs on any UNIX based platforms: Mac OSX, Linux, Cygwin, Solaris and FreeBSD.</p> </li> 
+ </ul> 
 </div></p>
 		
 			<hr />
@@ -101,8 +112,8 @@
     <script>
         var disqus_website_name = "yesday";
         var disqus_config = function () {
-            this.page.url = "http://yesday.github.io/blog/2018/yesday-sysutil.html";
-            this.page.identifier = "blog/2018/yesday-sysutil.html";
+            this.page.url = "http://yesday.github.io/blog/2019/yesday-system-utilities.html";
+            this.page.identifier = "blog/2019/yesday-system-utilities.html";
         };
         (function () { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
