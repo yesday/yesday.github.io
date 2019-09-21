@@ -6,25 +6,30 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Posts</description>
     <language>en-gb</language>
-    <pubDate>Sun, 19 May 2019 21:37:54 +0100</pubDate>
-    <lastBuildDate>Sun, 19 May 2019 21:37:54 +0100</lastBuildDate>
+    <pubDate>Sat, 21 Sep 2019 18:20:03 +0100</pubDate>
+    <lastBuildDate>Sat, 21 Sep 2019 18:20:03 +0100</lastBuildDate>
 
     <item>
-      <title>ydsu project: YesDay System Utilities (YDSU) for Developers and Power Users</title>
+      <title>ydsu project: YesDay System Utilities (ydsu) for Developers and Power Users</title>
       <link>http://yesday.github.io/blog/2019/yesday-system-utilities.html</link>
       <pubDate>Sun, 19 May 2019 00:00:00 +0100</pubDate>
       <guid isPermaLink="false">blog/2019/yesday-system-utilities.html</guid>
       <description>&amp;lt;!-- toc disabled --&amp;gt; 
 &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
- &amp;lt;p&amp;gt;YesDay System Utilities (YDSU), pronounced &amp;lt;code&amp;gt;i’dsʊ&amp;lt;/code&amp;gt;, is a package manager for your shell scripts. Primarily targeted for use by Developers, SysAdmins, Power Users, DevOps and Operations Engineers, ydsu is designed to encourage modification of the shell scripts in an IDE-friendly way. Shell scripts of relevant functionality are grouped together into modules and are managed by the management scripts provided by ydsu. Modules can be either external, developed by a third party, or your own. You specify the list of modules you want to use inside the &amp;lt;code&amp;gt;module.yml&amp;lt;/code&amp;gt; file. Your local configuration of modules inside the &amp;lt;code&amp;gt;module.yml&amp;lt;/code&amp;gt; is called a distribution. Refer to the project’s &amp;lt;a href=&amp;quot;https://github.com/yesday/ydsu&amp;quot;&amp;gt;GitHub repository&amp;lt;/a&amp;gt; for information on how to get started.&amp;lt;/p&amp;gt; 
+ &amp;lt;p&amp;gt;YesDay System Utilities (ydsu), pronounced &amp;lt;code&amp;gt;i’dsʊ&amp;lt;/code&amp;gt;, is a package manager for your shell scripts. Primarily targeted for use by Developers, SysAdmins, Power Users, DevOps and Operations Engineers, ydsu is designed to encourage modification of the shell scripts in an IDE-friendly way. Shell scripts of relevant functionality are grouped together into modules and are managed by the management scripts provided by ydsu. Modules can be either external, developed by a third party, or your own. You specify the list of modules you want to use inside the &amp;lt;code&amp;gt;module.yml&amp;lt;/code&amp;gt; file. Your local configuration of modules inside the &amp;lt;code&amp;gt;module.yml&amp;lt;/code&amp;gt; is called a distribution. Refer to the project’s &amp;lt;a href=&amp;quot;https://github.com/yesday/ydsu&amp;quot;&amp;gt;GitHub repository&amp;lt;/a&amp;gt; for information on how to get started.&amp;lt;/p&amp;gt; 
 &amp;lt;/div&amp;gt; 
 &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt; 
  &amp;lt;p&amp;gt;Advantages&amp;lt;/p&amp;gt; 
 &amp;lt;/div&amp;gt; 
 &amp;lt;div class=&amp;quot;ulist&amp;quot;&amp;gt; 
  &amp;lt;ul&amp;gt; 
-  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Lightweight - Only requires git, ansible and groovy to be present on your system as it is written in groovy and ansible. Even works with ZSH too.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
-  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;Multi-platform - Runs on any UNIX based platforms: Mac OSX, Linux, Cygwin, Solaris and FreeBSD.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Lightweight&amp;lt;/strong&amp;gt; - Only requires git, ansible and groovy to be present on your system. Even works with ZSH too.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Multi-platform&amp;lt;/strong&amp;gt; - Runs on any UNIX based platforms: Mac OSX, Linux, Cygwin, Solaris and FreeBSD.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Modular and easy to extend&amp;lt;/strong&amp;gt; - You can create modules for your own individual needs and/or make them available to the public. Even ydsu itself is implemented as a set of two (internal) modules: &amp;lt;code&amp;gt;manage&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;util&amp;lt;/code&amp;gt;. More so, if you write your modules in a JVM language, you can take advantage of the internal module &amp;lt;code&amp;gt;util&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Polyglot&amp;lt;/strong&amp;gt; - Write your modules in any programming language: Groovy, Bash, Kotlin, Java, Python, Go, Ruby, Node.js, you name it. Ydsu will manage them in the same way.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Distributed - no lock-in&amp;lt;/strong&amp;gt; - Store your modules in any private or public git repository. Ydsu will take care of the rest. Even ydsu itself can be hosted on and installed from your own private repository. It is designed from the ground up NOT to lock you into any specific repository.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Can operate in any network or even air-gaped environment&amp;lt;/strong&amp;gt; - Ydsu can be used in internet/intranet/LAN or even air-gaped environments. No matter what environment you are in, you can take full advantage of the features.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
+  &amp;lt;li&amp;gt; &amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Lines of Code (LOC) and Code Quality&amp;lt;/strong&amp;gt; - Well written, clean and high quality codebase: 1390 lines of groovy code, 146 lines of bash code, 31% comments, 21 groovy files, 2 bash files, 66 lines per file on average.&amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt; 
  &amp;lt;/ul&amp;gt; 
 &amp;lt;/div&amp;gt;</description>	  
     </item><item>
