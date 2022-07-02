@@ -84,179 +84,180 @@
                 </span>
 			</p>
 
-			<p><div id="preamble"> 
- <div class="sectionbody"> 
-  <div id="toc" class="toc"> 
-   <div id="toctitle" class="title">
-    Table of Contents
-   </div> 
-   <ul class="sectlevel1"> 
-    <li><a href="#sortedset_fails_to_obey_the_general_contract_of_the_set_interface">1. SortedSet fails to obey the general contract of the Set interface</a></li> 
-    <li><a href="#how_the_sortedset_could_be_fixed_in_a_future_version_of_java">2. How the SortedSet could be fixed in a future version of Java</a> 
-     <ul class="sectlevel2"> 
-      <li><a href="#fix_the_javadoc">2.1. Fix the javadoc</a></li> 
-      <li><a href="#default_equals_inside_sortedset">2.2. Default equals inside SortedSet</a></li> 
-      <li><a href="#fallback_to_default_comparator_inside_implementation_classes">2.3. Fallback to default comparator inside implementation classes</a></li> 
-     </ul> </li> 
-   </ul> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="sortedset_fails_to_obey_the_general_contract_of_the_set_interface">1. SortedSet fails to obey the general contract of the Set interface</h2> 
- <div class="sectionbody"> 
-  <div class="paragraph"> 
-   <p>Consider the below code which creates a <code>SortedSet</code> using a comparator based on string length</p> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-java" data-lang="java">public class SortedSetTest {
+			<p><div id="preamble">
+<div class="sectionbody">
+<div id="toc" class="toc">
+<div id="toctitle" class="title">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#sortedset_fails_to_obey_the_general_contract_of_the_set_interface">1. SortedSet fails to obey the general contract of the Set interface</a></li>
+<li><a href="#how_the_sortedset_could_be_fixed_in_a_future_version_of_java">2. How the SortedSet could be fixed in a future version of Java</a>
+<ul class="sectlevel2">
+<li><a href="#fix_the_javadoc">2.1. Fix the javadoc</a></li>
+<li><a href="#default_equals_inside_sortedset">2.2. Default equals inside SortedSet</a></li>
+<li><a href="#fallback_to_default_comparator_inside_implementation_classes">2.3. Fallback to default comparator inside implementation classes</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sortedset_fails_to_obey_the_general_contract_of_the_set_interface">1. SortedSet fails to obey the general contract of the Set interface</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Consider the below code which creates a <code>SortedSet</code> using a comparator based on string length</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public class SortedSetTest {
     public static void main(String[] args) {
         SortedSet&lt;String&gt; sortedSet = new TreeSet&lt;&gt;(Comparator.comparing(String::length));
         sortedSet.addAll(Set.of("aa", "bb"));
         System.out.println(sortedSet);
     }
-}</code></pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>The output of the above is</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>[aa]</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>While I would expect</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>[aa, bb]</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>or</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>[bb, aa]</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>The <code>bb</code> element disappears, breaking the <code>Set</code> contract. The comparator is supposed to only sort the elements and not distinguish them from one another, which is what equals does in all the collections.</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>On the other hand, if I enhance the comparator to always return non-zero for unequal items like below, only then do I get the correct results.</p> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-java" data-lang="java">public class SortedSetTest {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output of the above is</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[aa]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>While I would expect</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[aa, bb]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[bb, aa]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>bb</code> element disappears, breaking the <code>Set</code> contract. The comparator is supposed to only sort the elements and not distinguish them from one another, which is what equals does in all the collections.</p>
+</div>
+<div class="paragraph">
+<p>On the other hand, if I enhance the comparator to always return non-zero for unequal items like below, only then do I get the correct results.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">public class SortedSetTest {
     public static void main(String[] args) {
         SortedSet&lt;String&gt; sortedSet = new TreeSet&lt;&gt;(Comparator.comparing(String::length)
             .thenComparing(String::toString));
         sortedSet.addAll(Set.of("aa", "bb"));
         System.out.println(sortedSet);
     }
-}</code></pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>The output now is <code>[aa, bb]</code> as I would expect.</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>The question is, why does <code>SortedSet</code> ignore the <code>equals</code> method in first place and removes an unequal object from the set?</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>The <code>comparator</code> method inside the <code>SortedSet</code> interface is <a href="https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html">documented</a> as follows:</p> 
-  </div> 
-  <div class="quoteblock"> 
-   <blockquote>
-     Returns the comparator used to order the elements in this set, or null if this set uses the natural ordering of its elements. 
-   </blockquote> 
-  </div> 
-  <div class="paragraph"> 
-   <p>The above indicates that the comparator is only used to order the elements in the set and not to distinguish them from one another, which is what <code>equals</code> is for in all the collections.</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Digging into the <a href="https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html">javadoc</a> further, it turns out that the above javadoc comment is incorrect, because there is another side note that contradicts it:</p> 
-  </div> 
-  <div class="quoteblock"> 
-   <blockquote>
-     Note that the ordering maintained by a sorted set (whether or not an explicit comparator is provided) must be consistent with equals if the sorted set is to correctly implement the Set interface. (See the Comparable interface or Comparator interface for a precise definition of consistent with equals.) This is so because the Set interface is defined in terms of the equals operation, but 
-    <strong>a sorted set performs all element comparisons using its compareTo (or compare) method, so two elements that are deemed equal by this method are, from the standpoint of the sorted set, equal</strong>. The behavior of a sorted set is well-defined even if its ordering is inconsistent with equals; it just 
-    <strong>fails to obey the general contract of the Set</strong> interface. 
-   </blockquote> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Note that, <a href="https://docs.oracle.com/javase/10/docs/api/java/util/Comparator.html">by definition</a>, consistent with equals means:</p> 
-  </div> 
-  <div class="quoteblock"> 
-   <blockquote>
-     The ordering imposed by a comparator c on a set of elements S is said to be consistent with equals if and only if c.compare(e1, e2)==0 has the same boolean value as e1.equals(e2) for every e1 and e2 in S. 
-   </blockquote> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="how_the_sortedset_could_be_fixed_in_a_future_version_of_java">2. How the SortedSet could be fixed in a future version of Java</h2> 
- <div class="sectionbody"> 
-  <div class="paragraph"> 
-   <p>The behaviour described in the previous section is clearly a very poor design choice of the <code>SortedSet</code> interface and along with the inadequate documentation the issue becomes even worse. I hope that the issue will be fixed in a future version of Java.</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>In the meantime, here are some hints on how the issue could be addressed from both the javadoc and the implementation perspective of the <a href="https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html">SortedSet</a>:</p> 
-  </div> 
-  <div class="ulist"> 
-   <ul> 
-    <li> <p>Fix the javadoc</p> </li> 
-    <li> <p>Default equals inside SortedSet</p> </li> 
-    <li> <p>Fallback to default comparator inside implementation classes</p> </li> 
-   </ul> 
-  </div> 
-  <div class="paragraph"> 
-   <p>The following sections describe the above in more detail.</p> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="fix_the_javadoc">2.1. Fix the javadoc</h3> 
-   <div class="paragraph"> 
-    <p>The most obvious improvement is to update the relevant javadoc documentation. In particular, the <code>comparator</code> method inside the <code>SortedSet</code> interface could be <a href="https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html">documented</a> as follows in order to prevent misuse:</p> 
-   </div> 
-   <div class="quoteblock"> 
-    <blockquote>
-      Returns the comparator used to order the elements in this set, or null if this set uses the natural ordering of its elements. Note that the equals method relies on this comparator so as 
-     <code>e1.equals(e2)</code> is actually calling 
-     <code>c.compare(e1, e2)==0</code>. Refer to the class javadoc for more details in regards to the consistency of the ordering with the equals method. 
-    </blockquote> 
-   </div> 
-   <div class="paragraph"> 
-    <p>The above would be very helpful because the comparator in all the rest of interfaces does not replace the equals method and users naturally expect it to only be used for sorting. For example, in the HashSet you can store two objects whose compareTo returns 0 and hashCode returns the same value, while the equals determines that they are unequal.</p> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="default_equals_inside_sortedset">2.2. Default equals inside SortedSet</h3> 
-   <div class="paragraph"> 
-    <p>Another improvement would be to implement a default <code>equals</code> method inside the <code>SortedSet</code> interface:</p> 
-   </div> 
-   <div class="listingblock"> 
-    <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-java" data-lang="java">@Override
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output now is <code>[aa, bb]</code> as I would expect.</p>
+</div>
+<div class="paragraph">
+<p>The question is, why does <code>SortedSet</code> ignore the <code>equals</code> method in first place and removes an unequal object from the set?</p>
+</div>
+<div class="paragraph">
+<p>The <code>comparator</code> method inside the <code>SortedSet</code> interface is <a href="https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html">documented</a> as follows:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+Returns the comparator used to order the elements in this set, or null if this set uses the natural ordering of its elements.
+</blockquote>
+</div>
+<div class="paragraph">
+<p>The above indicates that the comparator is only used to order the elements in the set and not to distinguish them from one another, which is what <code>equals</code> is for in all the collections.</p>
+</div>
+<div class="paragraph">
+<p>Digging into the <a href="https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html">javadoc</a> further, it turns out that the above javadoc comment is incorrect, because there is another side note that contradicts it:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+Note that the ordering maintained by a sorted set (whether or not an explicit comparator is provided) must be consistent with equals if the sorted set is to correctly implement the Set interface. (See the Comparable interface or Comparator interface for a precise definition of consistent with equals.) This is so because the Set interface is defined in terms of the equals operation, but <strong>a sorted set performs all element comparisons using its compareTo (or compare) method, so two elements that are deemed equal by this method are, from the standpoint of the sorted set, equal</strong>. The behavior of a sorted set is well-defined even if its ordering is inconsistent with equals; it just <strong>fails to obey the general contract of the Set</strong> interface.
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Note that, <a href="https://docs.oracle.com/javase/10/docs/api/java/util/Comparator.html">by definition</a>, consistent with equals means:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+The ordering imposed by a comparator c on a set of elements S is said to be consistent with equals if and only if c.compare(e1, e2)==0 has the same boolean value as e1.equals(e2) for every e1 and e2 in S.
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="how_the_sortedset_could_be_fixed_in_a_future_version_of_java">2. How the SortedSet could be fixed in a future version of Java</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The behaviour described in the previous section is clearly a very poor design choice of the <code>SortedSet</code> interface and along with the inadequate documentation the issue becomes even worse. I hope that the issue will be fixed in a future version of Java.</p>
+</div>
+<div class="paragraph">
+<p>In the meantime, here are some hints on how the issue could be addressed from both the javadoc and the implementation perspective of the <a href="https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html">SortedSet</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Fix the javadoc</p>
+</li>
+<li>
+<p>Default equals inside SortedSet</p>
+</li>
+<li>
+<p>Fallback to default comparator inside implementation classes</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following sections describe the above in more detail.</p>
+</div>
+<div class="sect2">
+<h3 id="fix_the_javadoc">2.1. Fix the javadoc</h3>
+<div class="paragraph">
+<p>The most obvious improvement is to update the relevant javadoc documentation. In particular, the <code>comparator</code> method inside the <code>SortedSet</code> interface could be <a href="https://docs.oracle.com/javase/10/docs/api/java/util/SortedSet.html">documented</a> as follows in order to prevent misuse:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+Returns the comparator used to order the elements in this set, or null if this set uses the natural ordering of its elements. Note that the equals method relies on this comparator so as <code>e1.equals(e2)</code> is actually calling <code>c.compare(e1, e2)==0</code>. Refer to the class javadoc for more details in regards to the consistency of the ordering with the equals method.
+</blockquote>
+</div>
+<div class="paragraph">
+<p>The above would be very helpful because the comparator in all the rest of interfaces does not replace the equals method and users naturally expect it to only be used for sorting. For example, in the HashSet you can store two objects whose compareTo returns 0 and hashCode returns the same value, while the equals determines that they are unequal.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="default_equals_inside_sortedset">2.2. Default equals inside SortedSet</h3>
+<div class="paragraph">
+<p>Another improvement would be to implement a default <code>equals</code> method inside the <code>SortedSet</code> interface:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">@Override
 default boolean equals(Object o) {
     return comparator().compareTo(o) == 0;
-}</code></pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>The above would make it much clearer for the user that the comparator can possibly break the Set contract.</p> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="fallback_to_default_comparator_inside_implementation_classes">2.3. Fallback to default comparator inside implementation classes</h3> 
-   <div class="paragraph"> 
-    <p>While the previous two improvements don’t actually fix the issue, here is how the issue could be fixed for good. The implementation classes of the <code>SortedSet</code> (like <code>TreeSet</code>) could automatically fallback to the default comparator when the custom comparator’s compareTo returns 0, or simply call equals (just like the <code>HashSet</code> does), or at the worst throw an <code>IllegalStateException</code> with a message that the comparator is not consistent with equals. Alternatively, making any of the above configurable during the instantiation of the implementation class (like <code>TreeSet</code>) would also at least provide some reasonable precaution. I believe the usability gain in this case would outweighs by far the slight performance overhead introduced by the fallback comparator.</p> 
-   </div> 
-  </div> 
- </div> 
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above would make it much clearer for the user that the comparator can possibly break the Set contract.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="fallback_to_default_comparator_inside_implementation_classes">2.3. Fallback to default comparator inside implementation classes</h3>
+<div class="paragraph">
+<p>While the previous two improvements don&#8217;t actually fix the issue, here is how the issue could be fixed for good. The implementation classes of the <code>SortedSet</code> (like <code>TreeSet</code>) could automatically fallback to the default comparator when the custom comparator&#8217;s compareTo returns 0, or simply call equals (just like the <code>HashSet</code> does), or at the worst throw an <code>IllegalStateException</code> with a message that the comparator is not consistent with equals. Alternatively, making any of the above configurable during the instantiation of the implementation class (like <code>TreeSet</code>) would also at least provide some reasonable precaution. I believe the usability gain in this case would outweighs by far the slight performance overhead introduced by the fallback comparator.</p>
+</div>
+</div>
+</div>
 </div></p>
 		
 			<hr />
@@ -266,8 +267,8 @@ default boolean equals(Object o) {
     <script>
         var disqus_website_name = "yesday";
         var disqus_config = function () {
-            this.page.url = "http://yesday.github.io/blog/2018/java-gotchas-sorted-set-ignores-the-equals-method.html";
-            this.page.identifier = "blog/2018/java-gotchas-sorted-set-ignores-the-equals-method.html";
+            this.page.url = "http:\/\/yesday.github.io\/blog\/2018\/java-gotchas-sorted-set-ignores-the-equals-method.html";
+            this.page.identifier = "blog\/2018\/java-gotchas-sorted-set-ignores-the-equals-method.html";
         };
         (function () { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');

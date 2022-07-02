@@ -87,405 +87,423 @@
                 </span>
 			</p>
 
-			<p><div id="preamble"> 
- <div class="sectionbody"> 
-  <div id="toc" class="toc"> 
-   <div id="toctitle" class="title">
-    Table of Contents
-   </div> 
-   <ul class="sectlevel1"> 
-    <li><a href="#introduction">1. Introduction</a></li> 
-    <li><a href="#hardware_requirements">2. Hardware requirements</a></li> 
-    <li><a href="#flash_the_os_image_and_boot_odroid_c2">3. Flash the OS image and boot ODROID-C2</a></li> 
-    <li><a href="#change_passwords">4. Change passwords</a></li> 
-    <li><a href="#install_required_packages">5. Install required packages</a></li> 
-    <li><a href="#install_dracut">6. Install dracut</a> 
-     <ul class="sectlevel2"> 
-      <li><a href="#error_aarch64_architecture_is_not_supported_by_the_package">6.1. ERROR: aarch64 architecture is not supported by the package</a></li> 
-      <li><a href="#error_makepkg_failed_unknown_public_key">6.2. ERROR: makepkg FAILED (unknown public key)</a></li> 
-      <li><a href="#error_gnupg_key_generation_failed_no_pinentry">6.3. ERROR: GnuPG Key generation failed: No pinentry</a></li> 
-      <li><a href="#error_pacman_failed_to_install_missing_dependencies">6.4. ERROR: 'pacman' failed to install missing dependencies</a></li> 
-      <li><a href="#error_dracut_command_not_found">6.5. ERROR: dracut: command not found</a></li> 
-     </ul> </li> 
-    <li><a href="#prepare_the_luks_rootfs">7. Prepare the LUKS rootfs</a></li> 
-    <li><a href="#generate_new_initramfs_and_reboot_into_the_luks_rootfs">8. Generate new initramfs and reboot into the LUKS rootfs</a></li> 
-    <li><a href="#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">9. Remotely unlock the LUKS rootfs during boot using Dropbear sshd</a> 
-     <ul class="sectlevel2"> 
-      <li><a href="#make_sure_the_ssh_daemon_is_running">9.1. Make sure the SSH daemon is running</a></li> 
-      <li><a href="#install_and_configure_dropbear">9.2. Install and configure Dropbear</a></li> 
-      <li><a href="#unlocking_the_volume_interactively">9.3. Unlocking the volume interactively</a></li> 
-      <li><a href="#unlocking_the_volume_using_a_password_file">9.4. Unlocking the volume using a password file</a></li> 
-      <li><a href="#optional_restrict_access_to_the_console_auth_command">9.5. OPTIONAL: Restrict access to the console_auth command</a></li> 
-     </ul> </li> 
-    <li><a href="#references">10. References</a></li> 
-   </ul> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="introduction">1. Introduction</h2> 
- <div class="sectionbody"> 
-  <div class="paragraph"> 
-   <p>Full Disk Encryption (FDE) protects our data against unauthorised access in case someone gains physical access to the storage media. This document describes how to install ArchLinux with Full Disk Encryption on ODROID-C2. The encryption method is LUKS with XTS key-size 512 bit (AES-256).</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>In a nutshell, Full Disk Encryption requires</p> 
-  </div> 
-  <div class="ulist"> 
-   <ul> 
-    <li> <p>Encrypting a partition and copying the root filesystem to it.</p> </li> 
-    <li> <p>The kernel to include the <code>dm_crypt</code> kernel module. In our case this is already included by default therefore we won’t need to re-compile the kernel.</p> </li> 
-    <li> <p>The <code>initramfs</code> to include the <code>dm_crypt</code> kernel module and the <code>cryptsetup</code> binary. We use a tool called <code>dracut</code> to generate the required <code>initramfs</code>. Dracut supports the required functionality via the additional modules <code>crypt</code> and <code>lvm</code>.</p> </li> 
-    <li> <p>Passing the <a href="https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_crypto_luks">dracut options for LUKS</a> to the <code>initramfs</code> via the <code>bootargs</code> property inside <code>boot.ini</code>. For example, say that in our case we want the <code>initramfs</code> to unlock a LUKS volume with UUID <code>ae51db2d-0890-4b1b-abc5-8c10f01da353</code> and load the root filesystem from the device mapper <code>/dev/mapper/vg-root</code>. To pass these dracut options we configure the following</p> 
-     <div class="listingblock"> 
-      <div class="title">
-       sudo nano /boot/boot.ini
-      </div> 
-      <div class="content"> 
-       <pre class="prettyprint highlight"><code class="language-ini" data-lang="ini">setenv bootargs "rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait &lt;leave the rest as is&gt;"</code></pre> 
-      </div> 
-     </div> 
-     <div class="admonitionblock note"> 
-      <table> 
-       <tbody>
-        <tr> 
-         <td class="icon"> 
-          <div class="title">
-           Note
-          </div> </td> 
-         <td class="content"> 
-          <div class="paragraph"> 
-           <p>A lot of the steps throughout this document involve editing configuration files. To keep the words to the minimum, we use the above notation as a very concise way to describe such file editing steps. The above notation means</p> 
-          </div> 
-          <div class="ulist"> 
-           <ul> 
-            <li> <p>You need to edit the file <code>/boot/boot.ini</code> with root privileges (hence <code>sudo nano /boot/boot.ini</code>). Nano is the command line editor, however feel free to use another editor of your choice.</p> </li> 
-            <li> <p>Find the line starting with <code>setenv bootargs</code> and add or edit the configuration options <code>rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait</code>. Some files mentioned throughout this document might have the corresponding line being commented out or not present at all. If that’s the case you will need to uncomment or append the line into the file, respectively.</p> </li> 
-            <li> <p>Leave the rest of the line after <code>rootwait</code> as is.</p> </li> 
-           </ul> 
-          </div> </td> 
-        </tr> 
-       </tbody>
-      </table> 
-     </div> </li> 
-   </ul> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Additionally, for a headless setup you will need to enable remote unlocking via SSH as described in <a href="#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">Remotely unlock the LUKS rootfs during boot using Dropbear sshd</a>.</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Last but not least, if you prefer to use the described functionality out of the box, simply download <a href="../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html">this OS image</a>. Either way, the current document will provide more technical details in regards to the underlying components and how they work together in a Full Disk Encryption environment.</p> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="hardware_requirements">2. Hardware requirements</h2> 
- <div class="sectionbody"> 
-  <div class="ulist"> 
-   <ul> 
-    <li> <p>ODROID-C2</p> </li> 
-    <li> <p>A Linux box from which you will flash the OS image and interact with the ODROID-C2</p> </li> 
-    <li> <p>USB disk with at least 4G capacity</p> </li> 
-    <li> <p>microSD card or eMMC module with at least 4G capacity</p> </li> 
-    <li> <p>(Optional) <a href="http://www.hardkernel.com/main/products/prdt_info.php?g_code=G134111883934">USB-UART Module Kit</a> for connecting with the ODROID-C2’s serial console. Refer to <a href="https://yesday.github.io/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html">this post</a> for instructions on how to connect along with explanation why the serial console is highly recommended in this case.</p> </li> 
-   </ul> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="flash_the_os_image_and_boot_odroid_c2">3. Flash the OS image and boot ODROID-C2</h2> 
- <div class="sectionbody"> 
-  <div class="paragraph"> 
-   <p>Flash the OS image to the <strong>USB disk</strong> by following the instructions from <a href="https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2" class="bare">https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2</a></p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Replace <code>/dev/mmcblk0</code> in the following instructions with the device name for the microSD card as it appears on your computer.</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>If mounted, unmount the partitions of the <strong>microSD card</strong></p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>lsblk
+			<p><div id="preamble">
+<div class="sectionbody">
+<div id="toc" class="toc">
+<div id="toctitle" class="title">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#hardware_requirements">2. Hardware requirements</a></li>
+<li><a href="#flash_the_os_image_and_boot_odroid_c2">3. Flash the OS image and boot ODROID-C2</a></li>
+<li><a href="#change_passwords">4. Change passwords</a></li>
+<li><a href="#install_required_packages">5. Install required packages</a></li>
+<li><a href="#install_dracut">6. Install dracut</a>
+<ul class="sectlevel2">
+<li><a href="#error_aarch64_architecture_is_not_supported_by_the_package">6.1. ERROR: aarch64 architecture is not supported by the package</a></li>
+<li><a href="#error_makepkg_failed_unknown_public_key">6.2. ERROR: makepkg FAILED (unknown public key)</a></li>
+<li><a href="#error_gnupg_key_generation_failed_no_pinentry">6.3. ERROR: GnuPG Key generation failed: No pinentry</a></li>
+<li><a href="#error_pacman_failed_to_install_missing_dependencies">6.4. ERROR: 'pacman' failed to install missing dependencies</a></li>
+<li><a href="#error_dracut_command_not_found">6.5. ERROR: dracut: command not found</a></li>
+</ul>
+</li>
+<li><a href="#prepare_the_luks_rootfs">7. Prepare the LUKS rootfs</a></li>
+<li><a href="#generate_new_initramfs_and_reboot_into_the_luks_rootfs">8. Generate new initramfs and reboot into the LUKS rootfs</a></li>
+<li><a href="#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">9. Remotely unlock the LUKS rootfs during boot using Dropbear sshd</a>
+<ul class="sectlevel2">
+<li><a href="#make_sure_the_ssh_daemon_is_running">9.1. Make sure the SSH daemon is running</a></li>
+<li><a href="#install_and_configure_dropbear">9.2. Install and configure Dropbear</a></li>
+<li><a href="#unlocking_the_volume_interactively">9.3. Unlocking the volume interactively</a></li>
+<li><a href="#unlocking_the_volume_using_a_password_file">9.4. Unlocking the volume using a password file</a></li>
+<li><a href="#optional_restrict_access_to_the_console_auth_command">9.5. OPTIONAL: Restrict access to the console_auth command</a></li>
+</ul>
+</li>
+<li><a href="#references">10. References</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Full Disk Encryption (FDE) protects our data against unauthorised access in case someone gains physical access to the storage media. This document describes how to install ArchLinux with Full Disk Encryption on ODROID-C2. The encryption method is LUKS with XTS key-size 512 bit (AES-256).</p>
+</div>
+<div class="paragraph">
+<p>In a nutshell, Full Disk Encryption requires</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Encrypting a partition and copying the root filesystem to it.</p>
+</li>
+<li>
+<p>The kernel to include the <code>dm_crypt</code> kernel module. In our case this is already included by default therefore we won&#8217;t need to re-compile the kernel.</p>
+</li>
+<li>
+<p>The <code>initramfs</code> to include the <code>dm_crypt</code> kernel module and the <code>cryptsetup</code> binary. We use a tool called <code>dracut</code> to generate the required <code>initramfs</code>. Dracut supports the required functionality via the additional modules <code>crypt</code> and <code>lvm</code>.</p>
+</li>
+<li>
+<p>Passing the <a href="https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_crypto_luks">dracut options for LUKS</a> to the <code>initramfs</code> via the <code>bootargs</code> property inside <code>boot.ini</code>. For example, say that in our case we want the <code>initramfs</code> to unlock a LUKS volume with UUID <code>ae51db2d-0890-4b1b-abc5-8c10f01da353</code> and load the root filesystem from the device mapper <code>/dev/mapper/vg-root</code>. To pass these dracut options we configure the following</p>
+<div class="listingblock">
+<div class="title">sudo nano /boot/boot.ini</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="ini">setenv bootargs "rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait &lt;leave the rest as is&gt;"</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>A lot of the steps throughout this document involve editing configuration files. To keep the words to the minimum, we use the above notation as a very concise way to describe such file editing steps. The above notation means</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You need to edit the file <code>/boot/boot.ini</code> with root privileges (hence <code>sudo nano /boot/boot.ini</code>). Nano is the command line editor, however feel free to use another editor of your choice.</p>
+</li>
+<li>
+<p>Find the line starting with <code>setenv bootargs</code> and add or edit the configuration options <code>rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait</code>. Some files mentioned throughout this document might have the corresponding line being commented out or not present at all. If that&#8217;s the case you will need to uncomment or append the line into the file, respectively.</p>
+</li>
+<li>
+<p>Leave the rest of the line after <code>rootwait</code> as is.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Additionally, for a headless setup you will need to enable remote unlocking via SSH as described in <a href="#remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">Remotely unlock the LUKS rootfs during boot using Dropbear sshd</a>.</p>
+</div>
+<div class="paragraph">
+<p>Last but not least, if you prefer to use the described functionality out of the box, simply download <a href="../../os-image-for-odroid-c2-featuring-archlinux-luks-full-disk-encryption-and-remote-unlocking.html">this OS image</a>. Either way, the current document will provide more technical details in regards to the underlying components and how they work together in a Full Disk Encryption environment.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="hardware_requirements">2. Hardware requirements</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>ODROID-C2</p>
+</li>
+<li>
+<p>A Linux box from which you will flash the OS image and interact with the ODROID-C2</p>
+</li>
+<li>
+<p>USB disk with at least 4G capacity</p>
+</li>
+<li>
+<p>microSD card or eMMC module with at least 4G capacity</p>
+</li>
+<li>
+<p>(Optional) <a href="http://www.hardkernel.com/main/products/prdt_info.php?g_code=G134111883934">USB-UART Module Kit</a> for connecting with the ODROID-C2&#8217;s serial console. Refer to <a href="https://yesday.github.io/blog/2017/why-is-the-serial-console-better-than-hdmi-for-debugging.html">this post</a> for instructions on how to connect along with explanation why the serial console is highly recommended in this case.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="flash_the_os_image_and_boot_odroid_c2">3. Flash the OS image and boot ODROID-C2</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Flash the OS image to the <strong>USB disk</strong> by following the instructions from <a href="https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2" class="bare">https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2</a></p>
+</div>
+<div class="paragraph">
+<p>Replace <code>/dev/mmcblk0</code> in the following instructions with the device name for the microSD card as it appears on your computer.</p>
+</div>
+<div class="paragraph">
+<p>If mounted, unmount the partitions of the <strong>microSD card</strong></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>lsblk
 umount /dev/mmcblk0p1
-umount /dev/mmcblk0p2</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Zero the beginning of the microSD card</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo dd if=/dev/zero bs=1M count=8 of=/dev/mmcblk0
-sync</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Using a tool like GParted, create an MBR/msdos partition table and two partitions on the microSD card</p> 
-  </div> 
-  <div class="ulist"> 
-   <ul> 
-    <li> <p><code>ext4</code> partition with <code>128M</code> size</p> </li> 
-    <li> <p><code>lvm2</code> partition occupying the rest of the space (no need to format yet)</p> </li> 
-   </ul> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Copy the contents of the <code>/boot</code> directory from the USB disk into the first partition of the microSD card</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo cp -R /media/user/usb-disk/boot/* /media/user/micro-sd-card-part1/</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Create a symbolic link as a workaround for the <a href="https://forum.odroid.com/viewtopic.php?f=138&amp;t=19452">hardcoded boot.ini path of the alarm/uboot-odroid-c2</a></p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>cd /media/user/micro-sd-card-part1
-sudo ln -s . boot</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Flash the bootloader files</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo ./sd_fusing.sh /dev/mmcblk0</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Determine the UUID of the USB disk</p> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">$ sudo lsblk -o name,uuid,mountpoint
+umount /dev/mmcblk0p2</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Zero the beginning of the microSD card</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo dd if=/dev/zero bs=1M count=8 of=/dev/mmcblk0
+sync</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using a tool like GParted, create an MBR/msdos partition table and two partitions on the microSD card</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ext4</code> partition with <code>128M</code> size</p>
+</li>
+<li>
+<p><code>lvm2</code> partition occupying the rest of the space (no need to format yet)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Copy the contents of the <code>/boot</code> directory from the USB disk into the first partition of the microSD card</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo cp -R /media/user/usb-disk/boot/* /media/user/micro-sd-card-part1/</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create a symbolic link as a workaround for the <a href="https://forum.odroid.com/viewtopic.php?f=138&amp;t=19452">hardcoded boot.ini path of the alarm/uboot-odroid-c2</a></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>cd /media/user/micro-sd-card-part1
+sudo ln -s . boot</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Flash the bootloader files</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo ./sd_fusing.sh /dev/mmcblk0</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Determine the UUID of the USB disk</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ sudo lsblk -o name,uuid,mountpoint
 NAME                    UUID                                   MOUNTPOINT
 sdb
-└─sdb1                  2b53696c-2e8e-4e61-a164-1a7463fd3785   /media/user/usb-disk</code></pre> 
-   </div> 
-  </div> 
-  <div class="admonitionblock caution"> 
-   <table> 
-    <tbody>
-     <tr> 
-      <td class="icon"> 
-       <div class="title">
-        Caution
-       </div> </td> 
-      <td class="content"> If there are duplicate UUIDs among the partitions of the USB disk and the microSD card then deduplicate them (e.g. <code>sudo tune2fs /dev/sda2 -U $(uuidgen)</code>) to avoid future conflicts. </td> 
-     </tr> 
-    </tbody>
-   </table> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Configure the <code>boot.ini</code> to boot from the USB disk. To do so, use the UUID from the previous step to configure the <code>boot.ini</code> of the microSD card.</p> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="title">
-    sudo nano /media/user/micro-sd-card-part1/boot.ini
-   </div> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-ini" data-lang="ini">setenv bootargs "root=UUID=2b53696c-2e8e-4e61-a164-1a7463fd3785 rootwait &lt;leave the rest as is&gt;"</code></pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Unmount, run <code>sync</code> few times, and remove the microSD card and the USB disk from the Linux box.</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Plug the microSD card and the USB disk to the ODROID-C2.</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Boot the ODROID-C2 and connect to its serial console. If you need instructions on how to connect to the serial console, <a href="why-is-the-serial-console-better-than-hdmi-for-debugging.html">refer here</a>.</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>If all goes well you should boot into the USB disk.</p> 
-  </div> 
-  <div class="admonitionblock caution"> 
-   <table> 
-    <tbody>
-     <tr> 
-      <td class="icon"> 
-       <div class="title">
-        Caution
-       </div> </td> 
-      <td class="content"> If <code>root=UUID=2b53696c-2e8e-4e61-a164-1a7463fd3785</code> doesn’t work then try <code>root=/dev/sda1</code>, <code>root=/dev/sdb1</code> or whatever device name you see in the console prior to the failed boot (e.g. <code>[ 14.812393] sd 1:0:0:0: [sda] Attached SCSI removable disk</code>). If still having issues try restarting some times and/or repositioning the USB disk into a different USB port on the ODROID-C2. Don’t worry if it seems to be giving you trouble, as you won’t have to boot to the USB disk again after the first successful boot. </td> 
-     </tr> 
-    </tbody>
-   </table> 
-  </div> 
-  <div class="paragraph"> 
-   <p>The default credentials are <code>alarm/alarm</code> and <code>root/root</code></p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Verify the root filesystem is mounted from the USB disk</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>df -h</pre> 
-   </div> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="change_passwords">4. Change passwords</h2> 
- <div class="sectionbody"> 
-  <div class="paragraph"> 
-   <p>Change the passwords for the <code>alarm</code> and the <code>root</code> user. The default credentials are <code>alarm/alarm</code> and <code>root/root</code></p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>passwd
+└─sdb1                  2b53696c-2e8e-4e61-a164-1a7463fd3785   /media/user/usb-disk</code></pre>
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+If there are duplicate UUIDs among the partitions of the USB disk and the microSD card then deduplicate them (e.g. <code>sudo tune2fs /dev/sda2 -U $(uuidgen)</code>) to avoid future conflicts.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Configure the <code>boot.ini</code> to boot from the USB disk. To do so, use the UUID from the previous step to configure the <code>boot.ini</code> of the microSD card.</p>
+</div>
+<div class="listingblock">
+<div class="title">sudo nano /media/user/micro-sd-card-part1/boot.ini</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="ini">setenv bootargs "root=UUID=2b53696c-2e8e-4e61-a164-1a7463fd3785 rootwait &lt;leave the rest as is&gt;"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Unmount, run <code>sync</code> few times, and remove the microSD card and the USB disk from the Linux box.</p>
+</div>
+<div class="paragraph">
+<p>Plug the microSD card and the USB disk to the ODROID-C2.</p>
+</div>
+<div class="paragraph">
+<p>Boot the ODROID-C2 and connect to its serial console. If you need instructions on how to connect to the serial console, <a href="why-is-the-serial-console-better-than-hdmi-for-debugging.html">refer here</a>.</p>
+</div>
+<div class="paragraph">
+<p>If all goes well you should boot into the USB disk.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+If <code>root=UUID=2b53696c-2e8e-4e61-a164-1a7463fd3785</code> doesn&#8217;t work then try <code>root=/dev/sda1</code>, <code>root=/dev/sdb1</code> or whatever device name you see in the console prior to the failed boot (e.g. <code>[   14.812393] sd 1:0:0:0: [sda] Attached SCSI removable disk</code>). If still having issues try restarting some times and/or repositioning the USB disk into a different USB port on the ODROID-C2. Don&#8217;t worry if it seems to be giving you trouble, as you won&#8217;t have to boot to the USB disk again after the first successful boot.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The default credentials are <code>alarm/alarm</code> and <code>root/root</code></p>
+</div>
+<div class="paragraph">
+<p>Verify the root filesystem is mounted from the USB disk</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>df -h</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="change_passwords">4. Change passwords</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Change the passwords for the <code>alarm</code> and the <code>root</code> user. The default credentials are <code>alarm/alarm</code> and <code>root/root</code></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>passwd
 su
-passwd</pre> 
-   </div> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="install_required_packages">5. Install required packages</h2> 
- <div class="sectionbody"> 
-  <div class="listingblock"> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">su
+passwd</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="install_required_packages">5. Install required packages</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">su
 pacman -Syu
-pacman -S --needed sudo python git rsync lvm2 cryptsetup</code></pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>(Optional) Setup passwordless sudo for the user <code>alarm</code></p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>echo 'alarm ALL=(ALL) NOPASSWD: ALL' &gt; /etc/sudoers.d/010_alarm-nopasswd</pre> 
-   </div> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="install_dracut">6. Install dracut</h2> 
- <div class="sectionbody"> 
-  <div class="paragraph"> 
-   <p>Install trizen (<a href="https://wiki.archlinux.org/index.php/AUR_helpers">AUR helper</a>)</p> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">sudo pacman -S --needed base-devel
+pacman -S --needed sudo python git rsync lvm2 cryptsetup</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(Optional) Setup passwordless sudo for the user <code>alarm</code></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>echo 'alarm ALL=(ALL) NOPASSWD: ALL' &gt; /etc/sudoers.d/010_alarm-nopasswd</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="install_dracut">6. Install dracut</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Install trizen (<a href="https://wiki.archlinux.org/index.php/AUR_helpers">AUR helper</a>)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">sudo pacman -S --needed base-devel
 mkdir ~/aur &amp;&amp; cd $_
 git clone https://aur.archlinux.org/trizen.git
 cd trizen
-makepkg -si --needed --noconfirm</code></pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Install dracut using the trizen tool</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>trizen -S dracut</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Verify the dracut installation by listing modules</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>dracut --list-modules</pre> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="error_aarch64_architecture_is_not_supported_by_the_package">6.1. ERROR: aarch64 architecture is not supported by the package</h3> 
-   <div class="paragraph"> 
-    <p>If <code>trizen -S dracut</code> reports an error that <code>aarch64</code> architecture is not supported by the package, then follow these steps to configure support for aarch64</p> 
-   </div> 
-   <div class="listingblock"> 
-    <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">cd /tmp/trizen-alarm/dracut/
+makepkg -si --needed --noconfirm</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Install dracut using the trizen tool</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>trizen -S dracut</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Verify the dracut installation by listing modules</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>dracut --list-modules</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="error_aarch64_architecture_is_not_supported_by_the_package">6.1. ERROR: aarch64 architecture is not supported by the package</h3>
+<div class="paragraph">
+<p>If <code>trizen -S dracut</code> reports an error that <code>aarch64</code> architecture is not supported by the package, then follow these steps to configure support for aarch64</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">cd /tmp/trizen-alarm/dracut/
 nano PKGBUILD # replace `arch=("i686" "x86_64")` with `arch=("aarch64")`
-makepkg -si --needed --noconfirm</code></pre> 
-    </div> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="error_makepkg_failed_unknown_public_key">6.2. ERROR: makepkg FAILED (unknown public key)</h3> 
-   <div class="paragraph"> 
-    <p>If the <code>makepkg</code> reports an error like <code>dracut-046.tar …​ FAILED (unknown public key 340F12141EA0994D)</code>, then type these commands and try again</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>gpg --full-gen-key
-gpg --recv-key 340F12141EA0994D</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Refer to <a href="https://wiki.archlinux.org/index.php/Makepkg#Signature_checking">Makepkg signature checking</a> for more details.</p> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="error_gnupg_key_generation_failed_no_pinentry">6.3. ERROR: GnuPG Key generation failed: No pinentry</h3> 
-   <div class="paragraph"> 
-    <p>If <code>gpg --full-gen-key</code> reports the error <code>Key generation failed: No pinentry</code>, then follow the below steps to configure gpg as described in <a href="https://wiki.archlinux.org/index.php/GnuPG#gpg-agent" class="bare">https://wiki.archlinux.org/index.php/GnuPG#gpg-agent</a>, and try again.</p> 
-   </div> 
-   <div class="paragraph"> 
-    <p>The gpg-agent needs to know how to ask the user for the password.</p> 
-   </div> 
-   <div class="listingblock"> 
-    <div class="title">
-     nano ~/.gnupg/gpg-agent.conf
-    </div> 
-    <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-conf" data-lang="conf">pinentry-program /usr/bin/pinentry-curses</code></pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Reload the gpg-agent</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>gpg-connect-agent reloadagent /bye</pre> 
-    </div> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="error_pacman_failed_to_install_missing_dependencies">6.4. ERROR: 'pacman' failed to install missing dependencies</h3> 
-   <div class="paragraph"> 
-    <p>If <code>makepkg</code> reports missing dependencies error, then upgrade the packages and try again.</p> 
-   </div> 
-   <div class="listingblock"> 
-    <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">sudo pacman -Syu
-trizen -Syua</code></pre> 
-    </div> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="error_dracut_command_not_found">6.5. ERROR: dracut: command not found</h3> 
-   <div class="paragraph"> 
-    <p>If after running <code>trizen -S dracut</code> the dracut command is not installed, then try installing it manually without using the trizen AUR helper.</p> 
-   </div> 
-   <div class="listingblock"> 
-    <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">cd /tmp/trizen-alarm/dracut/
-makepkg -si --needed --noconfirm</code></pre> 
-    </div> 
-   </div> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="prepare_the_luks_rootfs">7. Prepare the LUKS rootfs</h2> 
- <div class="sectionbody"> 
-  <div class="paragraph"> 
-   <p>Encrypt the second partition of the microSD card (see also <a href="https://security.stackexchange.com/questions/40208/recommended-options-for-luks-cryptsetup">Recommended options for LUKS</a>)</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo cryptsetup -v -y -c aes-xts-plain64 -s 512 -h sha512 -i 5000 --use-random luksFormat /dev/mmcblk0p2</pre> 
-   </div> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="content"> 
-    <pre>-v = verbose
+makepkg -si --needed --noconfirm</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="error_makepkg_failed_unknown_public_key">6.2. ERROR: makepkg FAILED (unknown public key)</h3>
+<div class="paragraph">
+<p>If the <code>makepkg</code> reports an error like <code>dracut-046.tar &#8230;&#8203; FAILED (unknown public key 340F12141EA0994D)</code>, then type these commands and try again</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>gpg --full-gen-key
+gpg --recv-key 340F12141EA0994D</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="https://wiki.archlinux.org/index.php/Makepkg#Signature_checking">Makepkg signature checking</a> for more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="error_gnupg_key_generation_failed_no_pinentry">6.3. ERROR: GnuPG Key generation failed: No pinentry</h3>
+<div class="paragraph">
+<p>If <code>gpg --full-gen-key</code> reports the error <code>Key generation failed: No pinentry</code>, then follow the below steps to configure gpg as described in <a href="https://wiki.archlinux.org/index.php/GnuPG#gpg-agent" class="bare">https://wiki.archlinux.org/index.php/GnuPG#gpg-agent</a>, and try again.</p>
+</div>
+<div class="paragraph">
+<p>The gpg-agent needs to know how to ask the user for the password.</p>
+</div>
+<div class="listingblock">
+<div class="title">nano ~/.gnupg/gpg-agent.conf</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="conf">pinentry-program /usr/bin/pinentry-curses</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Reload the gpg-agent</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>gpg-connect-agent reloadagent /bye</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="error_pacman_failed_to_install_missing_dependencies">6.4. ERROR: 'pacman' failed to install missing dependencies</h3>
+<div class="paragraph">
+<p>If <code>makepkg</code> reports missing dependencies error, then upgrade the packages and try again.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">sudo pacman -Syu
+trizen -Syua</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="error_dracut_command_not_found">6.5. ERROR: dracut: command not found</h3>
+<div class="paragraph">
+<p>If after running <code>trizen -S dracut</code> the dracut command is not installed, then try installing it manually without using the trizen AUR helper.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">cd /tmp/trizen-alarm/dracut/
+makepkg -si --needed --noconfirm</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="prepare_the_luks_rootfs">7. Prepare the LUKS rootfs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Encrypt the second partition of the microSD card (see also <a href="https://security.stackexchange.com/questions/40208/recommended-options-for-luks-cryptsetup">Recommended options for LUKS</a>)</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo cryptsetup -v -y -c aes-xts-plain64 -s 512 -h sha512 -i 5000 --use-random luksFormat /dev/mmcblk0p2</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>-v = verbose
 -y = verify passphrase, ask twice, and complain if they don't match
 -c = specify the cipher used
 -s = specify the key size used
@@ -493,49 +511,49 @@ makepkg -si --needed --noconfirm</code></pre>
 -i = number of milliseconds to spend passphrase processing (if using anything more than sha1, must be great than 1000)
 --use-random = which random number generator to use
 luksFormat = to initialize the partition and set a passphrase
-/dev/mmcblk0p2 = the partition to encrypt</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Unlock the LUKS device and mount it at /dev/mapper/lvm</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo cryptsetup luksOpen /dev/mmcblk0p2 lvm</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Create primary volume, volume group, and logical volume</p> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">sudo pvcreate /dev/mapper/lvm
+/dev/mmcblk0p2 = the partition to encrypt</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Unlock the LUKS device and mount it at /dev/mapper/lvm</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo cryptsetup luksOpen /dev/mmcblk0p2 lvm</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create primary volume, volume group, and logical volume</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">sudo pvcreate /dev/mapper/lvm
 sudo vgcreate vg /dev/mapper/lvm
-sudo lvcreate -l 100%FREE -n root vg</code></pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Create filesystem</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo mkfs.ext4 -O ^metadata_csum,^64bit /dev/mapper/vg-root</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Mount the new encrypted root volume (logical volume)</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo mount /dev/mapper/vg-root /mnt</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Copy the existing root volume to the new, encrypted root volume (with a <code>1.5G</code> installation, completes in about 6 min on an average microSD)</p> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">sudo rsync -av \
+sudo lvcreate -l 100%FREE -n root vg</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create filesystem</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo mkfs.ext4 -O ^metadata_csum,^64bit /dev/mapper/vg-root</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Mount the new encrypted root volume (logical volume)</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo mount /dev/mapper/vg-root /mnt</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Copy the existing root volume to the new, encrypted root volume (with a <code>1.5G</code> installation, completes in about 6 min on an average microSD)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">sudo rsync -av \
 --exclude=/boot \
 --exclude=/mnt \
 --exclude=/proc \
@@ -549,119 +567,112 @@ sudo lvcreate -l 100%FREE -n root vg</code></pre>
 --exclude=/usr/src/linux-headers* \
 --exclude=/home/*/.gvfs \
 --exclude=/home/*/.local/share/Trash \
-/ /mnt</code></pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>If the SSH host keys are empty, remove them so that they will be regenerated the next time the sshd starts. This will prevent the memory leak issue as described <a href="https://raspberrypi.stackexchange.com/questions/69289/raspberry-pi-3-on-arch-armv7-openssh-daemon-failed-on-memory-allocation">here</a>.</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo rm /mnt/etc/ssh/ssh_host*key*</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Create some directories and mount the boot partition</p> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">sudo mkdir -p /mnt/boot /mnt/mnt /mnt/proc /mnt/dev /mnt/sys /mnt/tmp
-sudo mount -t ext4 /dev/mmcblk0p1 /mnt/boot</code></pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Register the encrypted volume in <code>crypttab</code></p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo bash -c 'echo lvm UUID=$(cryptsetup luksUUID /dev/mmcblk0p2) none luks&gt;&gt; /mnt/etc/crypttab'</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Configure <code>fstab</code></p> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="title">
-    sudo nano /mnt/etc/fstab
-   </div> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code>/dev/mapper/vg-root / ext4 errors=remount-ro,noatime,discard 0 1
-/dev/mmcblk0p1 /boot ext4 noatime,discard 0 2</code></pre> 
-   </div> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="generate_new_initramfs_and_reboot_into_the_luks_rootfs">8. Generate new initramfs and reboot into the LUKS rootfs</h2> 
- <div class="sectionbody"> 
-  <div class="paragraph"> 
-   <p>Generate new initramfs using dracut. The below will add the dracut modules <code>crypt</code> and <code>lvm</code> to the initramfs. These modules will prompt for LUKS password during boot and unlock the LUKS volume. Mind that the order of the modules is important.</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo dracut --force --hostonly -a "crypt lvm" /mnt/boot/initramfs-linux.img</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Determine the LUKS UUID</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo cryptsetup luksUUID /dev/mmcblk0p2
-470cc9eb-f36b-40a2-98d8-7fce3285bb89</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Configure the <code>rd.luks.uuid</code> and <code>root</code> dracut options in <code>bootargs</code>. These will unlock the LUKS volume and load the rootfs from it during boot.</p> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="title">
-    sudo nano /mnt/boot/boot.ini
-   </div> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-ini" data-lang="ini">setenv bootargs "rd.luks.uuid=470cc9eb-f36b-40a2-98d8-7fce3285bb89 root=/dev/mapper/vg-root rootwait &lt;leave the rest as is&gt;"</code></pre> 
-   </div> 
-  </div> 
-  <div class="admonitionblock caution"> 
-   <table> 
-    <tbody>
-     <tr> 
-      <td class="icon"> 
-       <div class="title">
-        Caution
-       </div> </td> 
-      <td class="content"> In the above step, do NOT delete the rest of <code>bootargs</code>, essentially replace <code>root=UUID=2b53696c-2e8e-4e61-a164-1a7463fd3785</code> with <code>rd.luks.uuid=470cc9eb-f36b-40a2-98d8-7fce3285bb89 root=/dev/mapper/vg-root</code> and leave the rest of <code>bootargs</code> untouched. </td> 
-     </tr> 
-    </tbody>
-   </table> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Unmount and reboot into the LUKS rootfs</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>sudo umount /mnt/boot
+/ /mnt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the SSH host keys are empty, remove them so that they will be regenerated the next time the sshd starts. This will prevent the memory leak issue as described <a href="https://raspberrypi.stackexchange.com/questions/69289/raspberry-pi-3-on-arch-armv7-openssh-daemon-failed-on-memory-allocation">here</a>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo rm /mnt/etc/ssh/ssh_host*key*</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create some directories and mount the boot partition</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">sudo mkdir -p /mnt/boot /mnt/mnt /mnt/proc /mnt/dev /mnt/sys /mnt/tmp
+sudo mount -t ext4 /dev/mmcblk0p1 /mnt/boot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Register the encrypted volume in <code>crypttab</code></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo bash -c 'echo lvm UUID=$(cryptsetup luksUUID /dev/mmcblk0p2) none luks&gt;&gt; /mnt/etc/crypttab'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure <code>fstab</code></p>
+</div>
+<div class="listingblock">
+<div class="title">sudo nano /mnt/etc/fstab</div>
+<div class="content">
+<pre class="prettyprint highlight"><code>/dev/mapper/vg-root / ext4 errors=remount-ro,noatime,discard 0 1
+/dev/mmcblk0p1 /boot ext4 noatime,discard 0 2</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="generate_new_initramfs_and_reboot_into_the_luks_rootfs">8. Generate new initramfs and reboot into the LUKS rootfs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Generate new initramfs using dracut. The below will add the dracut modules <code>crypt</code> and <code>lvm</code> to the initramfs. These modules will prompt for LUKS password during boot and unlock the LUKS volume. Mind that the order of the modules is important.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo dracut --force --hostonly -a "crypt lvm" /mnt/boot/initramfs-linux.img</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Determine the LUKS UUID</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo cryptsetup luksUUID /dev/mmcblk0p2
+470cc9eb-f36b-40a2-98d8-7fce3285bb89</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure the <code>rd.luks.uuid</code> and <code>root</code> dracut options in <code>bootargs</code>. These will unlock the LUKS volume and load the rootfs from it during boot.</p>
+</div>
+<div class="listingblock">
+<div class="title">sudo nano /mnt/boot/boot.ini</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="ini">setenv bootargs "rd.luks.uuid=470cc9eb-f36b-40a2-98d8-7fce3285bb89 root=/dev/mapper/vg-root rootwait &lt;leave the rest as is&gt;"</code></pre>
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+In the above step, do NOT delete the rest of <code>bootargs</code>, essentially replace <code>root=UUID=2b53696c-2e8e-4e61-a164-1a7463fd3785</code> with <code>rd.luks.uuid=470cc9eb-f36b-40a2-98d8-7fce3285bb89 root=/dev/mapper/vg-root</code> and leave the rest of <code>bootargs</code> untouched.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Unmount and reboot into the LUKS rootfs</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo umount /mnt/boot
 sudo umount /mnt
-sudo reboot</pre> 
-   </div> 
-  </div> 
-  <div class="paragraph"> 
-   <p>If all goes well you will be prompted to enter the LUKS password during boot.</p> 
-  </div> 
-  <div class="paragraph"> 
-   <p>Verify the LUKS rootfs</p> 
-  </div> 
-  <div class="literalblock"> 
-   <div class="content"> 
-    <pre>df -h</pre> 
-   </div> 
-  </div> 
-  <div class="listingblock"> 
-   <div class="title">
-    output
-   </div> 
-   <div class="content"> 
-    <pre class="prettyprint highlight"><code class="language-bash" data-lang="bash">Filesystem           Size  Used Avail Use% Mounted on
+sudo reboot</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If all goes well you will be prompted to enter the LUKS password during boot.</p>
+</div>
+<div class="paragraph">
+<p>Verify the LUKS rootfs</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>df -h</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">output</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">Filesystem           Size  Used Avail Use% Mounted on
 devtmpfs             714M     0  714M   0% /dev
 tmpfs                859M     0  859M   0% /dev/shm
 tmpfs                859M  8.3M  851M   1% /run
@@ -669,256 +680,260 @@ tmpfs                859M     0  859M   0% /sys/fs/cgroup
 /dev/mapper/vg-root  1.7G  1.4G  256M  85% /
 tmpfs                859M     0  859M   0% /tmp
 /dev/mmcblk0p1       120M   26M   86M  23% /boot
-tmpfs                172M     0  172M   0% /run/user/1000</code></pre> 
-   </div> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">9. Remotely unlock the LUKS rootfs during boot using Dropbear sshd</h2> 
- <div class="sectionbody"> 
-  <div class="paragraph"> 
-   <p>Replace <code>10.0.0.100</code> in the following instructions with the IP address assigned to the ODROID-C2 by your local DHCP server. Use the <code>fing</code> tool to find the assigned IP address (e.g. <code>sudo fing 10.0.0.1/24</code>).</p> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="make_sure_the_ssh_daemon_is_running">9.1. Make sure the SSH daemon is running</h3> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>sudo systemctl status sshd
-journalctl -u sshd -n 100</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>If the above commands report that <code>sshd</code> fails with memory allocation error, then</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>sudo rm /etc/ssh/ssh_host*key*
-sudo systemctl start sshd</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>See also <a href="https://raspberrypi.stackexchange.com/questions/69289/raspberry-pi-3-on-arch-armv7-openssh-daemon-failed-on-memory-allocation">memory leak of sshd</a></p> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="install_and_configure_dropbear">9.2. Install and configure Dropbear</h3> 
-   <div class="paragraph"> 
-    <p>Install the dracut module <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">crypt-ssh</a></p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>trizen -S dracut-crypt-ssh-git</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>From your Linux box, copy the public SSH key to the <code>appconf/dracut-crypt-ssh/authorized_keys</code> file on the remote ODROID-C2 server</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>cat ~/.ssh/*.pub | ssh alarm@10.0.0.100 'umask 077; mkdir -p appconf/dracut-crypt-ssh; touch appconf/dracut-crypt-ssh/authorized_keys; cat &gt;&gt;appconf/dracut-crypt-ssh/authorized_keys'</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Configure the <code>crypt-ssh</code> module</p> 
-   </div> 
-   <div class="listingblock"> 
-    <div class="title">
-     sudo nano /etc/dracut.conf.d/crypt-ssh.conf
-    </div> 
-    <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-conf" data-lang="conf">dropbear_acl="/home/alarm/appconf/dracut-crypt-ssh/authorized_keys"</code></pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Generate new initramfs using dracut. The below will add the dracut modules <code>network</code> and <code>crypt-ssh</code> to the initramfs. Mind that the order of the modules is important.</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>sudo dracut --force --hostonly -a "network crypt lvm crypt-ssh" /boot/initramfs-linux.img</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Enable network access during boot by adding <code>rd.neednet</code> and <code>ip</code> dracut options to <code>bootargs</code></p> 
-   </div> 
-   <div class="listingblock"> 
-    <div class="title">
-     sudo nano /boot/boot.ini
-    </div> 
-    <div class="content"> 
-     <pre class="prettyprint highlight"><code class="language-ini" data-lang="ini">setenv bootargs "rd.neednet=1 ip=10.0.0.100::10.0.0.1:255.255.255.0:archlinux-luks-host:eth0:off rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait &lt;leave the rest as is&gt;"</code></pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>If you prefer DHCP instead of static ip, simply replace with <code>ip=dhcp</code>.</p> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Refer to <a href="https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_network">network documentation of dracut</a> and <a href="https://fedoraproject.org/wiki/Dracut/Options">dracut options</a> for more options (<code>man dracut.cmdline</code>).</p> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Reboot so that Dropbear starts, allowing for remote unlocking</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>sudo reboot</pre> 
-    </div> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="unlocking_the_volume_interactively">9.3. Unlocking the volume interactively</h3> 
-   <div class="paragraph"> 
-    <p>From your Linux box, connect to the remote Dropbear SSH server running on the ODROID-C2</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>ssh -p 222 root@10.0.0.100</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Unlock the volume (asks you for the passphrase and sends it to console)</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>console_auth
-Passphrase:</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>If unlocking the device succeeded, the initramfs will clean up itself and Dropbear terminates itself and your connection.</p> 
-   </div> 
-   <div class="ulist"> 
-    <div class="title">
-     Additional commands
-    </div> 
-    <ul> 
-     <li> <p><code>console_peek</code> Prints what’s on the console</p> </li> 
-    </ul> 
-   </div> 
-   <div class="admonitionblock note"> 
-    <table> 
-     <tbody>
-      <tr> 
-       <td class="icon"> 
-        <div class="title">
-         Note
-        </div> </td> 
-       <td class="content"> There is also the <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">unlock command</a> but we encountered <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh/issues/4">this issue</a> when tested it at the time of this writing with all the latest updates installed. </td> 
-      </tr> 
-     </tbody>
-    </table> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="unlocking_the_volume_using_a_password_file">9.4. Unlocking the volume using a password file</h3> 
-   <div class="paragraph"> 
-    <p>Some use cases require to feed input automatically to the interactive command <code>console_auth</code>.</p> 
-   </div> 
-   <div class="paragraph"> 
-    <p>From your Linux box, unlock the volume</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>ssh -p 222 root@10.0.0.100 console_auth &lt; password-file</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>or</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>gpg2 --decrypt password-file.gpg | ssh -p 222 root@10.0.0.100 console_auth</pre> 
-    </div> 
-   </div> 
-  </div> 
-  <div class="sect2"> 
-   <h3 id="optional_restrict_access_to_the_console_auth_command">9.5. OPTIONAL: Restrict access to the console_auth command</h3> 
-   <div class="paragraph"> 
-    <p>For additional security, you might want to only allow the execution of the command <code>console_auth</code> and nothing else. To achieve this you need to configure the SSH key with restricting options in the <code>authorized_keys</code> file.</p> 
-   </div> 
-   <div class="paragraph"> 
-    <p>From your Linux box, copy the public SSH key, with restricting options, to the <code>appconf/dracut-crypt-ssh/authorized_keys</code> file on the remote ODROID-C2 server</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>(printf 'command="console_auth",no-agent-forwarding,no-port-forwarding,no-pty,no-X11-forwarding ' &amp;&amp; cat ~/.ssh/*.pub) | ssh alarm@10.0.0.100 'umask 077; mkdir -p appconf/dracut-crypt-ssh; touch appconf/dracut-crypt-ssh/authorized_keys; cat &gt;appconf/dracut-crypt-ssh/authorized_keys'</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Refer to the Dropbear documentation for a full list of restricting options. Prior to continuing, it might be a good idea to create a copy of the initramfs</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>sudo cp /boot/initramfs-linux.img /boot/initramfs-linux.img-`date +%y%m%d-%H%M%S`</pre> 
-    </div> 
-   </div> 
-   <div class="admonitionblock caution"> 
-    <table> 
-     <tbody>
-      <tr> 
-       <td class="icon"> 
-        <div class="title">
-         Caution
-        </div> </td> 
-       <td class="content"> In headless setup, carefuly examine the restricting options to avoid locking yourself out. </td> 
-      </tr> 
-     </tbody>
-    </table> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Generate new initramfs using dracut</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>sudo dracut --force --hostonly -a "network crypt lvm crypt-ssh" /boot/initramfs-linux.img</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>In this case, you can unlock the volume interactively by simply typing</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>ssh -p 222 root@10.0.0.100</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>Note that when typing the above command</p> 
-   </div> 
-   <div class="ulist"> 
-    <ul> 
-     <li> <p>The <code>console_auth</code> command is automatically invoked on the remote server and immediately prompts for password, as if you just typed <code>ssh -p 222 root@10.0.0.100 console_auth</code>.</p> </li> 
-     <li> <p>While you type the password, it will be displayed on the screen in plain text. Therefore, you should avoid unlocking interactively when the access is restricted to the <code>console_auth</code> command.</p> </li> 
-     <li> <p>When you press enter you will be disconnected no matter whether the password was correct or not. Whereas with the non-restricted login (see <a href="#unlocking_the_volume_interactively">Unlocking the volume interactively</a>) you would only be disconnected if the password was correct, meaning that you would have feedback for whether the unlocking was successful or not.</p> </li> 
-    </ul> 
-   </div> 
-   <div class="paragraph"> 
-    <p>On the other hand, to unlock the volume using a password file, from your Linux box, type</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>ssh -p 222 root@10.0.0.100 &lt; password-file</pre> 
-    </div> 
-   </div> 
-   <div class="paragraph"> 
-    <p>or</p> 
-   </div> 
-   <div class="literalblock"> 
-    <div class="content"> 
-     <pre>gpg2 --decrypt password-file.gpg | ssh -p 222 root@10.0.0.100</pre> 
-    </div> 
-   </div> 
-  </div> 
- </div> 
-</div> 
-<div class="sect1"> 
- <h2 id="references">10. References</h2> 
- <div class="sectionbody"> 
-  <div class="ulist"> 
-   <ul> 
-    <li> <p><a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">ArchLinux dm-crypt/Encrypting an entire system</a></p> </li> 
-    <li> <p><a href="https://forum.odroid.com/viewtopic.php?t=20972">How to install Debian with Full Disk Encryption on ODROID-C2</a></p> </li> 
-   </ul> 
-  </div> 
- </div> 
+tmpfs                172M     0  172M   0% /run/user/1000</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="remotely_unlock_the_luks_rootfs_during_boot_using_dropbear_sshd">9. Remotely unlock the LUKS rootfs during boot using Dropbear sshd</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Replace <code>10.0.0.100</code> in the following instructions with the IP address assigned to the ODROID-C2 by your local DHCP server. Use the <code>fing</code> tool to find the assigned IP address (e.g. <code>sudo fing 10.0.0.1/24</code>).</p>
+</div>
+<div class="sect2">
+<h3 id="make_sure_the_ssh_daemon_is_running">9.1. Make sure the SSH daemon is running</h3>
+<div class="literalblock">
+<div class="content">
+<pre>sudo systemctl status sshd
+journalctl -u sshd -n 100</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the above commands report that <code>sshd</code> fails with memory allocation error, then</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo rm /etc/ssh/ssh_host*key*
+sudo systemctl start sshd</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See also <a href="https://raspberrypi.stackexchange.com/questions/69289/raspberry-pi-3-on-arch-armv7-openssh-daemon-failed-on-memory-allocation">memory leak of sshd</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="install_and_configure_dropbear">9.2. Install and configure Dropbear</h3>
+<div class="paragraph">
+<p>Install the dracut module <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">crypt-ssh</a></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>trizen -S dracut-crypt-ssh-git</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>From your Linux box, copy the public SSH key to the <code>appconf/dracut-crypt-ssh/authorized_keys</code> file on the remote ODROID-C2 server</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>cat ~/.ssh/*.pub | ssh alarm@10.0.0.100 'umask 077; mkdir -p appconf/dracut-crypt-ssh; touch appconf/dracut-crypt-ssh/authorized_keys; cat &gt;&gt;appconf/dracut-crypt-ssh/authorized_keys'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure the <code>crypt-ssh</code> module</p>
+</div>
+<div class="listingblock">
+<div class="title">sudo nano /etc/dracut.conf.d/crypt-ssh.conf</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="conf">dropbear_acl="/home/alarm/appconf/dracut-crypt-ssh/authorized_keys"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Generate new initramfs using dracut. The below will add the dracut modules <code>network</code> and <code>crypt-ssh</code> to the initramfs. Mind that the order of the modules is important.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo dracut --force --hostonly -a "network crypt lvm crypt-ssh" /boot/initramfs-linux.img</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Enable network access during boot by adding <code>rd.neednet</code> and <code>ip</code> dracut options to <code>bootargs</code></p>
+</div>
+<div class="listingblock">
+<div class="title">sudo nano /boot/boot.ini</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="ini">setenv bootargs "rd.neednet=1 ip=10.0.0.100::10.0.0.1:255.255.255.0:archlinux-luks-host:eth0:off rd.luks.uuid=ae51db2d-0890-4b1b-abc5-8c10f01da353 root=/dev/mapper/vg-root rootwait &lt;leave the rest as is&gt;"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you prefer DHCP instead of static ip, simply replace with <code>ip=dhcp</code>.</p>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="https://www.kernel.org/pub/linux/utils/boot/dracut/dracut.html#_network">network documentation of dracut</a> and <a href="https://fedoraproject.org/wiki/Dracut/Options">dracut options</a> for more options (<code>man dracut.cmdline</code>).</p>
+</div>
+<div class="paragraph">
+<p>Reboot so that Dropbear starts, allowing for remote unlocking</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo reboot</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="unlocking_the_volume_interactively">9.3. Unlocking the volume interactively</h3>
+<div class="paragraph">
+<p>From your Linux box, connect to the remote Dropbear SSH server running on the ODROID-C2</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>ssh -p 222 root@10.0.0.100</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Unlock the volume (asks you for the passphrase and sends it to console)</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>console_auth
+Passphrase:</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If unlocking the device succeeded, the initramfs will clean up itself and Dropbear terminates itself and your connection.</p>
+</div>
+<div class="ulist">
+<div class="title">Additional commands</div>
+<ul>
+<li>
+<p><code>console_peek</code> Prints what&#8217;s on the console</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+There is also the <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh">unlock command</a> but we encountered <a href="https://github.com/dracut-crypt-ssh/dracut-crypt-ssh/issues/4">this issue</a> when tested it at the time of this writing with all the latest updates installed.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="unlocking_the_volume_using_a_password_file">9.4. Unlocking the volume using a password file</h3>
+<div class="paragraph">
+<p>Some use cases require to feed input automatically to the interactive command <code>console_auth</code>.</p>
+</div>
+<div class="paragraph">
+<p>From your Linux box, unlock the volume</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>ssh -p 222 root@10.0.0.100 console_auth &lt; password-file</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>gpg2 --decrypt password-file.gpg | ssh -p 222 root@10.0.0.100 console_auth</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="optional_restrict_access_to_the_console_auth_command">9.5. OPTIONAL: Restrict access to the console_auth command</h3>
+<div class="paragraph">
+<p>For additional security, you might want to only allow the execution of the command <code>console_auth</code> and nothing else. To achieve this you need to configure the SSH key with restricting options in the <code>authorized_keys</code> file.</p>
+</div>
+<div class="paragraph">
+<p>From your Linux box, copy the public SSH key, with restricting options, to the <code>appconf/dracut-crypt-ssh/authorized_keys</code> file on the remote ODROID-C2 server</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>(printf 'command="console_auth",no-agent-forwarding,no-port-forwarding,no-pty,no-X11-forwarding ' &amp;&amp; cat ~/.ssh/*.pub) | ssh alarm@10.0.0.100 'umask 077; mkdir -p appconf/dracut-crypt-ssh; touch appconf/dracut-crypt-ssh/authorized_keys; cat &gt;appconf/dracut-crypt-ssh/authorized_keys'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Refer to the Dropbear documentation for a full list of restricting options. Prior to continuing, it might be a good idea to create a copy of the initramfs</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo cp /boot/initramfs-linux.img /boot/initramfs-linux.img-`date +%y%m%d-%H%M%S`</pre>
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+In headless setup, carefuly examine the restricting options to avoid locking yourself out.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Generate new initramfs using dracut</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo dracut --force --hostonly -a "network crypt lvm crypt-ssh" /boot/initramfs-linux.img</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case, you can unlock the volume interactively by simply typing</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>ssh -p 222 root@10.0.0.100</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that when typing the above command</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>console_auth</code> command is automatically invoked on the remote server and immediately prompts for password, as if you just typed <code>ssh -p 222 root@10.0.0.100 console_auth</code>.</p>
+</li>
+<li>
+<p>While you type the password, it will be displayed on the screen in plain text. Therefore, you should avoid unlocking interactively when the access is restricted to the <code>console_auth</code> command.</p>
+</li>
+<li>
+<p>When you press enter you will be disconnected no matter whether the password was correct or not. Whereas with the non-restricted login (see <a href="#unlocking_the_volume_interactively">Unlocking the volume interactively</a>) you would only be disconnected if the password was correct, meaning that you would have feedback for whether the unlocking was successful or not.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>On the other hand, to unlock the volume using a password file, from your Linux box, type</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>ssh -p 222 root@10.0.0.100 &lt; password-file</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>gpg2 --decrypt password-file.gpg | ssh -p 222 root@10.0.0.100</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="references">10. References</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">ArchLinux dm-crypt/Encrypting an entire system</a></p>
+</li>
+<li>
+<p><a href="https://forum.odroid.com/viewtopic.php?t=20972">How to install Debian with Full Disk Encryption on ODROID-C2</a></p>
+</li>
+</ul>
+</div>
+</div>
 </div></p>
 		
 			<hr />
@@ -928,8 +943,8 @@ Passphrase:</pre>
     <script>
         var disqus_website_name = "yesday";
         var disqus_config = function () {
-            this.page.url = "http://yesday.github.io/blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html";
-            this.page.identifier = "blog/2017/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html";
+            this.page.url = "http:\/\/yesday.github.io\/blog\/2017\/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html";
+            this.page.identifier = "blog\/2017\/how-to-install-archlinux-with-full-disk-encryption-on-odroid-c2.html";
         };
         (function () { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
