@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Posts</description>
     <language>en-gb</language>
-    <pubDate>Wed, 14 Sep 2022 09:53:00 +0100</pubDate>
-    <lastBuildDate>Wed, 14 Sep 2022 09:53:00 +0100</lastBuildDate>
+    <pubDate>Wed, 14 Sep 2022 10:44:33 +0100</pubDate>
+    <lastBuildDate>Wed, 14 Sep 2022 10:44:33 +0100</lastBuildDate>
 
     <item>
       <title>Male shaming in the modern workplace</title>
@@ -35,6 +35,9 @@
 &amp;lt;/div&amp;gt;
 &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt;
 &amp;lt;p&amp;gt;Albert Einstein once said: &amp;quot;&amp;lt;em&amp;gt;The world is a dangerous place to live; not because of the people who are evil but because of the people who don&amp;amp;#8217;t do anything about it.&amp;lt;/em&amp;gt;&amp;quot;&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt;
+&amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;img/bullies.jpg&amp;quot; alt=&amp;quot;bullies&amp;quot; title=&amp;quot;Bullies&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;
 &amp;lt;/div&amp;gt;</description>	  
     </item><item>
       <title>ydsu project: YesDay System Utilities (ydsu) for Developers and Power Users</title>
