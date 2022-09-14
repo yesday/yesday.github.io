@@ -6,8 +6,8 @@
     <atom:link href="http://yesday.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>Web feed for the YesDay Posts</description>
     <language>en-gb</language>
-    <pubDate>Wed, 14 Sep 2022 10:44:33 +0100</pubDate>
-    <lastBuildDate>Wed, 14 Sep 2022 10:44:33 +0100</lastBuildDate>
+    <pubDate>Wed, 14 Sep 2022 11:02:56 +0100</pubDate>
+    <lastBuildDate>Wed, 14 Sep 2022 11:02:56 +0100</lastBuildDate>
 
     <item>
       <title>Male shaming in the modern workplace</title>
@@ -37,7 +37,7 @@
 &amp;lt;p&amp;gt;Albert Einstein once said: &amp;quot;&amp;lt;em&amp;gt;The world is a dangerous place to live; not because of the people who are evil but because of the people who don&amp;amp;#8217;t do anything about it.&amp;lt;/em&amp;gt;&amp;quot;&amp;lt;/p&amp;gt;
 &amp;lt;/div&amp;gt;
 &amp;lt;div class=&amp;quot;paragraph&amp;quot;&amp;gt;
-&amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;img/bullies.jpg&amp;quot; alt=&amp;quot;bullies&amp;quot; title=&amp;quot;Bullies&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;bullies.jpg&amp;quot; alt=&amp;quot;bullies&amp;quot; width=&amp;quot;400&amp;quot; height=&amp;quot;400&amp;quot; title=&amp;quot;Bullies&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;
 &amp;lt;/div&amp;gt;</description>	  
     </item><item>
       <title>ydsu project: YesDay System Utilities (ydsu) for Developers and Power Users</title>
@@ -1132,15 +1132,15 @@ In headless setup, carefuly examine the restricting options to avoid locking you
 &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt;
 &amp;lt;div class=&amp;quot;paragraph left&amp;quot;&amp;gt;
 &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;USB-UART Module Kit&amp;lt;/div&amp;gt;
-&amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;img/odroid-usb-uart-module-kit.jpg&amp;quot; alt=&amp;quot;odroid usb uart module kit&amp;quot; width=&amp;quot;190&amp;quot; height=&amp;quot;190&amp;quot; title=&amp;quot;USB-UART Module Kit&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;odroid-usb-uart-module-kit.jpg&amp;quot; alt=&amp;quot;odroid usb uart module kit&amp;quot; width=&amp;quot;190&amp;quot; height=&amp;quot;190&amp;quot; title=&amp;quot;USB-UART Module Kit&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;
 &amp;lt;/div&amp;gt;
 &amp;lt;div class=&amp;quot;paragraph left&amp;quot;&amp;gt;
 &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;USB-UART connected to ODROID-C2&amp;lt;/div&amp;gt;
-&amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;img/usb-uart-connected-to-odroid-c2.png&amp;quot; alt=&amp;quot;usb uart connected to odroid c2&amp;quot; width=&amp;quot;300&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;USB-UART connected to ODROID-C2&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;usb-uart-connected-to-odroid-c2.png&amp;quot; alt=&amp;quot;usb uart connected to odroid c2&amp;quot; width=&amp;quot;300&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;USB-UART connected to ODROID-C2&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;
 &amp;lt;/div&amp;gt;
 &amp;lt;div class=&amp;quot;paragraph left&amp;quot;&amp;gt;
 &amp;lt;div class=&amp;quot;title&amp;quot;&amp;gt;Serial console early boot messages&amp;lt;/div&amp;gt;
-&amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;img/serial-console-early-boot-messages.png&amp;quot; alt=&amp;quot;serial console early boot messages&amp;quot; width=&amp;quot;340&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;Serial console early boot messages&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;&amp;lt;span class=&amp;quot;image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;serial-console-early-boot-messages.png&amp;quot; alt=&amp;quot;serial console early boot messages&amp;quot; width=&amp;quot;340&amp;quot; height=&amp;quot;200&amp;quot; title=&amp;quot;Serial console early boot messages&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;
 &amp;lt;/div&amp;gt;
 &amp;lt;/div&amp;gt;
 &amp;lt;/div&amp;gt;
